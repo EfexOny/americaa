@@ -7,37 +7,40 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
+import org.firstinspires.ftc.teamcode.other.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.blue;
+import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
 @TeleOp(name = "testAuto")
-public class MamaArePula extends CommandOpMode {
+public class Doamne extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
     TrajectorySequence stanga;
     TrajectorySequence   centru;
+    ElapsedTime timer = new ElapsedTime();
     TrajectorySequence dreapta;
     Pose2d startBlue = new Pose2d(-36, 60, Math.toRadians(270));
     Pose2d startRed = new Pose2d(-36, -60, Math.toRadians(90));
 
+    boolean detected = false;
 
     @Override
     public void initialize() {
 
         VisionPortal portal;
 
-        blue blue;
+        BluePropThreshold blue;
 
-        blue = new blue();
+        blue = new BluePropThreshold();
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -71,17 +74,21 @@ public class MamaArePula extends CommandOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
+
+
         schedule(
-                new SequentialCommandGroup(
-                        new FollowTrajectoryCommand(stanga),
-                        vbar.Vbar_Idle()
-                )
+                    new SequentialCommandGroup(
+                            new FollowTrajectoryCommand(stanga),
+                            vbar.Vbar_Idle(),
+                            new DelayedCommand(vbar.Open(),400)
+                    )
         );
     }
 
     @Override
     public void run() {
         super.run();
+
     }
 }
 
