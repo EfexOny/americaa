@@ -4,15 +4,25 @@ package org.firstinspires.ftc.teamcode.Ops.auto;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.Subsystem;
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+import java.util.Set;
+
 
 @TeleOp(name = "testAuto")
-public class mamaArePula extends LinearOpMode {
+public class mamaArePula extends CommandOpMode {
 
     SampleMecanumDrive drive;
     Virtualbar vbar;
@@ -24,7 +34,7 @@ public class mamaArePula extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() {
+    public void initialize() {
 
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
@@ -46,13 +56,18 @@ public class mamaArePula extends LinearOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
-
-
-        waitForStart();
-        drive.followTrajectorySequence(dreapta);
-
-
-        }
+        schedule(vbar.Vbar_Idle());
+        schedule(vbar.Close());
     }
+
+    @Override
+    public void run() {
+        schedule(new SequentialCommandGroup(
+                new FollowTrajectoryCommand(drive, dreapta),
+                vbar.VJos(),
+                vbar.Open()
+        ));
+    }
+}
 
 
