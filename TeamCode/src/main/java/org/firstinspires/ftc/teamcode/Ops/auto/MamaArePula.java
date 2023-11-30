@@ -26,8 +26,12 @@ public class MamaArePula extends CommandOpMode {
     @Override
     public void initialize() {
 
+
+
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
+
+        vbar.Close();
 
         drive.setPoseEstimate(startBlue);
 
@@ -46,15 +50,14 @@ public class MamaArePula extends CommandOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
-        schedule(vbar.Vbar_Idle());
-        schedule(vbar.Close());
     }
 
     @Override
     public void run() {
-        schedule(new FollowTrajectoryCommand(dreapta));
-        schedule(vbar.VJos());
-        schedule(vbar.Open());
+        schedule(new FollowTrajectoryCommand(dreapta),
+        vbar.VJos(),
+        vbar.Open()
+        );
     }
 }
 
