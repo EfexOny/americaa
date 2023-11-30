@@ -16,7 +16,6 @@ public class tele extends Creier {
 
         initHardware();
 
-        lift.goLift(0);
 
         gheara_principala = new GamepadButton(d2, GamepadKeys.Button.A).toggleWhenPressed(virtualbar.Open(),virtualbar.Close());
         gheara_secundara = new GamepadButton(d2, GamepadKeys.Button.B).toggleWhenPressed(cuva.close(),cuva.open());

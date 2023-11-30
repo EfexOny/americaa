@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.vision;
 
 import android.graphics.Canvas;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
@@ -11,12 +13,13 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+@Config
 public class red implements VisionProcessor {
     Mat testMat = new Mat();
     Mat highMat = new Mat();
     Mat lowMat = new Mat();
     Mat finalMat = new Mat();
-    double redThreshold = 0.5;
+    public static double redThreshold = 0.2;
 
     String outStr = "left";
 
@@ -64,15 +67,15 @@ public class red implements VisionProcessor {
 
 
 
-        if(averagedLeftBox > redThreshold){
+        if(leftBox > redThreshold){
             outStr = "left";
-        }else if(averagedRightBox> redThreshold){
-            outStr = "center";
-        }else{
+        }else if(rightBox> redThreshold){
             outStr = "right";
+        }else{
+            outStr = "center";
         }
 
-        finalMat.copyTo(frame);
+//        finalMat.copyTo(frame);
         return null;
 
 

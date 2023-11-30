@@ -57,6 +57,6 @@ public class Creier extends CommandOpMode {
 
     @Override
     public void initialize() {
-
+        lift.goLift(0);
     }
 }

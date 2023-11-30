@@ -29,6 +29,7 @@ public class Lift extends SubsystemBase {
         right = hardwareMap.get(DcMotor.class,"dreapta_lift");
 
         left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

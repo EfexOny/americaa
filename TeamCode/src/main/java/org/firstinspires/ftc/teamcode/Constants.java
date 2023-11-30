@@ -14,7 +14,7 @@ public class Constants {
     public static double inchis_dreapta= 0.543;
     public static double deschis_dreapta	= 0.30;
     public static double deschis_stanga= 0.38;
-    public static double inchis_stanga= 0.15;
+    public static double inchis_stanga= 0.10;
     public static double deschis_dr=0.6;
     public static double inchis_dr=1;
     public static double inchis_st=-1;

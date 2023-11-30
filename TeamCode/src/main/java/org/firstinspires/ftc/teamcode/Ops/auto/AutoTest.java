@@ -2,66 +2,68 @@ package org.firstinspires.ftc.teamcode.Ops.auto;
 
 import android.util.Size;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.Blue;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "detec")
-public class blue extends LinearOpMode {
+public class AutoTest extends LinearOpMode {
 
-    Blue vision;
-    VisionPortal portal;
     SampleMecanumDrive drive;
 
-    TrajectorySequence mark;
+//    TrajectorySequence mark;
 
     Lift lift;
     Virtualbar vbar;
 
-    private Thread backdropLift;
-    private Thread vBar;
-
-    boolean drop = false;
-    Pose2d start = new Pose2d(0,0);
+//    private Thread backdropLift;
+//    private Thread vBar;
+//
+//    Pose2d start = new Pose2d(0,0);
+    VisionPortal portal;
+    Blue Thrash;
 
 
     @Override
     public void runOpMode() {
 
+        Blue Thrash = new Blue();
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(Thrash)
                 .setCameraResolution(new Size(640, 480))
-                .setCamera(BuiltinCameraDirection.BACK)
-                .addProcessor(vision)
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
                 .build();
 
-        drive = new SampleMecanumDrive(hardwareMap);
 
-        vBar = new Thread( () -> {
-                 vbar.VJos();
-        });
+//        drive = new SampleMecanumDrive(hardwareMap);
+//
+//        vBar = new Thread( () -> {
+//                 vbar.VaJos();
+//        });
 
 
-        mark = drive.trajectorySequenceBuilder(start)
-                .addDisplacementMarker(() -> {
-                    vBar.start();
-                })
+//        mark = drive.trajectorySequenceBuilder(start)
+//                .addDisplacementMarker(() -> {
+//                    vBar.start();
+//                })
 //                .lineToConstantHeading()
-                .build();
+//                .build();z
 
         waitForStart();
 
         while(opModeIsActive()){
-            telemetry.addData("da",vision.getPropPosition());
+            telemetry.addData("da",Thrash.getPropPosition());
             telemetry.update();
         }
     }
