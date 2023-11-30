@@ -1,14 +1,21 @@
 package org.firstinspires.ftc.teamcode.Ops.auto;
 
+import android.util.Size;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.CameraName;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.vision.blue;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 
 @TeleOp(name = "testAuto")
@@ -26,6 +33,20 @@ public class MamaArePula extends CommandOpMode {
     @Override
     public void initialize() {
 
+        VisionPortal portal;
+
+        blue blue;
+
+        blue = new blue();
+
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(blue)
+                .setCameraResolution(new Size(640, 480))
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
 
 
         drive = new SampleMecanumDrive(hardwareMap);
@@ -50,14 +71,17 @@ public class MamaArePula extends CommandOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
+        schedule(
+                new SequentialCommandGroup(
+                        new FollowTrajectoryCommand(stanga),
+                        vbar.Vbar_Idle()
+                )
+        );
     }
 
     @Override
     public void run() {
-        schedule(new FollowTrajectoryCommand(dreapta),
-        vbar.VJos(),
-        vbar.Open()
-        );
+        super.run();
     }
 }
 

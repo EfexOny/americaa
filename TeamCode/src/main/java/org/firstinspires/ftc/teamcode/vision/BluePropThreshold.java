@@ -11,14 +11,15 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-public class blue implements VisionProcessor {
+
+public class BluePropThreshold implements VisionProcessor {
     Mat testMat = new Mat();
     Mat highMat = new Mat();
     Mat lowMat = new Mat();
     Mat finalMat = new Mat();
     double redThreshold = 0.5;
 
-    String outStr = "left";
+    String outStr = "left"; //Set a default value in case vision does not work
 
     static final Rect LEFT_RECTANGLE = new Rect(
             new Point(0, 0),
@@ -40,11 +41,11 @@ public class blue implements VisionProcessor {
         Imgproc.cvtColor(frame, testMat, Imgproc.COLOR_RGB2HSV);
 
 
-        Scalar lowHSVRedLower = new Scalar(90, 100, 20);
-        Scalar lowHSVRedUpper = new Scalar(120, 255, 255);
+        Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
+        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
 
-        Scalar redHSVRedLower = new Scalar(20, 100, 160);
-        Scalar highHSVRedUpper = new Scalar(255, 255, 0);
+        Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
+        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
 
         Core.inRange(testMat, lowHSVRedLower, lowHSVRedUpper, lowMat);
         Core.inRange(testMat, redHSVRedLower, highHSVRedUpper, highMat);
@@ -60,11 +61,12 @@ public class blue implements VisionProcessor {
         double rightBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
 
         double averagedLeftBox = leftBox / LEFT_RECTANGLE.area() / 255;
-        double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255;
+        double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255; //Makes value [0,1]
 
 
 
-        if(averagedLeftBox > redThreshold){
+
+        if(averagedLeftBox > redThreshold){        //Must Tune Red Threshold
             outStr = "left";
         }else if(averagedRightBox> redThreshold){
             outStr = "center";
@@ -72,8 +74,10 @@ public class blue implements VisionProcessor {
             outStr = "right";
         }
 
-        finalMat.copyTo(frame);
-        return null;
+        finalMat.copyTo(frame); /*This line should only be added in when you want to see your custom pipeline
+                                  on the driver station stream, do not use this permanently in your code as
+                                  you use the "frame" mat for all of your pipelines, such as April Tags*/
+        return null;            //You do not return the original mat anymore, instead return null
 
 
 
@@ -86,7 +90,7 @@ public class blue implements VisionProcessor {
 
     }
 
-    public String getPropPosition(){
+    public String getPropPosition(){  //Returns postion of the prop in a String
         return outStr;
     }
 }
