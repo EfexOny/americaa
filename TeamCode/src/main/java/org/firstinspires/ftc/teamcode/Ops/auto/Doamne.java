@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -25,20 +26,18 @@ public class Doamne extends CommandOpMode {
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
     TrajectorySequence stanga;
-    TrajectorySequence   centru;
-    ElapsedTime timer = new ElapsedTime();
+    TrajectorySequence centru;
+    //ElapsedTime timer = new ElapsedTime();
     TrajectorySequence dreapta;
     Pose2d startBlue = new Pose2d(-36, 60, Math.toRadians(270));
     Pose2d startRed = new Pose2d(-36, -60, Math.toRadians(90));
+    BluePropThreshold blue;
+    VisionPortal portal;
 
     boolean detected = false;
 
     @Override
     public void initialize() {
-
-        VisionPortal portal;
-
-        BluePropThreshold blue;
 
         blue = new BluePropThreshold();
 
@@ -51,11 +50,8 @@ public class Doamne extends CommandOpMode {
                 .setAutoStopLiveView(true)
                 .build();
 
-
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
-
-        vbar.Close();
 
         drive.setPoseEstimate(startBlue);
 
@@ -74,19 +70,23 @@ public class Doamne extends CommandOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
-
-
-        schedule(
-                    new SequentialCommandGroup(
-                            new FollowTrajectoryCommand(stanga),
-                            vbar.Vbar_Idle(),
-                            new DelayedCommand(vbar.Open(),400)
-                    )
-        );
+        schedule(vbar.Close());
     }
 
     @Override
     public void run() {
+
+        //telementry in run ce da display la treshold-ul de pe vision portal
+        telemetry.addData(">", blue.getPropPosition());
+        telemetry.update();
+
+        schedule(
+            new SequentialCommandGroup(
+                new FollowTrajectoryCommand(stanga),
+                vbar.Vbar_Idle(),
+                new DelayedCommand(vbar.Open(),400)
+            )
+        );
         super.run();
 
     }
