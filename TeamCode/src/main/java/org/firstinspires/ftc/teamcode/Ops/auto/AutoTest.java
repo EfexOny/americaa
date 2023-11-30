@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibra
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.vision.Blue;
+import org.firstinspires.ftc.teamcode.vision.blue;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @TeleOp(name = "detec")
@@ -29,13 +29,13 @@ public class AutoTest extends LinearOpMode {
 //
 //    Pose2d start = new Pose2d(0,0);
     VisionPortal portal;
-    Blue Thrash;
+    blue Thrash;
 
 
     @Override
     public void runOpMode() {
 
-        Blue Thrash = new Blue();
+        blue Thrash = new blue();
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .addProcessor(Thrash)

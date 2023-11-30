@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.Blue;
 import org.firstinspires.ftc.teamcode.vision.red;
 import org.firstinspires.ftc.vision.VisionPortal;
 

@@ -75,9 +75,9 @@ public class Virtualbar extends SubsystemBase{
                 Close(),
                 new WaitCommand(500),
                 VSus(),
-                new WaitCommand(700),
+                new WaitCommand(900),
                 Open(),
-                new WaitCommand(500),
+                new WaitCommand(800),
                 Vbar_Idle()
         );
     }
