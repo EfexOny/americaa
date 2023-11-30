@@ -53,6 +53,8 @@ public class Doamne extends CommandOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
 
+        vbar.Close();
+
         drive.setPoseEstimate(startBlue);
 
         stanga = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -70,7 +72,13 @@ public class Doamne extends CommandOpMode {
                 .turn(Math.toRadians(-38))
                 .build();
 
-        schedule(vbar.Close());
+        schedule(
+                new SequentialCommandGroup(
+                        new FollowTrajectoryCommand(stanga),
+                        vbar.Vbar_Idle(),
+                        new DelayedCommand(vbar.Open(),400)
+                )
+        );
     }
 
     @Override
@@ -80,13 +88,7 @@ public class Doamne extends CommandOpMode {
         telemetry.addData(">", blue.getPropPosition());
         telemetry.update();
 
-        schedule(
-            new SequentialCommandGroup(
-                new FollowTrajectoryCommand(stanga),
-                vbar.Vbar_Idle(),
-                new DelayedCommand(vbar.Open(),400)
-            )
-        );
+
         super.run();
 
     }
