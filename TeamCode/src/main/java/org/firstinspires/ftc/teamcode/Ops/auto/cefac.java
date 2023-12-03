@@ -8,7 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -23,9 +23,9 @@ import org.firstinspires.ftc.teamcode.other.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
 import org.firstinspires.ftc.vision.VisionPortal;
-
-@Autonomous(name = "red front auto")
-public class Doamne extends CommandOpMode {
+@Disabled
+@TeleOp(name = "blue")
+public class cefac extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
@@ -36,7 +36,7 @@ public class Doamne extends CommandOpMode {
     TrajectorySequence dreapta;
     TrajectorySequence parkare;
     Pose2d startBlue = new Pose2d(-36, 60, Math.toRadians(270));
-    Pose2d startRed = new Pose2d(10, -60, Math.toRadians(180));
+    Pose2d startRed = new Pose2d(-36, -60, Math.toRadians(180));
     BluePropThreshold blue;
     VisionPortal portal;
     public Lift lift;
@@ -66,19 +66,19 @@ public class Doamne extends CommandOpMode {
 
         vbar.Close();
 
-        drive.setPoseEstimate(startRed);
+        drive.setPoseEstimate(startBlue);
 
-        backboard = drive.trajectorySequenceBuilder(startRed)
-                .strafeTo(new Vector2d(-44,-12))
-//                .strafeRight(15)
-                .lineTo(new Vector2d(24,-12))
-                .splineToConstantHeading(new Vector2d(55,-48 ),Math.toRadians(0))
+        backboard = drive.trajectorySequenceBuilder(startBlue)
+                .strafeTo(new Vector2d(-36,12))
+                .lineTo(new Vector2d(24,12))
+                .splineToConstantHeading(new Vector2d(43,35),Math.toRadians(0))
                 .build();
 
-        parkare = drive.trajectorySequenceBuilder(startRed)
-                .lineTo(new Vector2d(10,-59))
-                .splineToConstantHeading(new Vector2d(40,-34),Math.toRadians(90))
+        parkare = drive.trajectorySequenceBuilder(backboard.end())
+                .strafeLeft(10)
+                .forward(10)
                 .build();
+
 
 
 //        stanga = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
@@ -98,37 +98,47 @@ public class Doamne extends CommandOpMode {
 
         waitForStart();
 
-//        schedule(
-//                new SequentialCommandGroup(
-//                        vbar.Vbar_Idle(),
-//                        new DelayedCommand(cuva.close(),300),
-//                        new FollowTrajectoryCommand(parkare),
-//                        lift.goLift(900),
-//                        new WaitCommand(1000),
-//                        cuva.cuva_inapoi(),
-//                        new WaitCommand(500),
-//                        cuva.open(),
-//                        new WaitCommand(500),
-//                        cuva.close(),
-//                        new WaitCommand(500),
-//                        cuva.cuva_arunca(),
-//                        new WaitCommand(500),
-//                        cuva.open(),
-//                        new WaitCommand(500),
-//                        lift.goLift(400),
-//                        new WaitCommand(500),
-//                        lift.goLift(0)
-//
-//                )
-//        );
+        schedule(
+                new SequentialCommandGroup(
+                        vbar.Vbar_Idle(),
+                        cuva.close(),
+                        new FollowTrajectoryCommand(backboard),
+                        lift.goLift(900),
+                        new WaitCommand(1000),
+                        cuva.cuva_inapoi(),
+                        new WaitCommand(500),
+                        cuva.open(),
+                        new WaitCommand(500),
+                        cuva.close(),
+                        new WaitCommand(500),
+                        cuva.cuva_arunca(),
+                        new WaitCommand(500),
+                        cuva.open(),
+                        new WaitCommand(500),
+                        lift.goLift(0)
+                )
+        );
     }
 
     @Override
     public void run() {
 
         //telementry in run ce da display la treshold-ul de pe vision portal
-        telemetry.addData(">", blue.getPropPosition());
-        telemetry.update();
+//        telemetry.addData(">", blue.getPropPosition());
+//        telemetry.update();
+
+//        String bijboaca = blue.getPropPosition();
+//
+//        if(!detected)
+//            switch (bijboaca){
+//                case "left":
+//                    SPIKE = 1;
+//                case "center":
+//                    SPIKE = 2;
+//                case "right":
+//                    SPIKE = 3;
+//            }
+
 
         super.run();
 

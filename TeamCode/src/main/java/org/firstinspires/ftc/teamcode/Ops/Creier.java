@@ -29,6 +29,7 @@ public class Creier extends CommandOpMode {
     Trigger cova1,cova2;
     Button lift_stanga,lift_dreapta;
     Button dpad1,dpad2,dpad3,dpad4;
+    Button gheara_mereuta;
     Trigger Left,Right;
 
 

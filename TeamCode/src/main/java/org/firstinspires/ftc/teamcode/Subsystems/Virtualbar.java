@@ -14,6 +14,7 @@ import static org.firstinspires.ftc.teamcode.Constants.vbarsus_stanga;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -97,6 +98,8 @@ public class Virtualbar extends SubsystemBase{
         );
     }
 
+
+
     public Command Open(){
         return new InstantCommand(
                 () -> {
@@ -105,12 +108,27 @@ public class Virtualbar extends SubsystemBase{
         );
     }
 
+
+    public Command Open_wide(){
+        return new InstantCommand(
+                () -> {
+                    stanga_principala.setPosition(0.45);
+                    dreapta_principala.setPosition(0.27);}
+        );
+    }
     public Command VJos(){
         return new InstantCommand(
                 ()->  {
                     barstanga.setPosition(vbarjos_stanga);
                     bardreapta.setPosition(vbarjos_dreapta);
                 }
+        );
+    }
+
+    public ParallelCommandGroup vbarjos(){
+        return new ParallelCommandGroup(
+                VJos(),
+                Open_wide()
         );
     }
 

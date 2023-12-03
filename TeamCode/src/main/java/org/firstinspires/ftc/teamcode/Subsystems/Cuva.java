@@ -11,6 +11,7 @@ import static org.firstinspires.ftc.teamcode.Constants.inchis_st;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -50,9 +51,27 @@ public class Cuva extends SubsystemBase {
     public SequentialCommandGroup mereuta(){
         return new SequentialCommandGroup(
                 close(),
-                new WaitCommand(1000),
+                new WaitCommand(500),
                 lift.goLift(900),
-                new WaitCommand(1000),
+                cuva_arunca()
+//                cuva_inapoi(),
+//                new WaitCommand(500),
+//                open(),
+//                new WaitCommand(500),
+//                close(),
+//                new WaitCommand(500),
+//                cuva_arunca(),
+//                new WaitCommand(500),
+//                open(),
+//                new WaitCommand(500),
+//                lift.goLift(300),
+//                new WaitCommand(700),
+//                lift.goLift(0)
+            );
+    }
+
+    public SequentialCommandGroup afterparty(){
+        return new SequentialCommandGroup(
                 cuva_inapoi(),
                 new WaitCommand(500),
                 open(),
@@ -63,6 +82,8 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(500),
                 open(),
                 new WaitCommand(500),
+                lift.goLift(300),
+                new WaitCommand(700),
                 lift.goLift(0)
         );
     }
