@@ -29,7 +29,7 @@ public class tele extends Creier {
 //                .toggleWhenActive(cuva.cuva_arunca());
 
         lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(lift.goLift(800));
-        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(lift.goLift(100),lift.goLift(0));
+        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(lift.goLift(300),lift.goLift(0));
 
         vbar_idle = new GamepadButton(d2,GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(virtualbar.Vbar_Idle(),true );
 

@@ -51,7 +51,7 @@ public class Cuva extends SubsystemBase {
     public SequentialCommandGroup mereuta(){
         return new SequentialCommandGroup(
                 close(),
-                new WaitCommand(500),
+                new WaitCommand(300),
                 lift.goLift(900),
                 cuva_arunca()
 //                cuva_inapoi(),
@@ -73,15 +73,15 @@ public class Cuva extends SubsystemBase {
     public SequentialCommandGroup afterparty(){
         return new SequentialCommandGroup(
                 cuva_inapoi(),
-                new WaitCommand(500),
+                new WaitCommand(200),
                 open(),
-                new WaitCommand(500),
+                new WaitCommand(300),
                 close(),
-                new WaitCommand(500),
+                new WaitCommand(200),
                 cuva_arunca(),
-                new WaitCommand(500),
+                new WaitCommand(100),
                 open(),
-                new WaitCommand(500),
+                new WaitCommand(300),
                 lift.goLift(300),
                 new WaitCommand(700),
                 lift.goLift(0)
