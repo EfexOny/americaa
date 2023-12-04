@@ -21,7 +21,7 @@ public class BluePropThreshold implements VisionProcessor {
     Mat finalMat = new Mat();
     double averagedMiddleBox;
     double averagedRightBox;
-    public static double redThreshold = 0.5;
+    public static double redThreshold = 0.025;
 
     String outStr = "left"; //default
 
