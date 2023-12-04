@@ -29,11 +29,7 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 @Config
 public class Virtualbar extends SubsystemBase{
 
-    Timing.Timer timer;
-    TouchSensor ext;
     DigitalChannel b1,b2;
-    CRServo extindere,extindere1;
-
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
@@ -45,20 +41,16 @@ public class Virtualbar extends SubsystemBase{
         stanga_principala = hardwareMap.get(Servo.class,"pim_stanga");
         dreapta_principala = hardwareMap.get(Servo.class,"pim_dreapta");
 
-//        b1 = hardwareMap.get(DigitalChannel.class,"b1");
-//        b2 = hardwareMap.get(DigitalChannel.class,"b2");
-
-
-//        extindere = hardwareMap.get(CRServo.class,"extindere_stanga");
-//
-//        extindere1 = hardwareMap.get(CRServo.class,"extindere_dreapta");
-
-//        ext = hardwareMap.get(TouchSensor.class,"ext");
+        b1 = hardwareMap.get(DigitalChannel.class,"b1");
+        b2 = hardwareMap.get(DigitalChannel.class,"b2");
     }
 
     @Override
     public void periodic() {
-
+        if(!b1.getState())
+            dreapta_principala.setPosition(inchis_dreapta);
+        if(!b2.getState())
+            stanga_principala.setPosition(inchis_stanga);
         super.periodic();
     }
 
@@ -130,27 +122,6 @@ public class Virtualbar extends SubsystemBase{
                 VJos(),
                 Open_wide()
         );
-    }
-
-    public void extindere_back(){
-        timer.start();
-        while( getMagnet() == true && timer.elapsedTime() < 2.0)
-            extindere.setPower(1);
-        extindere.setPower(0);
-    }
-
-    public void extindere_full(){
-        timer.start();
-        while( getMagnet() == false && timer.elapsedTime() < 2.0)
-            extindere.setPower(1);
-        extindere.setPower(0);
-    }
-
-
-
-
-    public boolean getMagnet() {
-        return ext.isPressed();
     }
 
 

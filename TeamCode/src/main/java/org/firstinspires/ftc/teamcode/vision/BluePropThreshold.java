@@ -25,6 +25,14 @@ public class BluePropThreshold implements VisionProcessor {
 
     String outStr = "left"; //default
 
+
+//    Scalar lowHSVRedLower = new Scalar(0, 100, 20);
+//    Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
+//
+//    Scalar redHSVRedLower = new Scalar(160, 100, 20);
+//    Scalar highHSVRedUpper = new Scalar(180, 255, 255);
+
+
     static final Rect RIGHT_RECTANGLE = new Rect(
             new Point(0, 150 ),
             new Point(50, 240)

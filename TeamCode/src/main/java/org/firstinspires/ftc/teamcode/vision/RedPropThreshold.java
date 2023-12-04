@@ -19,18 +19,23 @@ public class RedPropThreshold implements VisionProcessor {
     Mat highMat = new Mat();
     Mat lowMat = new Mat();
     Mat finalMat = new Mat();
-    public static double redThreshold = 0.5;
+    double averagedMiddleBox;
+    double averagedRightBox;
+    public static double redThreshold = 0.025;
 
     String outStr = "left"; //default
 
-    static final Rect LEFT_RECTANGLE = new Rect(
-            new Point(0, 0),
-            new Point(0, 0)
-    );
+
+
 
     static final Rect RIGHT_RECTANGLE = new Rect(
-            new Point(0, 0),
-            new Point(0, 0)
+            new Point(0, 150 ),
+            new Point(50, 240)
+    );
+
+    static final Rect MIDDLE_RECTANGLE = new Rect(
+            new Point(0, 320),
+            new Point(640,480 )
     );
 
     @Override
@@ -43,12 +48,11 @@ public class RedPropThreshold implements VisionProcessor {
         Imgproc.cvtColor(frame, testMat, Imgproc.COLOR_RGB2HSV);
 
 
-        Scalar lowHSVRedLower = new Scalar(0, 100, 20);
-        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
+    Scalar lowHSVRedLower = new Scalar(0, 100, 20);
+    Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
 
-        Scalar redHSVRedLower = new Scalar(160, 100, 20);
-        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
-
+    Scalar redHSVRedLower = new Scalar(160, 100, 20);
+    Scalar highHSVRedUpper = new Scalar(180, 255, 255);
 
         Core.inRange(testMat, lowHSVRedLower, lowHSVRedUpper, lowMat);
         Core.inRange(testMat, redHSVRedLower, highHSVRedUpper, highMat);
@@ -60,24 +64,23 @@ public class RedPropThreshold implements VisionProcessor {
         lowMat.release();
         highMat.release();
 
-        double leftBox = Core.sumElems(finalMat.submat(LEFT_RECTANGLE)).val[0];
         double rightBox = Core.sumElems(finalMat.submat(RIGHT_RECTANGLE)).val[0];
+        double midBox = Core.sumElems(finalMat.submat(MIDDLE_RECTANGLE)).val[0];
 
-        double averagedLeftBox = leftBox / LEFT_RECTANGLE.area() / 255;
-        double averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255; //Makes value [0,1]
+        averagedMiddleBox  = midBox  / MIDDLE_RECTANGLE.area()  / 255;
+        averagedRightBox = rightBox / RIGHT_RECTANGLE.area() / 255; //Makes value [0,1]
 
 
-
-
-        if(averagedLeftBox > redThreshold){        //Must Tune Red Threshold
-            outStr = "left";
-        }else if(averagedRightBox> redThreshold){
+        if(averagedRightBox > redThreshold){
             outStr = "right";
+        }else if(averagedMiddleBox > redThreshold){
+            outStr = "middle";
         }else{
-            outStr = "center";
+            outStr = "left";
         }
 
         finalMat.copyTo(frame);
+
         return null;
 
 
@@ -91,7 +94,12 @@ public class RedPropThreshold implements VisionProcessor {
 
     }
 
-    public String getPropPosition(){
+    public String getPropPosition(){  //Returns postion of the prop in a String
         return outStr;
     }
+
+    public double coaie(){return averagedMiddleBox;}
+    public double coaie2(){return averagedRightBox;}
+
+
 }
