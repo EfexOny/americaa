@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.Constants.vbarsus_stanga;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -24,6 +25,8 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import java.util.function.BooleanSupplier;
 
 
 @Config
@@ -119,10 +122,18 @@ public class Virtualbar extends SubsystemBase{
 
     public ParallelCommandGroup vbarjos(){
         return new ParallelCommandGroup(
-                VJos(),
-                Open_wide()
+                VJos()
         );
     }
 
+    public BooleanSupplier g1(){
+        return () -> b1.getState();
+    }
+
+    public ConditionalCommand da(){
+        return new ConditionalCommand(
+                Open_wide(),Close(),g1()
+        );
+    }
 
 }

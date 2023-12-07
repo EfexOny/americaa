@@ -123,23 +123,6 @@ public class cefac extends CommandOpMode {
     @Override
     public void run() {
 
-        //telementry in run ce da display la treshold-ul de pe vision portal
-//        telemetry.addData(">", blue.getPropPosition());
-//        telemetry.update();
-
-//        String bijboaca = blue.getPropPosition();
-//
-//        if(!detected)
-//            switch (bijboaca){
-//                case "left":
-//                    SPIKE = 1;
-//                case "center":
-//                    SPIKE = 2;
-//                case "right":
-//                    SPIKE = 3;
-//            }
-
-
         super.run();
 
     }

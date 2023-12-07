@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
@@ -32,7 +33,7 @@ public class Creier extends CommandOpMode {
     Button gheara_mereuta;
     Trigger Left,Right;
 
-
+    RevIMU imu;
 
 
 
@@ -42,7 +43,7 @@ public class Creier extends CommandOpMode {
         rf = new Motor(hardwareMap, "rf");
         lb = new Motor(hardwareMap, "lr");
         rb = new Motor(hardwareMap, "rr");
-
+        imu = new RevIMU(hardwareMap, "imu");
         d1 = new GamepadEx(gamepad1);
 
         d2 = new GamepadEx(gamepad2);

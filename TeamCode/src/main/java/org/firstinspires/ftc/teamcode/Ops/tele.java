@@ -57,6 +57,7 @@ public class tele extends Creier {
 
         mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
 
+
         register(drive);
         drive.setDefaultCommand(mergi);
     }

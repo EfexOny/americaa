@@ -33,15 +33,21 @@ public class BluePropThreshold implements VisionProcessor {
 //    Scalar highHSVRedUpper = new Scalar(180, 255, 255);
 
 
+    public static int x1=0,x2=50,y1=150,y2=250,x3=0,x4=640,y3=320,y4=480;
+
+
+
+
     static final Rect RIGHT_RECTANGLE = new Rect(
-            new Point(0, 150 ),
-            new Point(50, 240)
+            new Point(x1, y1 ),
+            new Point(x2, y2)
     );
 
     static final Rect MIDDLE_RECTANGLE = new Rect(
-            new Point(0, 320),
-            new Point(640,480 )
+            new Point(x3, y3),
+            new Point(x4,y4 )
     );
+
 
     @Override
     public void init(int width, int height, CameraCalibration calibration) {
