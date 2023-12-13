@@ -17,16 +17,17 @@ import org.opencv.imgproc.Imgproc;
 public class PropDetectionRedFar implements VisionProcessor {
     public int detection = 2;
 
-    public static int leftRectX1 = 505, leftRectY1 = 140;
-    public static int leftRectX2 = 430, leftRectY2 = 260;
+    public static int leftRectX1 = 600, leftRectY1 = 150;
+    public static int leftRectX2 = 520, leftRectY2 = 260;
+
 
     public static double leftThresh = 800000;
     public double leftSum = 0;
 
-    public static int middleRectX1 = 90, middleRectY1 = 150;
-    public static int middleRectX2 = 155, middleRectY2 = 255;
+    public static int middleRectX1 = 280, middleRectY1 = 150;
+    public static int middleRectX2 = 380, middleRectY2 = 260;
 
-    public static double middleThresh = 600000;
+    public static double middleThresh = 1000000;
     public double middleSum = 0;
 
     public static int redLowH = 110, redLowS = 160, redLowV = 0;

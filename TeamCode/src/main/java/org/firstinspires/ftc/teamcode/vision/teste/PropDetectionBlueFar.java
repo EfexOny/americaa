@@ -18,8 +18,8 @@ public class PropDetectionBlueFar implements VisionProcessor {
 
     public int detection = 2;
 
-    public static int rightRectX1 = 0, rightRectY1 = 120;
-    public static int rightRectX2 = 50, rightRectY2 = 240;
+    public static int rightRectX1 = 600, rightRectY1 = 150;
+    public static int rightRectX2 = 520, rightRectY2 = 260;
 
     public static double rightThresh = 300000;
     public double rightSum = 0;
@@ -27,7 +27,7 @@ public class PropDetectionBlueFar implements VisionProcessor {
     public static int middleRectX1 = 280, middleRectY1 = 150;
     public static int middleRectX2 = 380, middleRectY2 = 260;
 
-    public static double middleThresh = 900000;
+    public static double middleThresh = 1000000;
     public double middleSum = 0;
 
     public static int blueLowH = 100, blueLowS = 70, blueLowV = 0;
