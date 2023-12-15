@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Ops.auto.Doamne;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -9,12 +10,7 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 public class FollowTrajectoryCommand extends CommandBase {
 
     TrajectorySequence trajectory;
-    SampleMecanumDrive drive = Doamne.drive;
-
-
-    public FollowTrajectoryCommand(TrajectorySequence trajectory) {
-        this.trajectory = trajectory;
-    }
+    SampleMecanumDrive drive;
 
     @Override
     public void initialize() {
@@ -26,6 +22,10 @@ public class FollowTrajectoryCommand extends CommandBase {
         drive.update();
     }
 
+    public FollowTrajectoryCommand(TrajectorySequence trajectory, HardwareMap hardwareMap){
+        this.trajectory = trajectory;
+        this.drive = new SampleMecanumDrive(hardwareMap);
+    }
     @Override
     public void end(boolean interrupted) {
         drive.setMotorPowers(0, 0, 0, 0);
