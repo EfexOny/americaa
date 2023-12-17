@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -16,39 +17,40 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
+import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
-import org.firstinspires.ftc.teamcode.other.DelayedCommand;
+import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.vision.VisionPortal;
-@Disabled
+
+@Config
 @TeleOp(name = "blue")
 public class cefac extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
-    TrajectorySequence stanga;
     TrajectorySequence backboard;
-    TrajectorySequence centru;
-    //ElapsedTime timer = new ElapsedTime();
-    TrajectorySequence dreapta;
-    TrajectorySequence parkare;
-    Pose2d startBlue = new Pose2d(-36, 60, Math.toRadians(270));
-    Pose2d startRed = new Pose2d(-36, -60, Math.toRadians(180));
-    BluePropThreshold blue;
+    TrajectorySequence Park;
+    Pose2d startBlue = new Pose2d(10, 60, Math.toRadians(270));
+    PropDetectionBlueFar blue;
     VisionPortal portal;
     public Lift lift;
     public Cuva cuva;
-    int SPIKE;
-    boolean detected = false;
+    ElapsedTime timer = new ElapsedTime();
+
+    boolean started=false,finished=false,follow=false;
+    int  detect=2;
 
     @Override
     public void initialize() {
 
 
-        blue = new BluePropThreshold();
+
+        blue = new PropDetectionBlueFar();
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -59,6 +61,8 @@ public class cefac extends CommandOpMode {
                 .setAutoStopLiveView(true)
                 .build();
 
+
+
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
         cuva = new Cuva(hardwareMap);
@@ -68,33 +72,52 @@ public class cefac extends CommandOpMode {
 
         drive.setPoseEstimate(startBlue);
 
+
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .build();
+
+// CENTRU
+//        backboard = drive.trajectorySequenceBuilder(startBlue)
+//                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
+//                .build();
+//
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .lineTo(new Vector2d(35,14))
+//                .build();
+// CENTRU
+
+
+// DREAPTA
+//        backboard = drive.trajectorySequenceBuilder(startBlue)
+//                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(50.4,33,Math.toRadians(180)),Math.toRadians(0))
+//                .build();
+//
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .lineTo(new Vector2d(18,28))
+//                .build();
+// DREAPTA
+
+
+//
         backboard = drive.trajectorySequenceBuilder(startBlue)
-                .strafeTo(new Vector2d(-36,12))
-                .lineTo(new Vector2d(24,12))
-                .splineToConstantHeading(new Vector2d(43,35),Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(50.4,40,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
-        parkare = drive.trajectorySequenceBuilder(backboard.end())
-                .strafeLeft(10)
-                .forward(10)
+        Park = drive.trajectorySequenceBuilder(backboard.end())
+                .lineTo(new Vector2d(40,25.6))
                 .build();
 
 
+        while (opModeInInit() && !isStopRequested()) {
+            telemetry.addData("Detection", blue.detection);
+            telemetry.addData("Right value", blue.rightSum);
+            telemetry.addData("Middle value", blue.middleSum);
+            telemetry.update();
+        }
 
-//        stanga = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .lineTo(new Vector2d(-36, 40))
-//                .strafeTo(new Vector2d(-35, 40))
-//                .turn(Math.toRadians(58))
-//                .build();
-//
-//        centru = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .forward(24)
-//                .build();
-//
-//        dreapta = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .lineTo(new Vector2d(-36, 42.5))
-//                .turn(Math.toRadians(-38))
-//                .build();
 
         waitForStart();
 
@@ -102,30 +125,67 @@ public class cefac extends CommandOpMode {
                 new SequentialCommandGroup(
                         vbar.Vbar_Idle(),
                         cuva.close(),
-                        new FollowTrajectoryCommand(backboard),
-                        lift.goLift(900),
+                        new FollowTrajectoryCommand(backboard, drive),
+
+                        new BackDropCommand(lift,cuva),
                         new WaitCommand(1000),
-                        cuva.cuva_inapoi(),
-                        new WaitCommand(500),
-                        cuva.open(),
-                        new WaitCommand(500),
-                        cuva.close(),
-                        new WaitCommand(500),
-                        cuva.cuva_arunca(),
-                        new WaitCommand(500),
-                        cuva.open(),
-                        new WaitCommand(500),
-                        lift.goLift(0)
+                        new FollowTrajectoryCommand(Park,drive),
+                        new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open()),
+                        new InstantCommand(() -> finished=true)
                 )
         );
     }
-
     @Override
     public void run() {
-
         super.run();
 
+        if(!started){
+            timer.reset();
+            started=true;
+        }
+        if(timer.seconds() <4) {
+            detect = blue.detection;
+        }
+
+        if(finished){
+            finished=false;
+            follow=true;
+                switch (detect) {
+                    case 1: {
+                        backboard = drive.trajectorySequenceBuilder(startBlue)
+                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                                .splineToLinearHeading(new Pose2d(50.4,40,Math.toRadians(180)),Math.toRadians(0))
+                                .build();
+
+                        Park = drive.trajectorySequenceBuilder(backboard.end())
+                                .lineTo(new Vector2d(40,25.6))
+                                .build();
+                    }
+
+                    case 2: {
+                        backboard = drive.trajectorySequenceBuilder(startBlue)
+                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                                .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
+                                .build();
+
+                        Park = drive.trajectorySequenceBuilder(backboard.end())
+                                .lineTo(new Vector2d(35,14))
+                                .build();
+                    }
+                    case 3: {
+                                backboard = drive.trajectorySequenceBuilder(startBlue)
+                                        .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                                        .splineToLinearHeading(new Pose2d(50.4,33,Math.toRadians(180)),Math.toRadians(0))
+                                        .build();
+
+                                Park = drive.trajectorySequenceBuilder(backboard.end())
+                                        .lineTo(new Vector2d(18,28))
+                                        .build();
+                    }
+                }
+            }
+        }
+
     }
-}
 
 

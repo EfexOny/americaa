@@ -1,31 +1,41 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-@Disabled
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @Config
 @TeleOp
 public class pidtune extends OpMode {
 
     DcMotor left,right;
-    public static double kP = 0.002 ;
+    public static double kP = 0.0041 ;
     public static double kI = 0;
     public static double kD = 0;
-    public static double kF = 0.0008;
+    public static double kF = 0.0004;
     public static int liftTargetPos = 0;
     public static PIDController pid;
 
+    Telemetry telem = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
+
     @Override
     public void init() {
+
+
+
         left = hardwareMap.get(DcMotor.class,"stanga_lift");
         right = hardwareMap.get(DcMotor.class,"dreapta_lift");
 
         left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -43,15 +53,17 @@ public class pidtune extends OpMode {
 
     @Override
     public void loop() {
+
+
         double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
         double ff = kF * left.getCurrentPosition();
 
         left.setPower(power + ff);
         right.setPower(power + ff);
 
-        telemetry.addData("stanga", left.getCurrentPosition());
-        telemetry.addData("dreapta", right.getCurrentPosition());
+        telem.addData("current", left.getCurrentPosition());
+        telem.addData("target", liftTargetPos);
 
-        telemetry.update();
+        telem.update();
     }
 }

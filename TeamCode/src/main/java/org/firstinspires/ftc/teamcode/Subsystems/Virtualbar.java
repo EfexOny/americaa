@@ -32,7 +32,7 @@ import java.util.function.BooleanSupplier;
 @Config
 public class Virtualbar extends SubsystemBase{
 
-    DigitalChannel b1,b2;
+//    DigitalChannel b1,b2;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
@@ -44,16 +44,16 @@ public class Virtualbar extends SubsystemBase{
         stanga_principala = hardwareMap.get(Servo.class,"pim_stanga");
         dreapta_principala = hardwareMap.get(Servo.class,"pim_dreapta");
 
-        b1 = hardwareMap.get(DigitalChannel.class,"b1");
-        b2 = hardwareMap.get(DigitalChannel.class,"b2");
+//        b1 = hardwareMap.get(DigitalChannel.class,"b1");
+//        b2 = hardwareMap.get(DigitalChannel.class,"b2");
     }
 
     @Override
     public void periodic() {
-        if(!b1.getState())
-            dreapta_principala.setPosition(inchis_dreapta);
-        if(!b2.getState())
-            stanga_principala.setPosition(inchis_stanga);
+//        if(!b1.getState())
+//            dreapta_principala.setPosition(inchis_dreapta);
+//        if(!b2.getState())
+//            stanga_principala.setPosition(inchis_stanga);
         super.periodic();
     }
 
@@ -126,14 +126,14 @@ public class Virtualbar extends SubsystemBase{
         );
     }
 
-    public BooleanSupplier g1(){
-        return () -> b1.getState();
-    }
-
-    public ConditionalCommand da(){
-        return new ConditionalCommand(
-                Open_wide(),Close(),g1()
-        );
-    }
+//    public BooleanSupplier g1(){
+//        return () -> b1.getState();
+//    }
+//
+//    public ConditionalCommand da(){
+//        return new ConditionalCommand(
+//                Open_wide(),Close(),g1()
+//        );
+//    }
 
 }

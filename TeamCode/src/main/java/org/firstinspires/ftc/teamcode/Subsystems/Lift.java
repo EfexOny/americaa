@@ -52,7 +52,7 @@ public class Lift extends SubsystemBase {
         return left.getCurrentPosition();
     }
     public int getLiftPosition() {
-        return left.getCurrentPosition();
+        return liftTargetPos;
     }
     public void controlLift(double power){
         if(power == 0)

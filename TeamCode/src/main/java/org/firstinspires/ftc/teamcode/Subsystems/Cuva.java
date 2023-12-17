@@ -24,6 +24,8 @@ public class Cuva extends SubsystemBase {
     Servo out_stanga,out_dreapta;
     Lift lift;
 
+
+// st = 0.15, dr = 0.75
     Servo drop,avion;
 
     public Cuva(HardwareMap hardwareMap){
@@ -47,6 +49,8 @@ public class Cuva extends SubsystemBase {
                 }
         );
     }
+
+
 
     public SequentialCommandGroup mereuta(){
         return new SequentialCommandGroup(
@@ -79,11 +83,11 @@ public class Cuva extends SubsystemBase {
                 close(),
                 new WaitCommand(200),
                 cuva_arunca(),
-                new WaitCommand(100),
-                open(),
+                new WaitCommand(300),
+                open_insprejos(),
                 new WaitCommand(300),
                 lift.goLift(300),
-                new WaitCommand(700),
+                new WaitCommand(500),
                 lift.goLift(0)
         );
     }
@@ -117,6 +121,15 @@ public class Cuva extends SubsystemBase {
                 () -> {
                     out_dreapta.setPosition(deschis_dr);
                     out_stanga.setPosition(deschis_st);
+                }
+        );
+    }
+
+    public Command open_insprejos(){
+        return new InstantCommand(
+                () -> {
+                    out_dreapta.setPosition(0.75);
+                    out_stanga.setPosition(0.15);
                 }
         );
     }

@@ -22,9 +22,9 @@ public class FollowTrajectoryCommand extends CommandBase {
         drive.update();
     }
 
-    public FollowTrajectoryCommand(TrajectorySequence trajectory, HardwareMap hardwareMap){
+    public FollowTrajectoryCommand(TrajectorySequence trajectory, SampleMecanumDrive drive){
         this.trajectory = trajectory;
-        this.drive = new SampleMecanumDrive(hardwareMap);
+        this.drive = drive;
     }
     @Override
     public void end(boolean interrupted) {
