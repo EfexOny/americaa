@@ -12,7 +12,7 @@ public class BackDropCommand extends SequentialCommandGroup {
     public BackDropCommand(Lift lift, Cuva cuva) {
         addCommands(
                 cuva.close(),
-                new WaitCommand(300),
+                new WaitCommand(600),
                 lift.goLift(600),
                 cuva.cuva_arunca(),
                 new WaitCommand(1000),
@@ -26,7 +26,6 @@ public class BackDropCommand extends SequentialCommandGroup {
                 new WaitCommand(500),
                 cuva.open_insprejos(),
                 new WaitCommand(500),
-                new WaitCommand(300),
                 lift.goLift(0)
                 );
     }

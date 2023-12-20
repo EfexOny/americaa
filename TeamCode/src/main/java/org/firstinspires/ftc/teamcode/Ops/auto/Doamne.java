@@ -6,57 +6,61 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
+import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionRedFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-@Autonomous(name = "red front auto")
+@Config
+@Autonomous(name = "red backdrop")
 public class Doamne extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
-    TrajectorySequence stanga;
     TrajectorySequence backboard;
-    TrajectorySequence centru;
-    //ElapsedTime timer = new ElapsedTime();
-    TrajectorySequence dreapta;
-    TrajectorySequence parkare;
-    Pose2d startBlue = new Pose2d(-36, 60, Math.toRadians(270));
-    Pose2d startRed = new Pose2d(10, -60, Math.toRadians(180));
-    BluePropThreshold blue;
+    TrajectorySequence Park;
+    Pose2d startRed = new Pose2d(10, -60, Math.toRadians(90));
+    PropDetectionRedFar red;
     VisionPortal portal;
     public Lift lift;
     public Cuva cuva;
-    int SPIKE;
-    boolean detected = false;
+    ElapsedTime timer = new ElapsedTime();
+
+    boolean started=false,finished=false,follow=false;
+    int  detect=2;
 
     @Override
     public void initialize() {
 
 
-        blue = new BluePropThreshold();
+
+        red = new PropDetectionRedFar();
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                .addProcessor(blue)
+                .addProcessor(red)
                 .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.YUY2)
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
                 .build();
+
+
 
         drive = new SampleMecanumDrive(hardwareMap);
         vbar = new Virtualbar(hardwareMap);
@@ -67,68 +71,121 @@ public class Doamne extends CommandOpMode {
 
         drive.setPoseEstimate(startRed);
 
-        backboard = drive.trajectorySequenceBuilder(startRed)
-                .strafeTo(new Vector2d(-44,-12))
-//                .strafeRight(15)
-                .lineTo(new Vector2d(24,-12))
-                .splineToConstantHeading(new Vector2d(55,-48 ),Math.toRadians(0))
+
+//        dreapta
+                backboard = drive.trajectorySequenceBuilder(startRed)
+                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
                 .build();
 
-        parkare = drive.trajectorySequenceBuilder(startRed)
-                .lineTo(new Vector2d(10,-59))
-                .splineToConstantHeading(new Vector2d(40,-34),Math.toRadians(90))
+        Park = drive.trajectorySequenceBuilder(backboard.end())
+                .lineTo(new Vector2d(39.5,-23.2 ))
+                .build();
+//        dreapta
+
+
+//        centru
+
+                backboard = drive.trajectorySequenceBuilder(startRed)
+                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
                 .build();
 
+        Park = drive.trajectorySequenceBuilder(backboard.end())
+                .lineTo(new Vector2d(35,-22))
+                .build();
+//        centru
 
-//        stanga = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .lineTo(new Vector2d(-36, 40))
-//                .strafeTo(new Vector2d(-35, 40))
-//                .turn(Math.toRadians(58))
-//                .build();
-//
-//        centru = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .forward(24)
-//                .build();
-//
-//        dreapta = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-//                .lineTo(new Vector2d(-36, 42.5))
-//                .turn(Math.toRadians(-38))
-//                .build();
+
+//        stanga
+          backboard = drive.trajectorySequenceBuilder(startRed)
+                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
+                .build();
+
+        Park = drive.trajectorySequenceBuilder(backboard.end())
+                .lineTo(new Vector2d(14.12,-27 ))
+                .build();
+//        stanga
+
+
+        while (opModeInInit() && !isStopRequested()) {
+            telemetry.addData("Detection", red.detection);
+            telemetry.addData("Right value", red.leftSum);
+            telemetry.addData("Middle value", red.middleSum);
+            telemetry.update();
+
+            if(!started){
+                timer.reset();
+                started=true;
+            }
+            if(timer.seconds() <4) {
+                detect = red.detection;
+            }
+
+            finished = true;
+
+            if(finished){
+                finished=false;
+                follow=true;
+                switch (detect) {
+                    case 1: {
+                        backboard = drive.trajectorySequenceBuilder(startRed)
+                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                                .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
+                                .build();
+
+                        Park = drive.trajectorySequenceBuilder(backboard.end())
+                                .lineTo(new Vector2d(14.12,-27 ))
+                                .build();
+                    }
+
+                    case 2: {
+
+                        backboard = drive.trajectorySequenceBuilder(startRed)
+                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                                .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
+                                .build();
+
+                        Park = drive.trajectorySequenceBuilder(backboard.end())
+                                .lineTo(new Vector2d(35,-22))
+                                .build();
+
+                    }
+                    case 3: {
+                        backboard = drive.trajectorySequenceBuilder(startRed)
+                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                                .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
+                                .build();
+
+                        Park = drive.trajectorySequenceBuilder(backboard.end())
+                                .lineTo(new Vector2d(39.5,-23.2 ))
+                                .build();
+                    }
+                }
+            }
+
+
+        }
+
 
         waitForStart();
 
-//        schedule(
-//                new SequentialCommandGroup(
-//                        vbar.Vbar_Idle(),
-//                        new DelayedCommand(cuva.close(),300),
-//                        new FollowTrajectoryCommand(parkare),
-//                        lift.goLift(900),
-//                        new WaitCommand(1000),
-//                        cuva.cuva_inapoi(),
-//                        new WaitCommand(500),
-//                        cuva.open(),
-//                        new WaitCommand(500),
-//                        cuva.close(),
-//                        new WaitCommand(500),
-//                        cuva.cuva_arunca(),
-//                        new WaitCommand(500),
-//                        cuva.open(),
-//                        new WaitCommand(500),
-//                        lift.goLift(400),
-//                        new WaitCommand(500),
-//                        lift.goLift(0)
-//
-//                )
-//        );
-    }
+        schedule(
+                new SequentialCommandGroup(
+                        vbar.Vbar_Idle(),
+                        cuva.close(),
+                        new FollowTrajectoryCommand(backboard, drive),
 
+                        new BackDropCommand(lift,cuva),
+                        new WaitCommand(1000),
+                        new FollowTrajectoryCommand(Park,drive),
+                        new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open())
+                )
+        );
+    }
     @Override
     public void run() {
-
-        //telementry in run ce da display la treshold-ul de pe vision portal
-        telemetry.addData(">", blue.getPropPosition());
-        telemetry.update();
-
         super.run();
 
     }

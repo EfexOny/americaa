@@ -81,13 +81,11 @@ public class Cuva extends SubsystemBase {
                 open(),
                 new WaitCommand(300),
                 close(),
-                new WaitCommand(200),
+                new WaitCommand(700),
                 cuva_arunca(),
                 new WaitCommand(300),
                 open_insprejos(),
                 new WaitCommand(300),
-                lift.goLift(300),
-                new WaitCommand(500),
                 lift.goLift(0)
         );
     }
