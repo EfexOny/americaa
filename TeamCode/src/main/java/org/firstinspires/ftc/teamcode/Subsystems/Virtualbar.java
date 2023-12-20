@@ -89,8 +89,14 @@ public class Virtualbar extends SubsystemBase{
         return new InstantCommand(
                 () -> {
                     stanga_principala.setPosition(inchis_stanga);
-                    dreapta_principala.setPosition(inchis_dreapta);}
+                    dreapta_principala.setPosition(inchis_dreapta);
+                }
         );
+    }
+
+    public void CloseDirect() {
+        stanga_principala.setPosition(inchis_stanga);
+        dreapta_principala.setPosition(inchis_dreapta);
     }
 
 

@@ -10,8 +10,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -24,7 +22,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -48,8 +45,6 @@ public class cefac extends CommandOpMode {
 
     @Override
     public void initialize() {
-
-
 
         blue = new PropDetectionBlueFar();
 
@@ -111,76 +106,80 @@ public class cefac extends CommandOpMode {
 
 
         while (opModeInInit() && !isStopRequested()) {
-            telemetry.addData("Detection", blue.detection);
-            telemetry.addData("Right value", blue.rightSum);
-            telemetry.addData("Middle value", blue.middleSum);
-            telemetry.update();
-
             if(!started){
                 timer.reset();
                 started=true;
             }
-            if(timer.seconds() <4) {
-                detect = blue.detection;
-            }
-
-            if(finished){
-                finished=false;
-                follow=true;
-                switch (detect) {
-                    case 1: {
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(50.4,40,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
-
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(40,25.6))
-                                .build();
-                    }
-
-                    case 2: {
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
-
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(35,14))
-                                .build();
-                    }
-                    case 3: {
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(50.4,33,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
-
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(18,28))
-                                .build();
-                    }
+            if(timer.seconds() < 4) {
+                switch (blue.detection) {
+                    case 1:
+                        telemetry.addData("Detection", "stanga");
+                        break;
+                    case 2:
+                        telemetry.addData("Detection", "middle");
+                        break;
+                    case 3:
+                        telemetry.addData("Detection", "dreapta");
+                        break;
+                    default:
+                        telemetry.addData("Detection", "Did not detect yet");
                 }
+
+                telemetry.addData("Right value", blue.rightSum);
+                telemetry.addData("Middle value", blue.middleSum);
+                telemetry.update();
+
+                detect = blue.detection;
+            } else
+            switch (detect) {
+                case 1:
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(50.4,40,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
+
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(40,25.6))
+                            .build();
+                    break;
+                case 2:
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
+
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(35,14))
+                            .build();
+                    break;
+                case 3:
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(50.4,33,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
+
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(18,28))
+                            .build();
+                    break;
             }
 
+            waitForStart();
 
-    }
+            schedule(
+                    new SequentialCommandGroup(
+                            vbar.Vbar_Idle(),
+                            cuva.close(),
+                            new FollowTrajectoryCommand(backboard, drive),
 
-
-        waitForStart();
-
-        schedule(
-                new SequentialCommandGroup(
-                        vbar.Vbar_Idle(),
-                        cuva.close(),
-                        new FollowTrajectoryCommand(backboard, drive),
-
-                        new BackDropCommand(lift,cuva),
-                        new WaitCommand(1000),
-                        new FollowTrajectoryCommand(Park,drive),
-                        new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open()),
-                        new InstantCommand(() -> finished=true)
-                )
-        );
+    //                        new BackDropCommand(lift,cuva),
+                            new WaitCommand(1000),
+                            new FollowTrajectoryCommand(Park,drive),
+                            new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open()),
+                            new InstantCommand(() -> finished=true)
+                    )
+            );
+        }
     }
     @Override
     public void run() {
@@ -233,6 +232,6 @@ public class cefac extends CommandOpMode {
 //            }
 //        }
     }
-    }
+}
 
 
