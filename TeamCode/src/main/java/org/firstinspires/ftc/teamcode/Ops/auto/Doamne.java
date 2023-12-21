@@ -44,6 +44,7 @@ public class Doamne extends CommandOpMode {
     boolean started=false,finished=false,follow=false;
     int  detect=2;
 
+
     @Override
     public void initialize() {
 
@@ -73,39 +74,39 @@ public class Doamne extends CommandOpMode {
 
 
 //        dreapta
-                backboard = drive.trajectorySequenceBuilder(startRed)
-                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
-                .build();
-
-        Park = drive.trajectorySequenceBuilder(backboard.end())
-                .lineTo(new Vector2d(39.5,-23.2 ))
-                .build();
+//                backboard = drive.trajectorySequenceBuilder(startRed)
+//                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
+//                .build();
+//
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .lineTo(new Vector2d(39.5,-23.2 ))
+//                .build();
 //        dreapta
 
 
 //        centru
 
-                backboard = drive.trajectorySequenceBuilder(startRed)
-                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
-                .build();
-
-        Park = drive.trajectorySequenceBuilder(backboard.end())
-                .lineTo(new Vector2d(35,-22))
-                .build();
+//                backboard = drive.trajectorySequenceBuilder(startRed)
+//                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
+//                .build();
+//
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .lineTo(new Vector2d(35,-22))
+//                .build();
 //        centru
 
 
 //        stanga
-          backboard = drive.trajectorySequenceBuilder(startRed)
-                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
-                .build();
-
-        Park = drive.trajectorySequenceBuilder(backboard.end())
-                .lineTo(new Vector2d(14.12,-27 ))
-                .build();
+//          backboard = drive.trajectorySequenceBuilder(startRed)
+//                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
+//                .build();
+//
+//        Park = drive.trajectorySequenceBuilder(backboard.end())
+//                .lineTo(new Vector2d(14.12,-27 ))
+//                .build();
 //        stanga
 
 
@@ -138,6 +139,8 @@ public class Doamne extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(14.12,-27 ))
                                 .build();
+                        break;
+
                     }
 
                     case 2: {
@@ -150,6 +153,7 @@ public class Doamne extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(35,-22))
                                 .build();
+                        break;
 
                     }
                     case 3: {
@@ -161,6 +165,7 @@ public class Doamne extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(39.5,-23.2 ))
                                 .build();
+                        break;
                     }
                 }
             }
