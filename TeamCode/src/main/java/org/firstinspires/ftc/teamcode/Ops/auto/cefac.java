@@ -10,8 +10,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -24,7 +22,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.BluePropThreshold;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -112,8 +109,8 @@ public class cefac extends CommandOpMode {
 
         while (opModeInInit() && !isStopRequested()) {
             telemetry.addData("Detection", blue.detection);
-            telemetry.addData("Right value", blue.rightSum);
-            telemetry.addData("Middle value", blue.middleSum);
+            telemetry.addData("Left value", blue.leftSum);
+            telemetry.addData("Niddle value", blue.middleSum);
             telemetry.update();
 
             if(!started){
@@ -124,6 +121,8 @@ public class cefac extends CommandOpMode {
                 detect = blue.detection;
             }
 
+            //pt ce e if-ul asta aici?
+            finished = true;
             if(finished){
                 finished=false;
                 follow=true;
@@ -137,6 +136,7 @@ public class cefac extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(40,25.6))
                                 .build();
+                        break;
                     }
 
                     case 2: {
@@ -148,6 +148,7 @@ public class cefac extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(35,14))
                                 .build();
+                        break;
                     }
                     case 3: {
                         backboard = drive.trajectorySequenceBuilder(startBlue)
@@ -158,6 +159,7 @@ public class cefac extends CommandOpMode {
                         Park = drive.trajectorySequenceBuilder(backboard.end())
                                 .lineTo(new Vector2d(18,28))
                                 .build();
+                        break;
                     }
                 }
             }

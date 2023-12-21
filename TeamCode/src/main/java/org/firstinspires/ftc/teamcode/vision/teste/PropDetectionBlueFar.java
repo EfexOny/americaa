@@ -18,14 +18,15 @@ public class PropDetectionBlueFar implements VisionProcessor {
 
     public int detection = 2;
 
-    public static int rightRectX1 = 600, rightRectY1 = 150;
-    public static int rightRectX2 = 520, rightRectY2 = 260;
+    public static int rightRectX1 = 40, rightRectY1 = 150;
+    public static int rightRectX2 = 120, rightRectY2 = 260;
 
-    public static double rightThresh = 300000;
-    public double rightSum = 0;
+    public static double leftTresh = 400000;
+    public double leftSum = 0;
 
     public static int middleRectX1 = 280, middleRectY1 = 150;
     public static int middleRectX2 = 380, middleRectY2 = 260;
+    //640 x 480
 
     public static double middleThresh = 1000000;
     public double middleSum = 0;
@@ -51,17 +52,17 @@ public class PropDetectionBlueFar implements VisionProcessor {
 
         Core.inRange(workingMat, lowThresh, highThresh, workingMat);
 
-        rightSum = Core.sumElems(workingMat.submat(rightRect)).val[0];
+        leftSum = Core.sumElems(workingMat.submat(rightRect)).val[0];
         middleSum = Core.sumElems(workingMat.submat(middleRect)).val[0];
 
         Imgproc.rectangle(frame, rightRect, new Scalar(0,255,0), 5);
         Imgproc.rectangle(frame, middleRect, new Scalar(0,255,0), 5);
 
-        if(rightSum > rightThresh)
-            detection = 3;
+        if(leftSum > leftTresh)
+            detection = 1;
         else if (middleSum > middleThresh)
             detection = 2;
-        else detection = 1;
+        else detection = 3;
 
 //        workingMat.copyTo(frame);
 

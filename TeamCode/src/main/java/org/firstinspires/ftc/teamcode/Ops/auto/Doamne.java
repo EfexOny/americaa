@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,7 +21,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionRedFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
@@ -112,7 +110,7 @@ public class Doamne extends CommandOpMode {
 
         while (opModeInInit() && !isStopRequested()) {
             telemetry.addData("Detection", red.detection);
-            telemetry.addData("Right value", red.leftSum);
+            telemetry.addData("Right value", red.rightSum);
             telemetry.addData("Middle value", red.middleSum);
             telemetry.update();
 
@@ -128,7 +126,7 @@ public class Doamne extends CommandOpMode {
 
             if(finished){
                 finished=false;
-                follow=true;
+//                follow=true;
                 switch (detect) {
                     case 1: {
                         backboard = drive.trajectorySequenceBuilder(startRed)
@@ -137,7 +135,7 @@ public class Doamne extends CommandOpMode {
                                 .build();
 
                         Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(14.12,-27 ))
+                                .lineToLinearHeading(new Pose2d(7,-44, Math.toRadians(120) ))
                                 .build();
                         break;
 
