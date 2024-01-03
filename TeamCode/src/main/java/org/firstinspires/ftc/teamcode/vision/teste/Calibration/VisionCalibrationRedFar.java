@@ -30,7 +30,7 @@ public class VisionCalibrationRedFar extends LinearOpMode {
 
         while (opModeInInit() && !isStopRequested()) {
             telemetry.addData("Detection", processor.detection);
-            telemetry.addData("Left value", processor.rightSum);
+            telemetry.addData("Left value", processor.leftSum);
             telemetry.addData("Middle value", processor.middleSum);
             telemetry.update();
         }

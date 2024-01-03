@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 public class Creier extends CommandOpMode {
-
     public Lift lift;
     public Cuva cuva;
     public Virtualbar virtualbar;

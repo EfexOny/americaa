@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -30,7 +31,7 @@ public class VisionCalibrationBlueFar extends LinearOpMode {
 
         while (opModeInInit() && !isStopRequested()) {
             telemetry.addData("Detection", processor.detection);
-            telemetry.addData("Right value", processor.leftSum);
+            telemetry.addData("Right value", processor.rightSum);
             telemetry.addData("Middle value", processor.middleSum);
             telemetry.update();
         }

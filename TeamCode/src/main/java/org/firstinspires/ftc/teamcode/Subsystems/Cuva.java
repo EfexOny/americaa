@@ -41,6 +41,8 @@ public class Cuva extends SubsystemBase {
 
     }
 
+
+
     public Command close(){
         return new InstantCommand(
                 () -> {
