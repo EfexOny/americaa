@@ -7,19 +7,26 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.hardware.ams.AMSColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Subsystems.SenzorTrigger;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 @TeleOp(name="ruble")
 public class tele extends Creier {
-    boolean jos = false,dus = false;
+    Trigger test;
 
 
     @Override
     public void initialize() {
 
+        Trigger test = new Trigger(() -> SenzorTrigger.getSt(b1));
+        Trigger test2 = new Trigger(() -> SenzorTrigger.getSt(b2));
 
         initHardware();
 
+        test.toggleWhenActive(virtualbar.closesep(false));
+        test2.toggleWhenActive(virtualbar.closesep(true));
+
+        test.and(test2).toggleWhenActive(virtualbar.cekkt());
 
         gheara_principala = new GamepadButton(d2, GamepadKeys.Button.A).toggleWhenPressed(virtualbar.Open_wide());
         gheara_secundara = new GamepadButton(d2, GamepadKeys.Button.B).toggleWhenPressed(cuva.close(),cuva.open());
@@ -71,10 +78,8 @@ public class tele extends Creier {
     public void run() {
         telemetry.addData("target pos",lift.getLiftPosition());
         telemetry.addData("ticks",lift.getTciks());
-        telemetry.addData("b1",virtualbar.b1());
-        telemetry.addData("b2",virtualbar.b2());
-        telemetry.addData("jos",virtualbar.jos());
-        telemetry.addData("dus",virtualbar.dus());
+        telemetry.addData("b1",test.get());
+        telemetry.addData("b2",test2.get());
         telemetry.update();
 
 

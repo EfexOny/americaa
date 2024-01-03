@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
@@ -18,6 +19,7 @@ public class Creier extends CommandOpMode {
     public Virtualbar virtualbar;
 
     Motor lf,rf,rb,lb;
+    DigitalChannel b1,b2;
     public GamepadEx d1,d2;
     public DriveSubsystem drive;
 
@@ -35,7 +37,8 @@ public class Creier extends CommandOpMode {
 
 
     public void initHardware(){
-
+        b1 = hardwareMap.get(DigitalChannel.class,"b1");
+        b2 = hardwareMap.get(DigitalChannel.class,"b2");
         lf = new Motor(hardwareMap, "lf");
         rf = new Motor(hardwareMap, "rf");
         lb = new Motor(hardwareMap, "lr");
