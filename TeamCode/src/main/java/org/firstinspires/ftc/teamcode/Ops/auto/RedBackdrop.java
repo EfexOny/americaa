@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -22,13 +21,13 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionRedFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
 @Autonomous(name = "red backdrop")
-public class Doamne extends CommandOpMode {
+@SuppressWarnings("unused")
+public class RedBackdrop extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
@@ -41,14 +40,12 @@ public class Doamne extends CommandOpMode {
     public Cuva cuva;
     ElapsedTime timer = new ElapsedTime();
 
-    boolean started=false,finished=false,follow=false;
+    boolean started=false;
     int  detect=2;
 
 
     @Override
     public void initialize() {
-
-
 
         red = new PropDetectionRedFar();
 
@@ -122,49 +119,43 @@ public class Doamne extends CommandOpMode {
                 detect = red.detection;
             }
 
-            finished = true;
+            switch (detect) {
+                case 3: {
+                    backboard = drive.trajectorySequenceBuilder(startRed)
+                            .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
+                            .build();
 
-            if(finished){
-                finished=false;
-                follow=true;
-                switch (detect) {
-                    case 3: {
-                        backboard = drive.trajectorySequenceBuilder(startRed)
-                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(48,-28.5,Math.toRadians(170)),Math.toRadians(0))
-                                .build();
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineToLinearHeading(new Pose2d(7,-44, Math.toRadians(120) ))
+                            .build();
+                    break;
 
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineToLinearHeading(new Pose2d(7,-44, Math.toRadians(120) ))
-                                .build();
-                        break;
+                }
 
-                    }
+                case 2: {
 
-                    case 2: {
+                    backboard = drive.trajectorySequenceBuilder(startRed)
+                            .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
+                            .build();
 
-                        backboard = drive.trajectorySequenceBuilder(startRed)
-                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(48,-35,Math.toRadians(170)),Math.toRadians(0))
-                                .build();
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(35,-22))
+                            .build();
+                    break;
 
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(35,-22))
-                                .build();
-                        break;
+                }
+                case 1: {
+                    backboard = drive.trajectorySequenceBuilder(startRed)
+                            .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
+                            .build();
 
-                    }
-                    case 1: {
-                        backboard = drive.trajectorySequenceBuilder(startRed)
-                                .splineToConstantHeading(new Vector2d(32,-44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(48,-40,Math.toRadians(170)),Math.toRadians(0))
-                                .build();
-
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(39,-22.2 ))
-                                .build();
-                        break;
-                    }
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(39,-22.2 ))
+                            .build();
+                    break;
                 }
             }
 
@@ -183,7 +174,7 @@ public class Doamne extends CommandOpMode {
                         new BackDropCommand(lift,cuva),
                         new WaitCommand(1000),
                         new FollowTrajectoryCommand(Park,drive),
-                       vbar.vbarjos(),
+                        vbar.vbarjos(),
                         new DelayedCommand(vbar.Open(),300)
                 )
         );

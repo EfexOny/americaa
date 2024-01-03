@@ -26,6 +26,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
 @Autonomous(name = "blue stage")
+@SuppressWarnings("unused")
 public class BlueStage extends CommandOpMode {
 
     public static SampleMecanumDrive drive;

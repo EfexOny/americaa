@@ -26,6 +26,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
 @Autonomous(name = "red stage")
+@SuppressWarnings("unused")
 public class RedStage extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
@@ -86,7 +87,7 @@ public class RedStage extends CommandOpMode {
                         telemetry.addData("Detection", "Did not detect yet");
                 }
 
-                telemetry.addData("Right value", red.rightSum);
+                telemetry.addData("Right value", red.leftSum);
                 telemetry.addData("Middle value", red.middleSum);
                 telemetry.update();
 

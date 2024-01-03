@@ -6,11 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.robocol.Command;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -28,7 +26,8 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
 @Autonomous(name = "blue backdrop")
-public class cefac extends CommandOpMode {
+@SuppressWarnings("unused")
+public class BlueBackdrop extends CommandOpMode {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
@@ -41,7 +40,7 @@ public class cefac extends CommandOpMode {
     public Cuva cuva;
     ElapsedTime timer = new ElapsedTime();
 
-    boolean started=false,finished=false,follow=false;
+    boolean started=false;
 
     int  detect=2;
 
@@ -118,55 +117,45 @@ public class cefac extends CommandOpMode {
                 detect = blue.detection;
             }
 
-            finished = true;
+            switch (detect) {
+                case 1: {
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
 
-            if(finished){
-                finished=false;
-                follow=true;
-                switch (detect) {
-                    case 1: {
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineToLinearHeading(new Pose2d(7,44, Math.toRadians(120) ))
+                            .build();
+                    break;
 
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineToLinearHeading(new Pose2d(7,44, Math.toRadians(120) ))
-                                .build();
-                        break;
+                }
 
-                    }
+                case 2: {
 
-                    case 2: {
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
 
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineTo(new Vector2d(35,14))
+                            .build();
+                    break;
 
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineTo(new Vector2d(35,14))
-                                .build();
-                        break;
+                }
+                case 3: {
+                    backboard = drive.trajectorySequenceBuilder(startBlue)
+                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
+                            .build();
 
-                    }
-                    case 3: {
-                        backboard = drive.trajectorySequenceBuilder(startBlue)
-                                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
-                                .build();
-
-                        Park = drive.trajectorySequenceBuilder(backboard.end())
-                                .lineToLinearHeading(new Pose2d(34,44, Math.toRadians(235)))
-                                .build();
-                        break;
-                    }
+                    Park = drive.trajectorySequenceBuilder(backboard.end())
+                            .lineToLinearHeading(new Pose2d(34,44, Math.toRadians(235)))
+                            .build();
+                    break;
                 }
             }
-
-
-
-
     }
 
 
