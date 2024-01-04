@@ -93,6 +93,7 @@ public class BlueStage extends CommandOpMode {
 
                 detect = blue.detection;
             } else switch (detect) {
+
                 case 1:
                     spikemark = drive.trajectorySequenceBuilder(startBlue)
                             .lineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(315)))
@@ -106,6 +107,7 @@ public class BlueStage extends CommandOpMode {
                             .splineToConstantHeading(new Vector2d(60, 9), Math.toRadians(0))
                             .build();
                     break;
+
                 case 2:
                     spikemark = drive.trajectorySequenceBuilder(startBlue)
                             .lineToConstantHeading(new Vector2d(-35, 36))
@@ -119,8 +121,10 @@ public class BlueStage extends CommandOpMode {
                     park = drive.trajectorySequenceBuilder(backboard.end())
                             .splineToConstantHeading(new Vector2d(60, 9), Math.toRadians(0))
                             .build();
+
                     break;
                 case 3:
+
                     spikemark = drive.trajectorySequenceBuilder(startBlue)
                             .lineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(240)))
                             .build();
@@ -139,6 +143,7 @@ public class BlueStage extends CommandOpMode {
 
             schedule(
                     new SequentialCommandGroup(
+                            vbar.Close(),
                             vbar.Vbar_Idle(),
                             cuva.close(),
                             new FollowTrajectoryCommand(spikemark, drive),
@@ -147,8 +152,7 @@ public class BlueStage extends CommandOpMode {
                             new FollowTrajectoryCommand(backboard, drive),
                             new BackDropCommand(lift,cuva),
                             new WaitCommand(1000),
-                            new FollowTrajectoryCommand(park, drive),
-                            new InstantCommand(() -> finished=true)
+                            new FollowTrajectoryCommand(park, drive)
                     )
             );
         }

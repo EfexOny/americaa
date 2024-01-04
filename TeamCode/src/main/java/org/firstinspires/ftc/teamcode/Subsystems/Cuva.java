@@ -79,14 +79,14 @@ public class Cuva extends SubsystemBase {
     public SequentialCommandGroup afterparty(){
         return new SequentialCommandGroup(
                 cuva_inapoi(),
-                new WaitCommand(200),
+                new WaitCommand(600),
                 open(),
                 new WaitCommand(300),
                 close(),
                 new WaitCommand(700),
                 cuva_arunca(),
                 new WaitCommand(300),
-                open_insprejos(),
+                open(),
                 new WaitCommand(300),
                 lift.goLift(0)
         );

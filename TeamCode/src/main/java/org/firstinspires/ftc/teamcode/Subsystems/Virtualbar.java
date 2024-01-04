@@ -99,7 +99,10 @@ public class Virtualbar extends SubsystemBase{
                 new WaitCommand(900),
                 Open(),
                 new WaitCommand(800),
+                Close(),
                 Vbar_Idle()
+
+
         );
     }
 

@@ -94,6 +94,7 @@ public class RedStage extends CommandOpMode {
                 detect = red.detection;
             } else switch (detect) {
                 case 1:
+
                     spikemark = drive.trajectorySequenceBuilder(startRed)
                             .lineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(135)))
                             .build();
@@ -106,7 +107,9 @@ public class RedStage extends CommandOpMode {
                             .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
                             .build();
                     break;
+
                 case 2:
+
                     spikemark = drive.trajectorySequenceBuilder(startRed)
                             .lineToConstantHeading(new Vector2d(-35, -36))
                             .build();
@@ -120,7 +123,9 @@ public class RedStage extends CommandOpMode {
                             .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
                             .build();
                     break;
+
                 case 3:
+
                     spikemark = drive.trajectorySequenceBuilder(startRed)
                             .lineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(30)))
                             .build();
@@ -133,12 +138,14 @@ public class RedStage extends CommandOpMode {
                             .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
                             .build();
                     break;
+
             }
 
             waitForStart();
 
             schedule(
                     new SequentialCommandGroup(
+                            vbar.Close(),
                             vbar.Vbar_Idle(),
                             cuva.close(),
                             new FollowTrajectoryCommand(spikemark, drive),
@@ -147,8 +154,7 @@ public class RedStage extends CommandOpMode {
                             new FollowTrajectoryCommand(backboard, drive),
                             new BackDropCommand(lift,cuva),
                             new WaitCommand(1000),
-                            new FollowTrajectoryCommand(park, drive),
-                            new InstantCommand(() -> finished=true)
+                            new FollowTrajectoryCommand(park, drive)
                     )
             );
         }

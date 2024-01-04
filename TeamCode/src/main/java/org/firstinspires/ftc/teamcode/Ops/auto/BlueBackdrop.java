@@ -121,11 +121,11 @@ public class BlueBackdrop extends CommandOpMode {
                 case 1: {
                     backboard = drive.trajectorySequenceBuilder(startBlue)
                             .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(52.48,29  ,Math.toRadians(180)),Math.toRadians(0))
                             .build();
 
                     Park = drive.trajectorySequenceBuilder(backboard.end())
-                            .lineToLinearHeading(new Pose2d(7,44, Math.toRadians(120) ))
+                            .lineToLinearHeading(new Pose2d(13,44, Math.toRadians(220) ))
                             .build();
                     break;
 
@@ -135,11 +135,11 @@ public class BlueBackdrop extends CommandOpMode {
 
                     backboard = drive.trajectorySequenceBuilder(startBlue)
                             .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(51.48,34,Math.toRadians(180)),Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(54,34,Math.toRadians(180)),Math.toRadians(0))
                             .build();
 
                     Park = drive.trajectorySequenceBuilder(backboard.end())
-                            .lineTo(new Vector2d(35,14))
+                            .lineToLinearHeading(new Pose2d(25.3,35,Math.toRadians(240)))
                             .build();
                     break;
 
@@ -147,11 +147,11 @@ public class BlueBackdrop extends CommandOpMode {
                 case 3: {
                     backboard = drive.trajectorySequenceBuilder(startBlue)
                             .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(50.4,44,Math.toRadians(180)),Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(52.48,40,Math.toRadians(180)),Math.toRadians(0))
                             .build();
 
                     Park = drive.trajectorySequenceBuilder(backboard.end())
-                            .lineToLinearHeading(new Pose2d(34,44, Math.toRadians(235)))
+                            .lineToLinearHeading(new Pose2d(30,43, Math.toRadians(250)))
                             .build();
                     break;
                 }
