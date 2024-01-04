@@ -134,12 +134,12 @@ public class BlueBackdrop extends CommandOpMode {
                 case 2: {
 
                     backboard = drive.trajectorySequenceBuilder(startBlue)
-                            .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
+                            .splineToConstantHeading(new Vector2d(35,44.5),Math.toRadians(270))
                             .splineToLinearHeading(new Pose2d(54,34,Math.toRadians(180)),Math.toRadians(0))
                             .build();
 
                     Park = drive.trajectorySequenceBuilder(backboard.end())
-                            .lineToLinearHeading(new Pose2d(25.3,35,Math.toRadians(240)))
+                            .lineToLinearHeading(new Pose2d(25.3,35,Math.toRadians(250)))
                             .build();
                     break;
 
