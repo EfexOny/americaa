@@ -124,7 +124,6 @@ public class BlueBackdrop extends CommandOpMode {
             } else {
                 telemetry.addData("Detection", "Complete");
                 telemetry.addData("Case", detect);
-                telemetry.update();
 
                 if (!trajectoriesCreated) {
 
@@ -182,7 +181,9 @@ public class BlueBackdrop extends CommandOpMode {
 
                     }
                     trajectoriesCreated = true;
+                    telemetry.addData("Trajectories", "Created");
                 }
+                telemetry.update();
             }
         }
 
