@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Ops;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
+import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -25,7 +26,9 @@ public class Creier extends CommandOpMode {
 
     DriveCommand mergi;
     Button turbo;
+    ButtonReader nivel;
     Button vbar_idle,auto_deposit,auto_grab;
+
     Button gheara_principala,gheara_secundara,vbarsus,vbarjos;
     Trigger cova1,cova2;
     Button lift_stanga,lift_dreapta;

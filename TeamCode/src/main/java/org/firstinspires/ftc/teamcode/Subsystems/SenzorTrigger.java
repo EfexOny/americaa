@@ -10,4 +10,5 @@ public class SenzorTrigger extends Trigger {
     public static boolean getSt(DigitalChannel b) {
         return b.getState();
     }
+
 }

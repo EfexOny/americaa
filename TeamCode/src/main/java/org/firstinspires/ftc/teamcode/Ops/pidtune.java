@@ -17,10 +17,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class pidtune extends OpMode {
 
     DcMotor left,right;
-    public static double kP = 0.0041 ;
+    public static double kP = 0.0074 ;
     public static double kI = 0;
     public static double kD = 0;
-    public static double kF = 0.0004;
+    public static double kF = 0.0001;
     public static int liftTargetPos = 0;
     public static PIDController pid;
 
@@ -34,8 +34,8 @@ public class pidtune extends OpMode {
         left = hardwareMap.get(DcMotor.class,"stanga_lift");
         right = hardwareMap.get(DcMotor.class,"dreapta_lift");
 
-        left.setDirection(DcMotorSimple.Direction.REVERSE);
-        right.setDirection(DcMotorSimple.Direction.REVERSE);
+//        left.setDirection(DcMotorSimple.Direction.REVERSE);
+//        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
