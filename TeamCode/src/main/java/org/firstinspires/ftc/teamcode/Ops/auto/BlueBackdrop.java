@@ -19,6 +19,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
+import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
@@ -33,6 +34,9 @@ public class BlueBackdrop extends CommandOpMode {
     Virtualbar vbar;
     TrajectorySequence backboard;
     TrajectorySequence parkare;
+
+    TrajectorySequence backboard1,backboard2,backboard3;
+
 
     TrajectorySequence spikemark;
     Pose2d startBlue = new Pose2d(11, 60, Math.toRadians(270));
@@ -103,6 +107,20 @@ public class BlueBackdrop extends CommandOpMode {
 //        Park = drive.trajectorySequenceBuilder(backboard.end())
 //                .lineTo(new Vector2d(40,25.6))
 //                .build();
+
+        backboard1 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(56.2, 44, Math.toRadians(190)), Math.toRadians(0))
+                .build();
+
+        backboard2 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToConstantHeading(new Vector2d(33, 41.5), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(57, 35, Math.toRadians(193)), Math.toRadians(0))
+                .build();
+        backboard3 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(58.5, 32, Math.toRadians(193)), Math.toRadians(0))
+                .build();
 
 
 
@@ -196,7 +214,8 @@ public class BlueBackdrop extends CommandOpMode {
                         vbar.Vbar_Idle(),
                         new WaitCommand(1000),
                         cuva.close(),
-                        new FollowTrajectoryCommand(backboard, drive),
+//                        new FollowTrajectoryCommand(backboard, drive),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true),
                         new BackDropCommand(lift,cuva),
                         new WaitCommand(1000),
                         vbar.vbarjos(),

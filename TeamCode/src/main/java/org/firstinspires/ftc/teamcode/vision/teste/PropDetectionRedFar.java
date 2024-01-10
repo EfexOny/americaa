@@ -20,7 +20,7 @@ public class PropDetectionRedFar implements VisionProcessor {
     public static int leftRectX1 = 600, leftRectY1 = 150;
     public static int leftRectX2 = 520, leftRectY2 = 260;
 
-
+    public static double MERGE  = 100000;
     public static double leftThresh = 800000;
     public double leftSum = 0;
 
@@ -57,11 +57,21 @@ public class PropDetectionRedFar implements VisionProcessor {
         Imgproc.rectangle(frame, leftRect, new Scalar(0,255,0), 5);
         Imgproc.rectangle(frame, middleRect, new Scalar(0,255,0), 5);
 
-        if(leftSum > leftThresh)
-            detection = 1;
-        else if (middleSum > middleThresh)
-            detection = 2;
-        else detection = 3;
+        if (leftSum > MERGE || middleSum > MERGE) {
+            if (leftSum > middleSum) {
+                detection = 1;
+            } else if (leftSum < middleSum) {
+                detection = 2;
+            } else {
+                detection = 3;
+            }
+        }
+
+//        if(leftSum > leftThresh)
+//            detection = 1;
+//        else if (middleSum > middleThresh)
+//            detection = 2;
+//        else detection = 3;
 
 //        workingMat.copyTo(frame);
 
@@ -69,7 +79,6 @@ public class PropDetectionRedFar implements VisionProcessor {
 
         return null;
     }
-
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
 
