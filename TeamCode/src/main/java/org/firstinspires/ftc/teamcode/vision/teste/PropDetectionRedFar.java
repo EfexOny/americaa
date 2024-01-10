@@ -60,7 +60,7 @@ public class PropDetectionRedFar implements VisionProcessor {
         if (leftSum > MERGE || middleSum > MERGE) {
             if (leftSum > middleSum) {
                 detection = 1;
-            } else if (leftSum < middleSum) {
+            } else if (middleSum > leftSum) {
                 detection = 2;
             } else {
                 detection = 3;

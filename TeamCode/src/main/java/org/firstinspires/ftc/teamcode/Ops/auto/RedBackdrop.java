@@ -129,7 +129,7 @@ public class RedBackdrop extends CommandOpMode {
                         case 3:
                             backboard = drive.trajectorySequenceBuilder(startRed)
                                     .splineToConstantHeading(new Vector2d(33, -44), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(58.5, -32, Math.toRadians(90)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53, -32, Math.toRadians(170)), Math.toRadians(0))
                                     .build();
 
                             spikemark = drive.trajectorySequenceBuilder(backboard.end())
@@ -137,7 +137,7 @@ public class RedBackdrop extends CommandOpMode {
                                     .build();
 
                             parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, -53, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
                                     .lineTo(new Vector2d(60, -60))
                                     .build();
                             break;
@@ -146,14 +146,14 @@ public class RedBackdrop extends CommandOpMode {
 
                             backboard = drive.trajectorySequenceBuilder(startRed)
                                     .splineToConstantHeading(new Vector2d(33, -41), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(56, -35, Math.toRadians(160)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53, -35, Math.toRadians(170)), Math.toRadians(0))
                                     .build();
 
                             spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(27, -38, Math.toRadians(110)))
+                                    .lineToLinearHeading(new Pose2d(27, -32, Math.toRadians(110)))
                                     .build();
                             parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, -53, Math.toRadians(180)))
+                                    .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
                                     .lineTo(new Vector2d(60, -60))
                                     .build();
                             break;
@@ -161,14 +161,14 @@ public class RedBackdrop extends CommandOpMode {
                         case 1:
                             backboard = drive.trajectorySequenceBuilder(startRed)
                                     .splineToConstantHeading(new Vector2d(33, -44), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(56.2, -44, Math.toRadians(10)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53, -44, Math.toRadians(170)), Math.toRadians(0))
                                     .build();
 
                             spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(31, -50, Math.toRadians(70)))
+                                    .lineToLinearHeading(new Pose2d(27, -50, Math.toRadians(97)))
                                     .build();
                             parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, -53, Math.toRadians(0)))
+                                    .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
                                     .lineTo(new Vector2d(60, -60))
                                     .build();
                             break;
