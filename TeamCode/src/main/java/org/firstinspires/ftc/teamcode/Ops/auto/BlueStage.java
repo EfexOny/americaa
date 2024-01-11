@@ -44,8 +44,10 @@ public class BlueStage extends CommandOpMode {
     boolean started=false,finished=false,follow=false;
     int  detect=2;
 
+
     @Override
     public void initialize() {
+
 
         blue = new PropDetectionBlueFar();
 
@@ -68,11 +70,11 @@ public class BlueStage extends CommandOpMode {
         drive.setPoseEstimate(startBlue);
 
         while (opModeInInit() && !isStopRequested()) {
-            if(!started){
+            if (!started) {
                 timer.reset();
-                started=true;
+                started = true;
             }
-            if(timer.seconds() < 4) {
+            if (timer.seconds() < 4) {
                 switch (blue.detection) {
                     case 1:
                         telemetry.addData("Detection", "stanga");
@@ -87,9 +89,11 @@ public class BlueStage extends CommandOpMode {
                         telemetry.addData("Detection", "Did not detect yet");
                 }
 
-                telemetry.addData("Right value", blue.rightSum);
+                telemetry.addData("Right value", blue.rightSum);//UNDES MOTOARELE MOTATULE FUTUTEBN GURA SA TE FUT IN PIZDA
+
+
                 telemetry.addData("Middle value", blue.middleSum);
-                telemetry.update();
+                telemetry.update();//valera entering sugemar de pula mode futemas intrun passerati
 
                 detect = blue.detection;
             } else switch (detect) {
@@ -99,12 +103,12 @@ public class BlueStage extends CommandOpMode {
                             .lineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(315)))
                             .build();
                     backboard = drive.trajectorySequenceBuilder(spikemark.end())
-                            .lineToLinearHeading(new Pose2d(-35, 24, Math.toRadians(270)))
+                            .lineToLinearHeading(new Pose2d(-35, 25.5, Math.toRadians(270)))
                             .splineTo(new Vector2d(12, 12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, 35, Math.toRadians(170)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(54, 35, Math.toRadians(170)), Math.toRadians(0))
                             .build();
                     park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, 9), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(60, 11), Math.toRadians(0))
                             .build();
                     break;
 
@@ -116,39 +120,47 @@ public class BlueStage extends CommandOpMode {
                             .strafeTo(new Vector2d(-56, 32))
                             .forward(6)
                             .splineTo(new Vector2d(12, 12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, 35, Math.toRadians(170)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(54, 35, Math.toRadians(170)), Math.toRadians(0))
                             .build();
                     park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, 9), Math.toRadians(0))
+                            .splineToConstantHeading(new Vector2d(60, 11), Math.toRadians(0))
                             .build();
 
                     break;
                 case 3:
 
                     spikemark = drive.trajectorySequenceBuilder(startBlue)
-                            .lineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(240)))
+                            .lineToLinearHeading(new Pose2d(-34, 36, Math.toRadians(240)))
                             .build();
                     backboard = drive.trajectorySequenceBuilder(spikemark.end())
-                            .lineToLinearHeading(new Pose2d(-35, 24, Math.toRadians(270)))
+                            .turn(Math.toRadians(30))
+                            .lineToLinearHeading(new Pose2d(-32, 23, Math.toRadians(270)))
                             .splineTo(new Vector2d(24, 12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, 35, Math.toRadians(170)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(54, 35, Math.toRadians(175)), Math.toRadians(0))
                             .build();
                     park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, 9), Math.toRadians(0))
+
+                            .lineTo(new Vector2d(50, 7))
+                            .lineTo(new Vector2d(60, 15))
                             .build();
+
                     break;
             }
-
+        }
             waitForStart();
 
             schedule(
                     new SequentialCommandGroup(
                             vbar.Close(),
                             vbar.Vbar_Idle(),
+                            new WaitCommand(1000),
                             cuva.close(),
-                            new FollowTrajectoryCommand(spikemark, drive),
-                            new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open()),
-                            new DelayedCommand(vbar.Vbar_Idle(), 100),
+                            new WaitCommand(1000),
+                            vbar.vbarjos(),
+                            new FollowTrajectoryCommand(spikemark,drive),
+                            new DelayedCommand(vbar.Open(),650),
+                            new DelayedCommand(vbar.Vbar_Idle(),1000),
+                            new WaitCommand(1000),
                             new FollowTrajectoryCommand(backboard, drive),
                             new BackDropCommand(lift,cuva),
                             new WaitCommand(1000),
@@ -156,7 +168,6 @@ public class BlueStage extends CommandOpMode {
                     )
             );
         }
-    }
     @Override
     public void run() {
         super.run();

@@ -35,7 +35,7 @@ public class BlueBackdrop extends CommandOpMode {
     TrajectorySequence backboard;
     TrajectorySequence parkare;
 
-    TrajectorySequence backboard1,backboard2,backboard3;
+    TrajectorySequence backboard1,backboard2,backboard3,spikemark1,spikemark2,spikemark3,parkare1,parkare2,parkare3;
 
 
     TrajectorySequence spikemark;
@@ -74,137 +74,133 @@ public class BlueBackdrop extends CommandOpMode {
 
 
 
-// CENTRU
-//        backboard = drive.trajectorySequenceBuilder(startBlue)
-//                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-//                .splineToLinearHeading(new Pose2d(51.48,37,Math.toRadians(180)),Math.toRadians(0))
-//                .build();
-//
-//        Park = drive.trajectorySequenceBuilder(backboard.end())
-//                .lineTo(new Vector2d(35,14))
-//                .build();
-// CENTRU
-
-
-// DREAPTA
-//        backboard = drive.trajectorySequenceBuilder(startBlue)
-//                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-//                .splineToLinearHeading(new Pose2d(50.4,33,Math.toRadians(180)),Math.toRadians(0))
-//                .build();
-//
-//        Park = drive.trajectorySequenceBuilder(backboard.end())
-//                .lineTo(new Vector2d(18,28))
-//                .build();
-// DREAPTA
-
-
-//
-//        backboard = drive.trajectorySequenceBuilder(startBlue)
-//                .splineToConstantHeading(new Vector2d(33,44),Math.toRadians(270))
-//                .splineToLinearHeading(new Pose2d(49.8,40,Math.toRadians(180)),Math.toRadians(0))
-//                .build();
-//
-//        Park = drive.trajectorySequenceBuilder(backboard.end())
-//                .lineTo(new Vector2d(40,25.6))
-//                .build();
-
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
                 .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(56.2, 44, Math.toRadians(190)), Math.toRadians(0))
                 .build();
+        spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
+                .lineToLinearHeading(new Pose2d(31, 50, Math.toRadians(250)))
+                .build();
+        parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
+                .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+                .lineTo(new Vector2d(60, 60))
+                .build();
+
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
                 .splineToConstantHeading(new Vector2d(33, 41.5), Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(57, 35, Math.toRadians(193)), Math.toRadians(0))
                 .build();
+        spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
+                .lineToLinearHeading(new Pose2d(27, 38.7, Math.toRadians(250)))
+                .build();
+        parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
+                .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+                .lineTo(new Vector2d(60, 60))
+                .build();
+
+
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
                 .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(58.5, 32, Math.toRadians(193)), Math.toRadians(0))
+                .build();
+        spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
+                .lineToLinearHeading(new Pose2d(18, 41, Math.toRadians(220)))
+                .build();
+
+        parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
+                .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+                .lineTo(new Vector2d(60, 60))
                 .build();
 
 
 
         boolean trajectoriesCreated = false;
         while (opModeInInit() && !isStopRequested()) {
-
-
-            if(!started){
-                timer.reset();
-                started=true;
-            }
-            if(timer.seconds() < 3) {
-                detect = blue.detection;
-                telemetry.addData("Detection", detect);
-                telemetry.addData("Right value", blue.rightSum);
-                telemetry.addData("Middle value", blue.middleSum);
-                telemetry.addData("Seconds Left", 3 - timer.seconds());
-                telemetry.update();
-            } else {
-                telemetry.addData("Detection", "Complete");
-                telemetry.addData("Case", detect);
-
-                if (!trajectoriesCreated) {
-
-                    switch (detect) {
-                        case 3:
-                            backboard = drive.trajectorySequenceBuilder(startBlue)
-                                    .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
-                                    .splineToLinearHeading(new Pose2d(58.5, 32, Math.toRadians(193)), Math.toRadians(0))
-                                    .build();
-
-                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(18, 41, Math.toRadians(220)))
-                                    .build();
-
-                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
-                                    .lineTo(new Vector2d(60, 60))
-                                    .build();
-                            break;
-
-                        case 2:
-
-                            backboard = drive.trajectorySequenceBuilder(startBlue)
-                                    .splineToConstantHeading(new Vector2d(33, 41.5), Math.toRadians(270))
-                                    .splineToLinearHeading(new Pose2d(57, 35, Math.toRadians(193)), Math.toRadians(0))
-                                    .build();
-
-                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(27, 38.7, Math.toRadians(250)))
-                                    .build();
-                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
-                                    .lineTo(new Vector2d(60, 60))
-                                    .build();
-
-
-                            break;
-
-
-                        case 1:
-                            backboard = drive.trajectorySequenceBuilder(startBlue)
-                                    .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
-                                    .splineToLinearHeading(new Pose2d(56.2, 44, Math.toRadians(190)), Math.toRadians(0))
-                                    .build();
-
-                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(31, 50, Math.toRadians(250)))
-                                    .build();
-                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
-                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
-                                    .lineTo(new Vector2d(60, 60))
-                                    .build();
-
-                            break;
-
-                    }
-                    trajectoriesCreated = true;
-                    telemetry.addData("Trajectories", "Created");
-                }
-                telemetry.update();
-            }
+            detect = blue.detection;
+            telemetry.addData("Detection", detect);
+            telemetry.addData("Right value", blue.rightSum);
+            telemetry.addData("Middle value", blue.middleSum);
+            telemetry.update();
         }
 
+            //
+//
+//            if(!started){
+//                timer.reset();
+//                started=true;
+//            }
+//            if(timer.seconds() < 3) {
+//                detect = blue.detection;
+//                telemetry.addData("Detection", detect);
+//                telemetry.addData("Right value", blue.rightSum);
+//                telemetry.addData("Middle value", blue.middleSum);
+//                telemetry.addData("Seconds Left", 3 - timer.seconds());
+//                telemetry.update();
+//            } else {
+//                telemetry.addData("Detection", "Complete");
+//                telemetry.addData("Case", detect);
+//
+//                if (!trajectoriesCreated) {
+//
+//                    switch (detect) {
+//                        case 3:
+//                            backboard = drive.trajectorySequenceBuilder(startBlue)
+//                                    .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
+//                                    .splineToLinearHeading(new Pose2d(58.5, 32, Math.toRadians(193)), Math.toRadians(0))
+//                                    .build();
+//
+//                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
+//                                    .lineToLinearHeading(new Pose2d(18, 41, Math.toRadians(220)))
+//                                    .build();
+//
+//                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
+//                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+//                                    .lineTo(new Vector2d(60, 60))
+//                                    .build();
+//                            break;
+//
+//                        case 2:
+//
+//                            backboard = drive.trajectorySequenceBuilder(startBlue)
+//                                    .splineToConstantHeading(new Vector2d(33, 41.5), Math.toRadians(270))
+//                                    .splineToLinearHeading(new Pose2d(57, 35, Math.toRadians(193)), Math.toRadians(0))
+//                                    .build();
+//
+//                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
+//                                    .lineToLinearHeading(new Pose2d(27, 38.7, Math.toRadians(250)))
+//                                    .build();
+//                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
+//                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+//                                    .lineTo(new Vector2d(60, 60))
+//                                    .build();
+//
+//
+//                            break;
+//
+//
+//                        case 1:
+//                            backboard = drive.trajectorySequenceBuilder(startBlue)
+//                                    .splineToConstantHeading(new Vector2d(33, 44), Math.toRadians(270))
+//                                    .splineToLinearHeading(new Pose2d(56.2, 44, Math.toRadians(190)), Math.toRadians(0))
+//                                    .build();
+//
+//                            spikemark = drive.trajectorySequenceBuilder(backboard.end())
+//                                    .lineToLinearHeading(new Pose2d(31, 50, Math.toRadians(250)))
+//                                    .build();
+//                            parkare = drive.trajectorySequenceBuilder(spikemark.end())
+//                                    .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
+//                                    .lineTo(new Vector2d(60, 60))
+//                                    .build();
+//
+//                            break;
+//
+//                    }
+//                    trajectoriesCreated = true;
+//                    telemetry.addData("Trajectories", "Created");
+//                }
+//                telemetry.update();
+//            }
 
         waitForStart();
 
@@ -219,11 +215,13 @@ public class BlueBackdrop extends CommandOpMode {
                         new BackDropCommand(lift,cuva),
                         new WaitCommand(1000),
                         vbar.vbarjos(),
-                        new FollowTrajectoryCommand(spikemark,drive),
+//                        new FollowTrajectoryCommand(spikemark,drive),
+                        new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true),
                         new DelayedCommand(vbar.Open(),650),
                         new DelayedCommand(vbar.Vbar_Idle(),1000),
                         new WaitCommand(1000),
-                        new FollowTrajectoryCommand(parkare,drive)
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
+//                        new FollowTrajectoryCommand(parkare,drive)
 
                 )
         );
@@ -231,6 +229,8 @@ public class BlueBackdrop extends CommandOpMode {
     @Override
     public void run() {
         super.run();
+        telemetry.addData("caz",detect);
+        telemetry.update();
         }
     }
 

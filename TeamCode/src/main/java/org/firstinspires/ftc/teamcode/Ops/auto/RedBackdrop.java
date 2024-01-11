@@ -129,11 +129,11 @@ public class RedBackdrop extends CommandOpMode {
                         case 3:
                             backboard = drive.trajectorySequenceBuilder(startRed)
                                     .splineToConstantHeading(new Vector2d(33, -44), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(53, -32, Math.toRadians(170)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(54.5, -34.5, Math.toRadians(165)), Math.toRadians(0))
                                     .build();
 
                             spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(18, -41, Math.toRadians(40)))
+                                    .lineToLinearHeading(new Pose2d(14.5, -41, Math.toRadians(130)))
                                     .build();
 
                             parkare = drive.trajectorySequenceBuilder(spikemark.end())
@@ -146,11 +146,11 @@ public class RedBackdrop extends CommandOpMode {
 
                             backboard = drive.trajectorySequenceBuilder(startRed)
                                     .splineToConstantHeading(new Vector2d(33, -41), Math.toRadians(90))
-                                    .splineToLinearHeading(new Pose2d(53, -35, Math.toRadians(170)), Math.toRadians(0))
+                                    .splineToLinearHeading(new Pose2d(53, -36.2, Math.toRadians(170)), Math.toRadians(0))
                                     .build();
 
                             spikemark = drive.trajectorySequenceBuilder(backboard.end())
-                                    .lineToLinearHeading(new Pose2d(27, -32, Math.toRadians(110)))
+                                    .lineToLinearHeading(new Pose2d(27, -33.5, Math.toRadians(110)))
                                     .build();
                             parkare = drive.trajectorySequenceBuilder(spikemark.end())
                                     .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))

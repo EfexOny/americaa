@@ -62,9 +62,10 @@ public class PropDetectionRedFar implements VisionProcessor {
                 detection = 1;
             } else if (middleSum > leftSum) {
                 detection = 2;
-            } else {
-                detection = 3;
             }
+        }
+        else {
+            detection = 3;
         }
 
 //        if(leftSum > leftThresh)
