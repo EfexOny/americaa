@@ -6,9 +6,9 @@ import com.acmerobotics.dashboard.config.Config;
 public class Constants {
 
 
-    public static double vbaridle_stanga=0.11,vbaridle_dreapta=0.85;
-    public static double vbarjos_dreapta	= 1;
-    public static double vbarjos_stanga = 0.03;
+    public static double vbaridle_stanga=0.2,vbaridle_dreapta=0.75;
+    public static double vbarjos_dreapta	= 0.9;
+    public static double vbarjos_stanga = 0.05;
     public static double vbarsus_dreapta	= 0.1;
     public static double vbarsus_stanga= 1;
     public static double inchis_dreapta= 0.6;
