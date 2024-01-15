@@ -118,13 +118,11 @@ public class BlueBackdrop extends CommandOpMode {
                 .build();
         spikemark4 = drive.trajectorySequenceBuilder(backboard4.end())
                 .lineToConstantHeading(new Vector2d(18,24))
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(60,60,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
         parkare4 = drive.trajectorySequenceBuilder(spikemark4.end())
-                .lineToLinearHeading(new Pose2d(33, 53, Math.toRadians(180)))
-                .lineTo(new Vector2d(60, 63))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(60,60,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
 
@@ -225,13 +223,29 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
 //                        new FollowTrajectoryCommand(backboard, drive),
-                        new SpikeMarkCommand(drive,backboard4,backboard4,backboard4,detect,true),
-                        new BackDropCommand(lift,cuva),
+                        new SpikeMarkCommand(drive,backboard4,backboard4,backboard4,detect,true)
+                                .alongWith(lift.goLift(500)),
+                        new WaitCommand(2000),
+                        cuva.cuva_arunca(),
                         new WaitCommand(1000),
+                        cuva.cuva_inapoi(),
+                        new WaitCommand(400),
+                        cuva.open(),
+                        new WaitCommand(500),
+                        cuva.close(),
+                        new WaitCommand(500),
+                        cuva.cuva_arunca(),
+                        new WaitCommand(500),
+                        cuva.open_insprejos(),
+                        new WaitCommand(500),
+                        lift.goLift(0),
+//                        new BackDropCommand(lift,cuva),
+//                        new WaitCommand(1000),
 //                        vbar.vbarjos(),
 //                        new FollowTrajectoryCommand(spikemark,drive),
-                        new SpikeMarkCommand(drive,spikemark4,spikemark4,spikemark4,detect,true),
-//                        new DelayedCommand(vbar.Open(),650),
+                        new SpikeMarkCommand(drive,spikemark4,spikemark4,spikemark4,detect,true)
+                                .alongWith(vbar.Vbar_Idle()),
+                        new DelayedCommand(vbar.Open(),650),
 //                        new DelayedCommand(vbar.Vbar_Idle(),1000),
 //                        new WaitCommand(1500),
                         new SpikeMarkCommand(drive,parkare4,parkare4,parkare4,detect,true)

@@ -110,8 +110,8 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(400),
                 open(),
                 new WaitCommand(500),
-//                lift.goLift(300),
-                new WaitCommand(1000),
+//                lift.goLift(170),
+//                new WaitCommand(1000),
                 lift.goLift(0)
         );
     }
