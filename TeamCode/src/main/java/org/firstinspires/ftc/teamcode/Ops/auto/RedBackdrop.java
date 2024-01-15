@@ -81,20 +81,20 @@ public class RedBackdrop extends CommandOpMode {
                 .build();
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
-                .lineTo(new Vector2d(60, -60))
+                .lineToLinearHeading(new Pose2d(60, -62, Math.toRadians(185)))
                 .build();
 
         backboard2 = drive.trajectorySequenceBuilder(startRed)
                 .splineToConstantHeading(new Vector2d(33, -41), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(53, -36.2, Math.toRadians(170)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, -43, Math.toRadians(163)), Math.toRadians(0))
                 .build();
 
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(27, -33.5, Math.toRadians(110)))
+                .lineToLinearHeading(new Pose2d(27, -34.5, Math.toRadians(110)))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
-                .lineTo(new Vector2d(60, -60))
+                .lineToLinearHeading(new Pose2d(60, -62, Math.toRadians(185)))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(startRed)
@@ -103,12 +103,12 @@ public class RedBackdrop extends CommandOpMode {
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(14.5, -41, Math.toRadians(130)))
+                .lineToLinearHeading(new Pose2d(14.5, -33.5, Math.toRadians(130)))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
-                .lineTo(new Vector2d(60, -60))
+                .lineToLinearHeading(new Pose2d(60, -62, Math.toRadians(190)))
                 .build();
 
         boolean trajectoriesCreated = false;

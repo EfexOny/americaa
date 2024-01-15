@@ -59,7 +59,7 @@ public class tele extends Creier {
 
         turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(0.7));
 
-        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whenHeld(drive.dpad_vertical(true,false))
+        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(drive.dpad_vertical(true,false))
                 .whenReleased(drive.dpad_vertical(false,false));
         dpad2 = new GamepadButton(d1,GamepadKeys.Button.DPAD_DOWN).whileHeld(drive.dpad_vertical(false,true))
                 .whenReleased(drive.dpad_vertical(false,false));

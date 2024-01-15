@@ -64,9 +64,9 @@ public class DriveSubsystem extends SubsystemBase {
     public void rot(boolean stg,boolean dr){
         double valoare=0;
         if(dr)
-            valoare = -0.6;
+            valoare = -0.4;
         if(stg)
-            valoare = 0.6;
+            valoare = 0.4;
 
         m_drive.driveRobotCentric(0,0,valoare);
     }
