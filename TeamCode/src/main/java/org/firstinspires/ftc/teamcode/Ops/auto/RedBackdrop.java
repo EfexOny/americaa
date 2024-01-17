@@ -77,11 +77,11 @@ public class RedBackdrop extends CommandOpMode {
                 .build();
 
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .lineToLinearHeading(new Pose2d(37, -36, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(36.3, -36, Math.toRadians(163)))
                 .build();
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(58,-68,Math.toRadians(163)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(56,-72,Math.toRadians(160)),Math.toRadians(0))
                 .build();
 
         backboard2 = drive.trajectorySequenceBuilder(startRed)
