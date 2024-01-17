@@ -20,12 +20,17 @@ import com.arcrobotics.ftclib.command.ScheduleCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.arcrobotics.ftclib.command.WaitUntilCommand;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.commands.AutoCloseGheara;
 
 import java.util.function.BooleanSupplier;
 
@@ -35,10 +40,16 @@ public class Virtualbar extends SubsystemBase{
 
 //    DigitalChannel b1,b2;
     boolean dus =false,jos=false;
+    DistanceSensor s1,s2;
+    boolean apuca = false;
+    public static double distgheara = 7;
+    public static double jos1=0.5,jos2=0.45;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
     public Virtualbar(HardwareMap hardwareMap){
+        s1 = hardwareMap.get(DistanceSensor.class,"distanta1");
+        s2 = hardwareMap.get(DistanceSensor.class,"distanta2");
 
         barstanga = hardwareMap.get(Servo.class,"vbar_stanga");
         bardreapta = hardwareMap.get(Servo.class,"vbar_dreapta");
@@ -55,6 +66,21 @@ public class Virtualbar extends SubsystemBase{
         super.periodic();
     }
 
+    public boolean dow1(){
+        return  s1.getDistance(DistanceUnit.CM) < distgheara;
+    }
+
+    public boolean dow2(){
+        return  s2.getDistance(DistanceUnit.CM) < distgheara;
+    }
+
+    public BooleanSupplier down1(){
+        return () -> s1.getDistance(DistanceUnit.CM) < distgheara;
+    }
+
+    public BooleanSupplier down2(){
+        return () -> s2.getDistance(DistanceUnit.CM) < distgheara;
+    }
     public Command VSus(){
         return new InstantCommand(
                 ()->  {
@@ -139,6 +165,17 @@ public class Virtualbar extends SubsystemBase{
                     dreapta_principala.setPosition(0.27);}
         );
     }
+
+//    public Command mereutaa(){
+//        return new SequentialCommandGroup(
+//                VJos(),
+//              new InstantCommand(() -> stanga_principala.setPosition(jos1)),
+//                new InstantCommand(() -> dreapta_principala.setPosition(jos2)),
+//                new AutoCloseGheara(cekkt(),() -> ,dow1())
+//        );
+//    }
+
+
     public Command VJos(){
         return new InstantCommand(
                 ()->  {
@@ -151,9 +188,11 @@ public class Virtualbar extends SubsystemBase{
     public ParallelCommandGroup vbarjos(){
         return new ParallelCommandGroup(
                 VJos(),
-                new InstantCommand(() -> stanga_principala.setPosition(0.45)),
-                new InstantCommand(() -> dreapta_principala.setPosition(0.48))
+                new InstantCommand(() -> stanga_principala.setPosition(jos1)),
+                new InstantCommand(() -> dreapta_principala.setPosition(jos2))
         );
     }
+
+
 
 }

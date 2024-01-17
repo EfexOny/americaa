@@ -1,26 +1,21 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.SenzorTrigger;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 @TeleOp(name="ruble")
 public class tele extends Creier {
-//    Trigger test;
-//    Trigger test2;
+
 
 
     @Override
     public void initialize() {
 
-//        Trigger test = new Trigger(() -> SenzorTrigger.getSt(b1));
-//        Trigger test2 = new Trigger(() -> SenzorTrigger.getSt(b2));
 
         initHardware();
 
@@ -34,18 +29,20 @@ public class tele extends Creier {
         gheara_principala = new GamepadButton(d2, GamepadKeys.Button.A).toggleWhenPressed(virtualbar.Open_wide());
         gheara_secundara = new GamepadButton(d2, GamepadKeys.Button.B).toggleWhenPressed(cuva.close(),cuva.open());
 
-        vbarjos = new GamepadButton(d2,GamepadKeys.Button.DPAD_DOWN).whenPressed(virtualbar.vbarjos());
+        vbarjos = new GamepadButton(d2,GamepadKeys.Button.DPAD_DOWN).whenPressed(virtualbar.mereutaa());
         vbarsus = new GamepadButton(d2,GamepadKeys.Button.DPAD_UP).whenPressed(virtualbar.VSus());
 
 
-//        cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
-//                .toggleWhenActive(cuva.cuva_arunca());
+//
 
         auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(500),cuva.afterparty());
         lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(700),cuva.afterparty());
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
                 .toggleWhenActive(cuva.mereuta(900), cuva.afterparty());
 
+//        AGATARE
+//        cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
+//                .;
 //        lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(lift.goLift(800));
 
         vbar_idle = new GamepadButton(d2,GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(virtualbar.Vbar_Idle(),true );
@@ -84,8 +81,8 @@ public class tele extends Creier {
     public void run() {
         telemetry.addData("target pos",lift.getLiftPosition());
         telemetry.addData("ticks",lift.getTciks());
-//        telemetry.addData("b1",test.get());
-//        telemetry.addData("b2",test2.get());
+        telemetry.addData("d1",virtualbar.dow1());
+        telemetry.addData("d2",virtualbar.dow2());
         telemetry.update();
 
 
