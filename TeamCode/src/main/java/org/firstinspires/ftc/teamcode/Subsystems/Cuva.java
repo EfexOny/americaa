@@ -15,6 +15,8 @@ import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -22,18 +24,30 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Cuva extends SubsystemBase {
 
     Servo out_stanga,out_dreapta;
+    public static double av1;
     Lift lift;
 
 
 // st = 0.15, dr = 0.75
     Servo drop,avion;
 
+    DcMotor r1,r2;
     public Cuva(HardwareMap hardwareMap){
+
+        r1 = hardwareMap.get(DcMotor.class,"r1");
+        r2 = hardwareMap.get(DcMotor.class,"r2");
+
+        r1.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        r1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        r2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift = new Lift(hardwareMap);
 
         out_stanga = hardwareMap.get(Servo.class,"sec_stanga");
         out_dreapta = hardwareMap.get(Servo.class,"sec_dreapta");
+
+
 
         drop = hardwareMap.get(Servo.class,"cuva");
 
@@ -41,6 +55,21 @@ public class Cuva extends SubsystemBase {
 
     }
 
+
+    public Command stefan(){
+        return new InstantCommand(
+                () -> avion.setPosition(av1)
+        );
+    }
+
+    public Command ridicare(double put){
+        return new InstantCommand(
+                () -> {
+                        r1.setPower(put);
+                        r2.setPower(put);
+                }
+        );
+    }
 
 
     public Command close(){

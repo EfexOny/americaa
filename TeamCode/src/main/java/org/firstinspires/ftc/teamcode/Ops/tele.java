@@ -19,7 +19,6 @@ public class tele extends Creier {
 
         initHardware();
 
-        nivel = new ButtonReader(d2,GamepadKeys.Button.LEFT_BUMPER);
 //
 //        test.toggleWhenActive(virtualbar.closesep(false));
 //        test2.toggleWhenActive(virtualbar.closesep(true));
@@ -41,9 +40,9 @@ public class tele extends Creier {
                 .toggleWhenActive(cuva.mereuta(900), cuva.afterparty());
 
 //        AGATARE
-//        cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
-//                .;
-//        lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).toggleWhenPressed(lift.goLift(800));
+        cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
+                .whileActiveContinuous(cuva.ridicare(1));
+        lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).whileHeld(cuva.ridicare(-1));
 
         vbar_idle = new GamepadButton(d2,GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(virtualbar.Vbar_Idle(),true );
 
