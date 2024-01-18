@@ -73,15 +73,15 @@ public class RedBackdrop extends CommandOpMode {
 
         backboard1 = drive.trajectorySequenceBuilder(startRed)
                 .splineToConstantHeading(new Vector2d(33, -41), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(53.5, -30, Math.toRadians(163)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52, -41.5, Math.toRadians(163)), Math.toRadians(0))
                 .build();
 
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .lineToLinearHeading(new Pose2d(36.3, -36, Math.toRadians(163)))
+                .lineToLinearHeading(new Pose2d(42, -23, Math.toRadians(163)))
                 .build();
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56,-72,Math.toRadians(160)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(46,-60,Math.toRadians(160)),Math.toRadians(0))
                 .build();
 
         backboard2 = drive.trajectorySequenceBuilder(startRed)
@@ -94,21 +94,21 @@ public class RedBackdrop extends CommandOpMode {
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(52,-65,Math.toRadians(163)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(481,-65,Math.toRadians(163)),Math.toRadians(0))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(startRed)
-                .splineToConstantHeading(new Vector2d(33, -44), Math.toRadians(90))
-                .splineToLinearHeading(new Pose2d(54.5, -34.5, Math.toRadians(165)), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(33, -41), Math.toRadians(90))
+                .splineToLinearHeading(new Pose2d(53, -30, Math.toRadians(163)), Math.toRadians(0))
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(14.5, -33.5, Math.toRadians(130)))
+                .lineToLinearHeading(new Pose2d(13.5, -34, Math.toRadians(130)))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
-                .lineToLinearHeading(new Pose2d(37, -59, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(60, -62, Math.toRadians(190)))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(46,-60,Math.toRadians(160)),Math.toRadians(0))
                 .build();
 
         boolean trajectoriesCreated = false;

@@ -92,7 +92,7 @@ public class BlueBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(53,35.5,Math.toRadians(180)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(34, 17.5,Math.toRadians(185)))
+                .lineToLinearHeading(new Pose2d(34, 16,Math.toRadians(185)))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
