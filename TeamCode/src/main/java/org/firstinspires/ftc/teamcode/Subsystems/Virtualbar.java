@@ -8,6 +8,8 @@ import static org.firstinspires.ftc.teamcode.Constants.vbaridle_dreapta;
 import static org.firstinspires.ftc.teamcode.Constants.vbaridle_stanga;
 import static org.firstinspires.ftc.teamcode.Constants.vbarjos_dreapta;
 import static org.firstinspires.ftc.teamcode.Constants.vbarjos_stanga;
+import static org.firstinspires.ftc.teamcode.Constants.vbarstack1_dreapta;
+import static org.firstinspires.ftc.teamcode.Constants.vbarstack1_stanga;
 import static org.firstinspires.ftc.teamcode.Constants.vbarsus_dreapta;
 import static org.firstinspires.ftc.teamcode.Constants.vbarsus_stanga;
 
@@ -136,6 +138,12 @@ public class Virtualbar extends SubsystemBase{
         return new InstantCommand(() -> {
             barstanga.setPosition(vbaridle_stanga);
             bardreapta.setPosition(vbaridle_dreapta);
+        });
+    }
+    public Command Vbar_Stack1(){
+        return new InstantCommand(() -> {
+            barstanga.setPosition(vbarstack1_stanga);
+            bardreapta.setPosition(vbarstack1_dreapta);
         });
     }
 
