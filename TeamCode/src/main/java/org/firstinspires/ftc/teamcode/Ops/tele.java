@@ -6,17 +6,19 @@ import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Subsystems.Dist;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 @TeleOp(name="ruble")
 public class tele extends Creier {
 
 
-
     @Override
     public void initialize() {
 
+        senzor = new Trigger(() -> dist.get());
 
+        senzor.toggleWhenActive(virtualbar.closesep(true));
         initHardware();
 
 //

@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
+import org.firstinspires.ftc.teamcode.Subsystems.Dist;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
@@ -16,6 +17,9 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 public class Creier extends CommandOpMode {
     public Lift lift;
+    Trigger senzor;
+    Dist dist;
+
     public Cuva cuva;
     public Virtualbar virtualbar;
 

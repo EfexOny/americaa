@@ -183,10 +183,14 @@ public class Virtualbar extends SubsystemBase{
 //        );
 //    }
 
+    public boolean VbarState(){
+        return jos;
+    }
 
     public Command VJos(){
         return new InstantCommand(
                 ()->  {
+                    jos = true;
                     barstanga.setPosition(vbarjos_stanga);
                     bardreapta.setPosition(vbarjos_dreapta);
                 }
