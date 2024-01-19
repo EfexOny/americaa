@@ -68,20 +68,18 @@ public class BlueStage extends CommandOpMode {
 
 
         spikemark1 = drive.trajectorySequenceBuilder(startBlue)
-                .lineTo(new Vector2d(-35,50))
-                .turn(Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(-41,19, Math.toRadians(0)))
                 .build();
 
         stack1 = drive.trajectorySequenceBuilder(spikemark1.end())
-                .lineTo(new Vector2d(-35,36))
+                .lineToLinearHeading(new Pose2d(-35,40, Math.toRadians(180)))
                 .build();
 
-        backboard1 = drive.trajectorySequenceBuilder(stack1.end())
-                .strafeTo(new Vector2d(-40,5))
-                .setReversed(true)
-                .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(35,14,Math.toRadians(180)),Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(53,35),Math.toRadians(0))
+        backboard1 = drive.trajectorySequenceBuilder(spikemark1.end())
+
+                .lineToLinearHeading(new Pose2d(-52,4, Math.toRadians(155)))
+                .lineToConstantHeading(new Vector2d(35, 4))
+                .splineToConstantHeading(new Vector2d(60,39),Math.toRadians(0))
 
                 .build();
         parkare1 = drive.trajectorySequenceBuilder(backboard1.end())
@@ -97,12 +95,13 @@ public class BlueStage extends CommandOpMode {
 
                 .build();
 
-        backboard2 = drive.trajectorySequenceBuilder(stack2.end())
-                .strafeTo(new Vector2d(-50,5))
+        backboard2 = drive.trajectorySequenceBuilder(spikemark2.end())
+                .strafeTo(new Vector2d(-53,38))
+                .strafeTo(new Vector2d(-52,8))
                 .setReversed(true)
                 .setTangent(Math.toRadians(270))
-                .lineToConstantHeading(new Vector2d(35, 14))
-                .splineToConstantHeading(new Vector2d(48,41),Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(35, 8))
+                .splineToConstantHeading(new Vector2d(60,39),Math.toRadians(0))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .splineToConstantHeading(new Vector2d(64, 4), Math.toRadians(0))
@@ -117,7 +116,7 @@ public class BlueStage extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(-65,35,Math.toRadians(180)),Math.toRadians(180))
                 .build();
 
-        backboard3 = drive.trajectorySequenceBuilder(stack3.end())
+        backboard3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .lineTo(new Vector2d(-57,30 ))
                 .setReversed(true)
                 .setTangent(Math.toRadians(270))
@@ -149,7 +148,7 @@ public class BlueStage extends CommandOpMode {
                             new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true),
                             vbar.Open(),
                             new WaitCommand(500),
-                            vbar.Vbar_Idle(),
+                            vbar.VSus(),
                             new DelayedCommand(vbar.Close(),1000),
                             new WaitCommand(1000),
                             new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
