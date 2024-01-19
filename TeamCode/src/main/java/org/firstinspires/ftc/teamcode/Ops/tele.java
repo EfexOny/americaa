@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;
@@ -24,10 +25,21 @@ public class tele extends Creier {
         senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
 
-        senzor.toggleWhenActive(new WaitCommand(350),virtualbar.closesep(false));
-        senzor2.toggleWhenActive(new WaitCommand(350),virtualbar.closesep(true));
+        senzor.toggleWhenActive(
+                new SequentialCommandGroup(
+                new WaitCommand(350),
+                virtualbar.closesep(false)
+                )
+        );
+        senzor2.toggleWhenActive(  new SequentialCommandGroup(
+                        new WaitCommand(350),
+                        virtualbar.closesep(true)
+                )
+        );
 
-        senzor.and(senzor2).toggleWhenActive(new WaitCommand(350),virtualbar.cekkt());
+        senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
+                new WaitCommand(350),virtualbar.cekkt()
+        ));
 
         avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
 //
