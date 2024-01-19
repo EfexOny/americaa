@@ -68,16 +68,16 @@ public class BlueStage extends CommandOpMode {
 
 
         spikemark1 = drive.trajectorySequenceBuilder(startBlue)
-                .lineTo(new Vector2d(-35,30))
+                .lineTo(new Vector2d(-35,50))
+                .turn(Math.toRadians(180))
                 .build();
 
         stack1 = drive.trajectorySequenceBuilder(spikemark1.end())
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-65,35,Math.toRadians(180)),Math.toRadians(180))
+                .lineTo(new Vector2d(-35,36))
                 .build();
 
         backboard1 = drive.trajectorySequenceBuilder(stack1.end())
-                .lineTo(new Vector2d(-30,35 ))
+                .strafeTo(new Vector2d(-40,5))
                 .setReversed(true)
                 .setTangent(Math.toRadians(270))
                 .splineToLinearHeading(new Pose2d(35,14,Math.toRadians(180)),Math.toRadians(0))
@@ -93,19 +93,19 @@ public class BlueStage extends CommandOpMode {
                 .build();
 
         stack2 = drive.trajectorySequenceBuilder(spikemark2.end())
-                .lineToLinearHeading(new Pose2d(-54,36, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(-35,40, Math.toRadians(180)))
 
                 .build();
 
         backboard2 = drive.trajectorySequenceBuilder(stack2.end())
-                .lineTo(new Vector2d(-44, 5))
+                .strafeTo(new Vector2d(-50,5))
                 .setReversed(true)
                 .setTangent(Math.toRadians(270))
                 .lineToConstantHeading(new Vector2d(35, 14))
                 .splineToConstantHeading(new Vector2d(48,41),Math.toRadians(0))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .splineToConstantHeading(new Vector2d(60, 11), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(64, 4), Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(startBlue)
 //                .setTangent(Math.toRadians(270))
@@ -146,17 +146,12 @@ public class BlueStage extends CommandOpMode {
                             vbar.VJos(),
                             new WaitCommand(1000),
                             cuva.open(),
-                            new DelayedCommand( vbar.Open(), 1000),
                             new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true),
-                            new DelayedCommand(vbar.Vbar_Stack1(), 100),
-//                            new DelayedCommand(vbar.Close(),1000),
-                            new SpikeMarkCommand(drive,stack2,stack2,stack2,detect,true),
+                            vbar.Open(),
+                            new WaitCommand(500),
+                            vbar.Vbar_Idle(),
                             new DelayedCommand(vbar.Close(),1000),
                             new WaitCommand(1000),
-
-//                            new DelayedCommand(vbar.Close(),650),
-                            new WaitCommand(1000),
-                          new DelayedCommand(vbar.cekkt(), 500),
                             new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
 
 

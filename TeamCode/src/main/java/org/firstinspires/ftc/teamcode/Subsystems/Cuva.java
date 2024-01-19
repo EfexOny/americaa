@@ -24,7 +24,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Cuva extends SubsystemBase {
 
     Servo out_stanga,out_dreapta;
-    public static double av1;
+    public static double av1=1;
     Lift lift;
 
 
@@ -34,8 +34,10 @@ public class Cuva extends SubsystemBase {
     DcMotor r1,r2;
     public Cuva(HardwareMap hardwareMap){
 
-        r1 = hardwareMap.get(DcMotor.class,"r1");
-        r2 = hardwareMap.get(DcMotor.class,"r2");
+        r1 = hardwareMap.get(DcMotor.class,"spate");
+        r2 = hardwareMap.get(DcMotor.class,"dreapta");
+
+        avion = hardwareMap.get(Servo.class,"avion");
 
         r1.setDirection(DcMotorSimple.Direction.REVERSE);
 

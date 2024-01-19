@@ -40,27 +40,22 @@ import java.util.function.BooleanSupplier;
 @Config
 public class Virtualbar extends SubsystemBase{
 
-//    DigitalChannel b1,b2;
-    boolean dus =false,jos=false;
+    boolean jos;
     DistanceSensor s1,s2;
-    boolean apuca = false;
     public static double distgheara = 7;
     public static double jos1=0.5,jos2=0.45;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
     public Virtualbar(HardwareMap hardwareMap){
-        s1 = hardwareMap.get(DistanceSensor.class,"distanta1");
-        s2 = hardwareMap.get(DistanceSensor.class,"distanta2");
-
         barstanga = hardwareMap.get(Servo.class,"vbar_stanga");
         bardreapta = hardwareMap.get(Servo.class,"vbar_dreapta");
 
         stanga_principala = hardwareMap.get(Servo.class,"pim_stanga");
         dreapta_principala = hardwareMap.get(Servo.class,"pim_dreapta");
 
-//        b1 = hardwareMap.get(DigitalChannel.class,"b1");
-//        b2 = hardwareMap.get(DigitalChannel.class,"b2");
+        s1 = hardwareMap.get(DistanceSensor.class,"s1");
+        s2 = hardwareMap.get(DistanceSensor.class,"s2");
     }
 
     @Override
@@ -86,6 +81,7 @@ public class Virtualbar extends SubsystemBase{
     public Command VSus(){
         return new InstantCommand(
                 ()->  {
+                    jos = false;
                     barstanga.setPosition(vbarsus_stanga);
                     bardreapta.setPosition(vbarsus_dreapta);
                 }
@@ -136,6 +132,7 @@ public class Virtualbar extends SubsystemBase{
 
     public Command Vbar_Idle(){
         return new InstantCommand(() -> {
+            jos = false;
             barstanga.setPosition(vbaridle_stanga);
             bardreapta.setPosition(vbaridle_dreapta);
         });
@@ -185,6 +182,7 @@ public class Virtualbar extends SubsystemBase{
 
     public boolean VbarState(){
         return jos;
+
     }
 
     public Command VJos(){
@@ -200,6 +198,7 @@ public class Virtualbar extends SubsystemBase{
     public ParallelCommandGroup vbarjos(){
         return new ParallelCommandGroup(
                 VJos(),
+                new WaitCommand(500),
                 new InstantCommand(() -> stanga_principala.setPosition(jos1)),
                 new InstantCommand(() -> dreapta_principala.setPosition(jos2))
         );

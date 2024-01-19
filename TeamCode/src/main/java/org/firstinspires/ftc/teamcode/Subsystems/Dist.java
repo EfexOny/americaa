@@ -1,20 +1,23 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
-import com.arcrobotics.ftclib.command.button.Trigger;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import com.arcrobotics.ftclib.command.button.Trigger;
 
 public class Dist extends Trigger {
 
-    DistanceSensor s;boolean d;
-    public Dist(DistanceSensor senzor,boolean down){
-        this.s = senzor;
-        this.d = down;
+    boolean s,d;
+
+    public Dist(boolean senr,boolean state){
+        this.s = senr;
+        this.d = state;
     }
 
     @Override
     public boolean get() {
-        return s.getDistance(DistanceUnit.CM) < 7 && d;
+        return false;
+    }
+
+    public boolean coaie(){
+        return s && d;
     }
 }

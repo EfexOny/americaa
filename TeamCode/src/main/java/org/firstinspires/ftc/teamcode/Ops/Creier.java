@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
@@ -17,9 +18,10 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 public class Creier extends CommandOpMode {
     public Lift lift;
-    Trigger senzor;
-    Dist dist;
 
+    Button avion;
+    Dist dist;
+    Trigger senzor,senzor2;
     public Cuva cuva;
     public Virtualbar virtualbar;
 
@@ -57,6 +59,8 @@ public class Creier extends CommandOpMode {
         cuva = new Cuva(hardwareMap);
         lift = new Lift(hardwareMap);
         virtualbar = new Virtualbar(hardwareMap);
+
+        dist = new Dist(virtualbar.dow1(), virtualbar.VbarState());
 
         drive = new DriveSubsystem(lf,rf,lb,rb);
 

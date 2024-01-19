@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
@@ -16,11 +17,19 @@ public class tele extends Creier {
     @Override
     public void initialize() {
 
-        senzor = new Trigger(() -> dist.get());
 
-        senzor.toggleWhenActive(virtualbar.closesep(true));
+
         initHardware();
 
+        senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
+        senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
+
+        senzor.toggleWhenActive(new WaitCommand(350),virtualbar.closesep(false));
+        senzor2.toggleWhenActive(new WaitCommand(350),virtualbar.closesep(true));
+
+        senzor.and(senzor2).toggleWhenActive(new WaitCommand(350),virtualbar.cekkt());
+
+        avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
 //
 //        test.toggleWhenActive(virtualbar.closesep(false));
 //        test2.toggleWhenActive(virtualbar.closesep(true));
@@ -43,8 +52,8 @@ public class tele extends Creier {
 
 //        AGATARE
         cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
-                .whileActiveContinuous(cuva.ridicare(1));
-        lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).whileHeld(cuva.ridicare(-1));
+                .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
+        lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).whileHeld(cuva.ridicare(-1)).whenReleased(cuva.ridicare(0));
 
         vbar_idle = new GamepadButton(d2,GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(virtualbar.Vbar_Idle(),true );
 
@@ -84,10 +93,9 @@ public class tele extends Creier {
         telemetry.addData("ticks",lift.getTciks());
         telemetry.addData("d1",virtualbar.dow1());
         telemetry.addData("d2",virtualbar.dow2());
+        telemetry.addData("state",virtualbar.VbarState());
+        telemetry.addData("pula",senzor.get());
         telemetry.update();
-
-
-
         super.run();
     }
 }
