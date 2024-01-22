@@ -16,6 +16,34 @@ public class tele extends Creier {
 
         initHardware();
 
+<<<<<<< Updated upstream
+=======
+        senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
+        senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
+
+//        senzor.toggleWhenActive(
+//                new SequentialCommandGroup(
+//                new WaitCommand(350),
+//                virtualbar.closesep(false)
+//                )
+//        );
+//        senzor2.toggleWhenActive(  new SequentialCommandGroup(
+//                        new WaitCommand(350),
+//                        virtualbar.closesep(true)
+//                )
+//        );
+//
+//        senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
+//                new WaitCommand(350),virtualbar.cekkt()
+//        ));
+
+        avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
+//
+//        test.toggleWhenActive(virtualbar.closesep(false));
+//        test2.toggleWhenActive(virtualbar.closesep(true));
+
+//        test.and(test2).toggleWhenActive(virtualbar.cekkt());
+>>>>>>> Stashed changes
 
         gheara_principala = new GamepadButton(d2, GamepadKeys.Button.A).toggleWhenPressed(virtualbar.Open_wide());
         gheara_secundara = new GamepadButton(d2, GamepadKeys.Button.B).toggleWhenPressed(cuva.close(),cuva.open());
@@ -39,7 +67,7 @@ public class tele extends Creier {
         gheara_mereuta = new GamepadButton(d2,GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(virtualbar.Close());
 
 
-        turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(0.7));
+        turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(1));
 
         dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(drive.dpad_vertical(true,false))
                 .whenReleased(drive.dpad_vertical(false,false));

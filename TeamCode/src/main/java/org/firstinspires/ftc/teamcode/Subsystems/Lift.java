@@ -29,7 +29,11 @@ public class Lift extends SubsystemBase {
         right = hardwareMap.get(DcMotor.class,"dreapta_lift");
 
         left.setDirection(DcMotorSimple.Direction.REVERSE);
+<<<<<<< Updated upstream
         right.setDirection(DcMotorSimple.Direction.REVERSE);
+=======
+//        right.setDirection(DcMotorSimple.Direction.REVERSE);
+>>>>>>> Stashed changes
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -46,6 +50,15 @@ public class Lift extends SubsystemBase {
 //        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         pid.setPID(kP, kI, kD);
+    }
+
+    @Override
+    public void periodic() {
+        double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
+        double ff = kF * left.getCurrentPosition();
+
+        left.setPower(power + ff);
+        right.setPower(power + ff);
     }
 
     public int getTciks(){
@@ -68,16 +81,7 @@ public class Lift extends SubsystemBase {
 //        liftTargetPos = levelPositions[level];
     }
 
-    @Override
-    public void periodic() {
-        double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
-        double ff = kF * left.getCurrentPosition();
 
-        left.setPower(power + ff);
-        right.setPower(power + ff);
-
-        super.periodic();
-    }
 
     public Command goLift(int pula){
         return new InstantCommand(() -> liftTargetPos = pula);

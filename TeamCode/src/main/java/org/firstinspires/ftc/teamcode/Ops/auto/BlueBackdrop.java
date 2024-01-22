@@ -1,0 +1,162 @@
+
+
+
+package org.firstinspires.ftc.teamcode.Ops.auto;
+
+import android.util.Size;
+
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandOpMode;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
+import com.arcrobotics.ftclib.command.WaitCommand;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
+import org.firstinspires.ftc.teamcode.Subsystems.Lift;
+import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
+import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
+import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionRedFar;
+import org.firstinspires.ftc.vision.VisionPortal;
+
+@Config
+@Autonomous(name = "blue bakcdrop")
+@SuppressWarnings("unused")
+public class BlueBackdrop extends CommandOpMode {
+
+    public static SampleMecanumDrive drive;
+    Virtualbar vbar;
+
+    TrajectorySequence parkare1,spikemark1,backboard1,parkare2,parkare3,spikemark2,spikemark3,backboard3,backboard2;
+
+    Pose2d startBlue = new Pose2d(11, 60, Math.toRadians(270));
+    PropDetectionBlueFar red;
+    VisionPortal portal;
+    public Lift lift;
+    public Cuva cuva;
+    ElapsedTime timer = new ElapsedTime();
+
+    boolean started=false;
+    int  detect=2;
+
+
+    @Override
+    public void initialize() {
+
+        red = new PropDetectionBlueFar();
+
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
+                .addProcessor(red)
+                .setCameraResolution(new Size(640, 480))
+                .setStreamFormat(VisionPortal.StreamFormat.YUY2)
+                .enableLiveView(true)
+                .setAutoStopLiveView(true)
+                .build();
+
+
+        drive = new SampleMecanumDrive(hardwareMap);
+        vbar = new Virtualbar(hardwareMap);
+        cuva = new Cuva(hardwareMap);
+        lift = new Lift(hardwareMap);
+
+
+        drive.setPoseEstimate(startBlue);
+
+
+
+
+        backboard1 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToLinearHeading(new Pose2d(55.5,42,Math.toRadians(195)),Math.toRadians(0))
+                .build();
+
+        spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
+                .lineToLinearHeading(new Pose2d(44, 25.5,Math.toRadians(195)))
+                .build();
+
+        parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
+                .strafeTo(new Vector2d(37,50))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(58,64,Math.toRadians(180)),Math.toRadians(0))
+                .build();
+
+        backboard2 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToLinearHeading(new Pose2d(56,39,Math.toRadians(195)),Math.toRadians(0))
+                .build();
+        spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
+                .lineToLinearHeading(new Pose2d(37, 14,Math.toRadians(195)))
+                .build();
+
+        parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
+                .strafeTo(new Vector2d(37,50))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(59,65,Math.toRadians(180)),Math.toRadians(0))
+                .build();
+
+
+        backboard3 = drive.trajectorySequenceBuilder(startBlue)
+                .splineToLinearHeading(new Pose2d(63,33.5,Math.toRadians(200)),Math.toRadians(0))
+                .build();
+
+        spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
+                .lineToLinearHeading(new Pose2d(18,22,Math.toRadians(195)))
+                .build();
+
+        parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
+                .strafeTo(new Vector2d(37,57))
+                .setReversed(true)
+                .splineToLinearHeading(new Pose2d(58,63,Math.toRadians(180)),Math.toRadians(0))
+                .build();
+        boolean trajectoriesCreated = false;
+
+        while (opModeInInit() && !isStopRequested()) {
+            detect = red.detection;
+            telemetry.addData("Detection", detect);
+            telemetry.addData("Right value", red.rightSum);
+            telemetry.addData("Middle value", red.middleSum);
+            telemetry.update();
+        }
+
+        waitForStart();
+
+        schedule(
+                new SequentialCommandGroup(
+                        vbar.Close(),
+                        vbar.Vbar_Idle(),
+                        new WaitCommand(1000),
+                        cuva.close(),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true),
+//                        new FollowTrajectoryCommand(backboard, drive),
+                        new BackDropCommand(lift,cuva),
+                        new WaitCommand(1000),
+                        vbar.vbarjos(),
+//                        new FollowTrajectoryCommand(spikemark,drive),
+                        new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true),
+                        new DelayedCommand(vbar.Open(),650),
+                        new DelayedCommand(vbar.Vbar_Idle(),1000),
+                        new WaitCommand(1000),
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
+//                        new FollowTrajectoryCommand(parkare,drive)
+                )
+        );
+    }
+    @Override
+    public void run() {
+        super.run();
+        telemetry.addData("caz",detect);
+        telemetry.update();
+
+    }
+}
+
+

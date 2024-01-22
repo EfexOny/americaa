@@ -83,10 +83,21 @@ public class Cuva extends SubsystemBase {
                 close(),
                 new WaitCommand(700),
                 cuva_arunca(),
+<<<<<<< Updated upstream
                 new WaitCommand(300),
                 open_insprejos(),
                 new WaitCommand(300),
                 lift.goLift(0)
+=======
+                new WaitCommand(400),
+                open(),
+                new WaitCommand(500),
+//                lift.goLift(170),
+//                new WaitCommand(1000),
+                lift.goLift(200),
+                new WaitCommand(500),
+                lift.goLift(-1)
+>>>>>>> Stashed changes
         );
     }
 
