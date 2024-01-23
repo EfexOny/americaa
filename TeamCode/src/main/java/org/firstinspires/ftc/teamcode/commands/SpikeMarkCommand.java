@@ -12,7 +12,7 @@ public class SpikeMarkCommand extends SequentialCommandGroup {
     public SpikeMarkCommand(SampleMecanumDrive drive, TrajectorySequence  c1,TrajectorySequence c2,TrajectorySequence c3, int detection,boolean park){
         super(
                 new ConditionalCommand(
-                        new FollowTrajectoryCommand(((detection == 1) ? c1 : (detection == 2 ? c2 : c3)), drive),
+                        new FollowTrajectoryAsync(((detection == 1) ? c1 : (detection == 2 ? c2 : c3)), drive),
                         new WaitCommand(0),
                         () -> park
                 )

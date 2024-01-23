@@ -43,7 +43,7 @@ public class Virtualbar extends SubsystemBase{
     boolean jos;
     DistanceSensor s1,s2;
     public static double distgheara = 7;
-    public static double jos1=0.5,jos2=0.45;
+    public static double jos1=0.45,jos2=0.45;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;

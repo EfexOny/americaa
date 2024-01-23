@@ -51,6 +51,9 @@ public class Lift extends SubsystemBase {
     public int getTciks(){
         return left.getCurrentPosition();
     }
+    public int rightticks(){
+        return right.getCurrentPosition();
+    }
     public int getLiftPosition() {
         return liftTargetPos;
     }
