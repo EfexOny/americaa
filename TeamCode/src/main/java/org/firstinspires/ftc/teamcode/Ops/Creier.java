@@ -60,8 +60,6 @@ public class Creier extends CommandOpMode {
         lift = new Lift(hardwareMap);
         virtualbar = new Virtualbar(hardwareMap);
 
-        dist = new Dist(virtualbar.dow1(), virtualbar.VbarState());
-
         drive = new DriveSubsystem(lf,rf,lb,rb);
 
         register(drive);
@@ -69,6 +67,6 @@ public class Creier extends CommandOpMode {
 
     @Override
     public void initialize() {
-        lift.goLift(0);
+        virtualbar.Close();
     }
 }

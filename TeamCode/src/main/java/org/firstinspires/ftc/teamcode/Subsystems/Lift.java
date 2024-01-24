@@ -13,11 +13,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class Lift extends SubsystemBase {
 
     DcMotor left,right;
-    public static double kP = 0.0074;
+    public static double kP = 0.005;
     public static double kI = 0;
     Timing.Timer timp;
     public static double kD = 0;
-    public static double kF = 0.0001;
+    public static double kF = 0.0003;
     public static int liftTargetPos = 0;
     public static PIDController pid;
     public static double tele = 0;

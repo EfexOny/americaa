@@ -78,18 +78,18 @@ public class BlueBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(52,43,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .lineToLinearHeading(new Pose2d(43, 27,Math.toRadians(195)))
+                .lineToLinearHeading(new Pose2d(44.5, 27,Math.toRadians(195)))
                 .build();
 
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .strafeTo(new Vector2d(37,50))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(59,62,Math.toRadians(180)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(57.5,62,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(53.3,42,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.3,40,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .lineToLinearHeading(new Pose2d(37, 19,Math.toRadians(195)))
@@ -103,7 +103,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(53.3,32,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54,32,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
                 .lineToLinearHeading(new Pose2d(21,26,Math.toRadians(195)))
@@ -144,7 +144,8 @@ public class BlueBackdrop extends CommandOpMode {
                         cuva.cuva_arunca(),
                         new WaitCommand(400),
                         cuva.open(),
-                        new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true).alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),
+                        new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
+                                .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),
                         new DelayedCommand(vbar.Open(),650).alongWith(vbar.Vbar_Idle()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                 )

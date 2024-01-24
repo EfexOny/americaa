@@ -87,7 +87,7 @@ public class BlueStage extends CommandOpMode {
                 .build();
 
         spikemark2 = drive.trajectorySequenceBuilder(startBlue)
-                .lineTo(new Vector2d(-35,36))
+                .lineToConstantHeading(new Vector2d(-35,37))
                 .build();
 
         stack2 = drive.trajectorySequenceBuilder(spikemark2.end())
@@ -145,35 +145,10 @@ public class BlueStage extends CommandOpMode {
                             vbar.VJos(),
                             new WaitCommand(1000),
                             cuva.open(),
-                            new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true),
-                            vbar.Open(),
-                            new WaitCommand(500),
-                            vbar.VSus(),
-                            new DelayedCommand(vbar.Close(),1000),
-                            new WaitCommand(1000),
-                            new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
+                            new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
+                                    .alongWith(vbar.vbarjos()),
+                            new DelayedCommand(vbar.Open(),1000).alongWith(vbar.Vbar_Idle())
 
-
-//                            new BackDropCommand(lift,cuva),
-//                            new WaitCommand(1000),
-//                            new SpikeMarkCommand(drive,parkare2,parkare2,parkare2,detect,true)
-
-//                            vbar.Close(),
-//                            vbar.Vbar_Idle(),
-//                            new WaitCommand(1000),
-//                            cuva.close(),
-//                            new WaitCommand(1000),
-//                            vbar.vbarjos(),
-//                            new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true),
-//                            new DelayedCommand(vbar.Open(),650),
-//                            new DelayedCommand(vbar.Vbar_Idle(),1000),
-//                            new WaitCommand(1000),
-////                            new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true),
-//                            new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true),
-//                            new BackDropCommand(lift,cuva),
-//                            new WaitCommand(1000),
-////                            new SpikeMarkCommand(drive,park1,park2,park3,detect,true)
-//                            new SpikeMarkCommand(drive,park1,park2,park3,detect,true)
                     )
             );
         }

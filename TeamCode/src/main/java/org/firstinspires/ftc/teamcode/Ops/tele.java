@@ -27,18 +27,18 @@ public class tele extends Creier {
 
         senzor.toggleWhenActive(
                 new SequentialCommandGroup(
-                new WaitCommand(350),
+                new WaitCommand(1500),
                 virtualbar.closesep(false)
                 )
         );
         senzor2.toggleWhenActive(  new SequentialCommandGroup(
-                        new WaitCommand(350),
+                        new WaitCommand(1500),
                         virtualbar.closesep(true)
                 )
         );
 
         senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
-                new WaitCommand(350),virtualbar.cekkt()
+                new WaitCommand(100),virtualbar.cekkt()
         ));
 
         avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
@@ -102,7 +102,8 @@ public class tele extends Creier {
     @Override
     public void run() {
         telemetry.addData("target pos",lift.getLiftPosition());
-        telemetry.addData("ticks",lift.getTciks());
+        telemetry.addData("left tficks",lift.getTciks());
+        telemetry.addData("dreapta ticks",lift.rightticks());
         telemetry.addData("d1",virtualbar.dow1());
         telemetry.addData("d2",virtualbar.dow2());
         telemetry.addData("state",virtualbar.VbarState());
