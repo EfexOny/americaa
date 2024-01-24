@@ -68,7 +68,7 @@ public class BlueStage extends CommandOpMode {
 
 
         spikemark1 = drive.trajectorySequenceBuilder(startBlue)
-                .lineToLinearHeading(new Pose2d(-41,19, Math.toRadians(0)))
+                .lineToLinearHeading(new Pose2d(-38,43, Math.toRadians(330)))
                 .build();
 
         stack1 = drive.trajectorySequenceBuilder(spikemark1.end())
@@ -83,7 +83,7 @@ public class BlueStage extends CommandOpMode {
 
                 .build();
         parkare1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .splineToConstantHeading(new Vector2d(60, 11), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(270)))
                 .build();
 
         spikemark2 = drive.trajectorySequenceBuilder(startBlue)
@@ -104,16 +104,16 @@ public class BlueStage extends CommandOpMode {
                 .splineToConstantHeading(new Vector2d(60,39),Math.toRadians(0))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .splineToConstantHeading(new Vector2d(64, 4), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(270)))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(startBlue)
 //                .setTangent(Math.toRadians(270))
-                .lineTo(new Vector2d(-35,30))
+                .lineToLinearHeading(new Pose2d(-35,46, Math.toRadians(235)))
                 .build();
 
         stack3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(-65,35,Math.toRadians(180)),Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(-65,39,Math.toRadians(180)),Math.toRadians(180))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(spikemark3.end())
@@ -125,7 +125,7 @@ public class BlueStage extends CommandOpMode {
 
                 .build();
         parkare3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .splineToConstantHeading(new Vector2d(60, 11), Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(-35, 60, Math.toRadians(270)))
                 .build();
         drive.setPoseEstimate(startBlue);
         while (opModeInInit() && !isStopRequested()) {
@@ -146,8 +146,8 @@ public class BlueStage extends CommandOpMode {
                             new WaitCommand(1000),
                             cuva.open(),
                             new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
-                                    .alongWith(vbar.vbarjos()),
-                            new DelayedCommand(vbar.Open(),1000).alongWith(vbar.Vbar_Idle())
+                                    .alongWith(vbar.VJos()),
+                            new DelayedCommand(vbar.Open(),180).alongWith(new DelayedCommand(vbar.Vbar_Idle(), 100))
 
                     )
             );
