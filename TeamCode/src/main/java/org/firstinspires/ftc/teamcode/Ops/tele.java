@@ -42,11 +42,6 @@ public class tele extends Creier {
         ));
 
         avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
-//
-//        test.toggleWhenActive(virtualbar.closesep(false));
-//        test2.toggleWhenActive(virtualbar.closesep(true));
-
-//        test.and(test2).toggleWhenActive(virtualbar.cekkt());
 
         gheara_principala = new GamepadButton(d2, GamepadKeys.Button.A).toggleWhenPressed(virtualbar.Open_wide());
         gheara_secundara = new GamepadButton(d2, GamepadKeys.Button.B).toggleWhenPressed(cuva.close(),cuva.open());
@@ -62,15 +57,11 @@ public class tele extends Creier {
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
                 .toggleWhenActive(cuva.mereuta(900), cuva.afterparty());
 
-//        AGATARE
         cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
                 .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
         lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).whileHeld(cuva.ridicare(-1)).whenReleased(cuva.ridicare(0));
 
         vbar_idle = new GamepadButton(d2,GamepadKeys.Button.DPAD_LEFT).toggleWhenPressed(virtualbar.Vbar_Idle(),true );
-
-//        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(new ConditionalCommand(cuva.mereutav2(),cuva.mereuta(),() ->nivel.isDown()),cuva.afterparty());
-
 
         auto_grab = new GamepadButton(d2,GamepadKeys.Button.X).toggleWhenPressed(virtualbar.cekkt(),true);
         gheara_mereuta = new GamepadButton(d2,GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(virtualbar.Close());

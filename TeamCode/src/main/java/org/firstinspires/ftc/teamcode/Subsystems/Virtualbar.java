@@ -101,20 +101,6 @@ public class Virtualbar extends SubsystemBase{
             );
     }
 
-    public Command opensep(boolean stg){
-        if(stg)
-            return new InstantCommand(
-                    () ->
-                            stanga_principala.setPosition(deschis_stanga)
-            );
-        else
-            return new InstantCommand(
-                    () ->
-                            dreapta_principala.setPosition(deschis_dreapta)
-            );
-    }
-
-
     public SequentialCommandGroup cekkt(){
         return new SequentialCommandGroup(
                 Close(),
@@ -171,15 +157,6 @@ public class Virtualbar extends SubsystemBase{
         );
     }
 
-//    public Command mereutaa(){
-//        return new SequentialCommandGroup(
-//                VJos(),
-//              new InstantCommand(() -> stanga_principala.setPosition(jos1)),
-//                new InstantCommand(() -> dreapta_principala.setPosition(jos2)),
-//                new AutoCloseGheara(cekkt(),() -> ,dow1())
-//        );
-//    }
-
     public boolean VbarState(){
         return jos;
 
@@ -203,7 +180,4 @@ public class Virtualbar extends SubsystemBase{
                 new InstantCommand(() -> dreapta_principala.setPosition(jos2))
         );
     }
-
-
-
 }

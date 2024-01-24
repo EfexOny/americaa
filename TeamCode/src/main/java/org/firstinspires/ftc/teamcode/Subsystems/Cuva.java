@@ -90,49 +90,12 @@ public class Cuva extends SubsystemBase {
                 close(),
                 new WaitCommand(300),
                 lift.goLift(l1),
-                cuva_arunca()
-//                cuva_inapoi(),
-//                new WaitCommand(500),
-//                open(),
-//                new WaitCommand(500),
-//                close(),
-//                new WaitCommand(500),
-//                cuva_arunca(),
-//                new WaitCommand(500),
-//                open(),
-//                new WaitCommand(500),
-//                lift.goLift(300),
-//                new WaitCommand(700),
-//                lift.goLift(0)
+                cuva_inapoi()
             );
-    }
-
-    public SequentialCommandGroup mereutav2(){
-        return new SequentialCommandGroup(
-                close(),
-                new WaitCommand(300),
-                lift.goLift(600),
-                cuva_arunca()
-//                cuva_inapoi(),
-//                new WaitCommand(500),
-//                open(),
-//                new WaitCommand(500),
-//                close(),
-//                new WaitCommand(500),
-//                cuva_arunca(),
-//                new WaitCommand(500),
-//                open(),
-//                new WaitCommand(500),
-//                lift.goLift(300),
-//                new WaitCommand(700),
-//                lift.goLift(0)
-        );
     }
 
     public SequentialCommandGroup afterparty(){
         return new SequentialCommandGroup(
-                cuva_inapoi(),
-                new WaitCommand(600),
                 open(),
                 new WaitCommand(450),
                 close(),
@@ -141,8 +104,6 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(400),
                 open(),
                 new WaitCommand(500),
-//                lift.goLift(170),
-//                new WaitCommand(1000),
                 lift.goLift(0)
         );
     }
@@ -159,14 +120,6 @@ public class Cuva extends SubsystemBase {
         return new InstantCommand(
                 () -> {
                     drop.setPosition(inapoi);
-                }
-        );
-    }
-
-    public Command launch(){
-        return new InstantCommand(
-                () -> {
-                    avion.setPosition(avion_arunca);
                 }
         );
     }
