@@ -62,7 +62,7 @@ public class Creier extends CommandOpMode {
 
         drive = new DriveSubsystem(lf,rf,lb,rb);
 
-        register(drive);
+        register(drive,virtualbar,lift,cuva);
     }
 
     @Override
