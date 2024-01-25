@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.Dist;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
-@Photon
+//@Photon
 @TeleOp(name="ruble")
 public class tele extends Creier {
 
@@ -68,7 +68,7 @@ public class tele extends Creier {
         gheara_mereuta = new GamepadButton(d2,GamepadKeys.Button.DPAD_RIGHT).toggleWhenPressed(virtualbar.Close());
 
 
-        turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(0.7));
+        turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(1));
 
         dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(drive.dpad_vertical(true,false))
                 .whenReleased(drive.dpad_vertical(false,false));

@@ -70,6 +70,9 @@ public class BlueBackdrop extends CommandOpMode {
         cuva = new Cuva(hardwareMap);
         lift = new Lift(hardwareMap);
 
+        vbar.Close().schedule();
+
+
         drive.setPoseEstimate(startBlue);
 
 
@@ -130,7 +133,6 @@ public class BlueBackdrop extends CommandOpMode {
 
         schedule(
                 new SequentialCommandGroup(
-                        vbar.Close(),
                         vbar.Vbar_Idle(),
                         new WaitCommand(1000),
                         cuva.close(),

@@ -11,7 +11,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 public class DriveSubsystem extends SubsystemBase {
 
     private final MecanumDrive m_drive;
-    double limit=0.7;
+    double limit=1;
 
     /**
      * Creates a new DriveSubsystem.

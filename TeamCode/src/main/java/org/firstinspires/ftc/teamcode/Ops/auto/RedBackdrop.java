@@ -66,6 +66,8 @@ public class RedBackdrop extends CommandOpMode {
         cuva = new Cuva(hardwareMap);
         lift = new Lift(hardwareMap);
 
+        vbar.Close().schedule();
+
 
         drive.setPoseEstimate(startRed);
 
@@ -73,7 +75,7 @@ public class RedBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startRed)
-                .splineToLinearHeading(new Pose2d(51,-43,Math.toRadians(160)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51,-45,Math.toRadians(160)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
                 .lineToLinearHeading(new Pose2d(45.5, -23,Math.toRadians(160)))
@@ -82,7 +84,7 @@ public class RedBackdrop extends CommandOpMode {
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .strafeTo(new Vector2d(37,-50))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56,-62,Math.toRadians(168)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51,-63,Math.toRadians(168)),Math.toRadians(0))
                 .build();
 
 
@@ -90,18 +92,18 @@ public class RedBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(51,-36.5,Math.toRadians(168)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(37, -14,Math.toRadians(168)))
+                .lineToLinearHeading(new Pose2d(37, -15,Math.toRadians(168)))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .strafeTo(new Vector2d(37,-50))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(56,-63,Math.toRadians(180)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51,-62,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
 
         backboard3 = drive.trajectorySequenceBuilder(startRed)
-                .splineToLinearHeading(new Pose2d(54,-28,Math.toRadians(159)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54,-29,Math.toRadians(159)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
                 .lineToLinearHeading(new Pose2d(19,-26,Math.toRadians(159)))
@@ -110,7 +112,7 @@ public class RedBackdrop extends CommandOpMode {
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .strafeTo(new Vector2d(37,-50))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(55,-61,Math.toRadians(168)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(51,-61,Math.toRadians(168)),Math.toRadians(0))
                 .build();
 
         boolean trajectoriesCreated = false;
@@ -123,13 +125,14 @@ public class RedBackdrop extends CommandOpMode {
             telemetry.update();
         }
 
+
+
         waitForStart();
 
                 schedule(
                         new SequentialCommandGroup(
-                                vbar.Close(),
                                 vbar.Vbar_Idle(),
-                                new WaitCommand(1000),
+                                new WaitCommand(800),
                                 cuva.close(),
                                 new WaitCommand(500),
                                 new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
@@ -143,7 +146,7 @@ public class RedBackdrop extends CommandOpMode {
                                 cuva.open(),
                                 new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                         .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),
-                                new DelayedCommand(vbar.Open(),1000).alongWith(vbar.Vbar_Idle()),
+                                new DelayedCommand(vbar.Open(),1400).alongWith(vbar.Vbar_Idle()),
                                 new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                         )
         );

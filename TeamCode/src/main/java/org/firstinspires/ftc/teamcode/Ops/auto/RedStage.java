@@ -7,35 +7,38 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.Ops.Creier;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
+import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionRedFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
 @Autonomous(name = "red stage")
 @SuppressWarnings("unused")
-public class RedStage extends CommandOpMode {
+public class RedStage extends Creier {
 
     public static SampleMecanumDrive drive;
     Virtualbar vbar;
-    TrajectorySequence spikemark;
-    TrajectorySequence backboard;
-    TrajectorySequence park;
     Pose2d startRed = new Pose2d(-35, -60, Math.toRadians(90));
     PropDetectionRedFar red;
+    TrajectorySequence backboard1,backboard2,backboard3,spikemark1,spikemark2,spikemark3,parkare1,parkare2,parkare3, stack1, stack2, stack3;
+
     VisionPortal portal;
     public Lift lift;
     public Cuva cuva;
@@ -44,8 +47,12 @@ public class RedStage extends CommandOpMode {
     boolean started=false,finished=false,follow=false;
     int  detect=2;
 
+
     @Override
     public void initialize() {
+
+        initHardware();
+        super.initialize();
 
         red = new PropDetectionRedFar();
 
@@ -63,101 +70,64 @@ public class RedStage extends CommandOpMode {
         cuva = new Cuva(hardwareMap);
         lift = new Lift(hardwareMap);
 
-        vbar.Close();
+        vbar.Close().schedule();
+
+
+
+        spikemark1 = drive.trajectorySequenceBuilder(startRed)
+                .lineToLinearHeading(new Pose2d(-40,-39, Math.toRadians(30)))
+                .build();
+
+
+        parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
+                .lineToLinearHeading(new Pose2d(-35, -56, Math.toRadians(90)))
+                .build();
+
+
+
+        spikemark2 = drive.trajectorySequenceBuilder(startRed)
+                .lineToConstantHeading(new Vector2d(-35,-37))
+                .build();
+
+        parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
+                .lineToLinearHeading(new Pose2d(-35, -59, Math.toRadians(90)))
+                .build();
+
+
+        spikemark3 = drive.trajectorySequenceBuilder(startRed)
+//                .setTangent(Math.toRadians(270))
+                .lineToLinearHeading(new Pose2d(-35,-42, Math.toRadians(125)))
+                .build();
+
+        parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
+                .lineToLinearHeading(new Pose2d(-35, -59, Math.toRadians(90)))
+                .build();
 
         drive.setPoseEstimate(startRed);
-
         while (opModeInInit() && !isStopRequested()) {
-            if(!started){
-                timer.reset();
-                started=true;
-            }
-            if(timer.seconds() < 4) {
-                switch (red.detection) {
-                    case 1:
-                        telemetry.addData("Detection", "stanga");
-                        break;
-                    case 2:
-                        telemetry.addData("Detection", "middle");
-                        break;
-                    case 3:
-                        telemetry.addData("Detection", "dreapta");
-                        break;
-                    default:
-                        telemetry.addData("Detection", "Did not detect yet");
-                }
-
-                telemetry.addData("Right value", red.leftSum);
-                telemetry.addData("Middle value", red.middleSum);
-                telemetry.update();
-
-                detect = red.detection;
-            } else switch (detect) {
-                case 1:
-
-                    spikemark = drive.trajectorySequenceBuilder(startRed)
-                            .lineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(135)))
-                            .build();
-                    backboard = drive.trajectorySequenceBuilder(spikemark.end())
-                            .lineToLinearHeading(new Pose2d(-35, -24, Math.toRadians(90)))
-                            .splineTo(new Vector2d(12, -12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(170)), Math.toRadians(0))
-                            .build();
-                    park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
-                            .build();
-                    break;
-
-                case 2:
-
-                    spikemark = drive.trajectorySequenceBuilder(startRed)
-                            .lineToConstantHeading(new Vector2d(-35, -36))
-                            .build();
-                    backboard = drive.trajectorySequenceBuilder(spikemark.end())
-                            .strafeTo(new Vector2d(-56, -32))
-                            .forward(6)
-                            .splineTo(new Vector2d(12, -12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(170)), Math.toRadians(0))
-                            .build();
-                    park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
-                            .build();
-                    break;
-
-                case 3:
-
-                    spikemark = drive.trajectorySequenceBuilder(startRed)
-                            .lineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(30)))
-                            .build();
-                    backboard = drive.trajectorySequenceBuilder(spikemark.end())
-                            .lineToLinearHeading(new Pose2d(-35, -24, Math.toRadians(90)))
-                            .splineTo(new Vector2d(24, -12), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(48, -35, Math.toRadians(170)), Math.toRadians(0))
-                            .build();
-                    park = drive.trajectorySequenceBuilder(backboard.end())
-                            .splineToConstantHeading(new Vector2d(60, -9), Math.toRadians(0))
-                            .build();
-                    break;
-
-            }
-
-            waitForStart();
-
-            schedule(
-                    new SequentialCommandGroup(
-                            vbar.Close(),
-                            vbar.Vbar_Idle(),
-                            cuva.close(),
-                            new FollowTrajectoryCommand(spikemark, drive),
-                            new DelayedCommand(vbar.vbarjos(),200).andThen(vbar.Open()),
-                            new DelayedCommand(vbar.Vbar_Idle(), 100),
-                            new FollowTrajectoryCommand(backboard, drive),
-                            new BackDropCommand(lift,cuva),
-                            new WaitCommand(1000),
-                            new FollowTrajectoryCommand(park, drive)
-                    )
-            );
+            detect = red.detection;
+            telemetry.addData("Detection", detect);
+            telemetry.addData("Right value", red.leftSum);
+            telemetry.addData("Middle value", red.middleSum);
+            telemetry.update();
         }
+
+        waitForStart();
+
+        schedule(
+                new SequentialCommandGroup(
+
+                        vbar.Close(),
+                        vbar.VJos(),
+                        new WaitCommand(1000),
+                        cuva.open(),
+                        new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
+                                .alongWith(vbar.VJos()),
+                        new DelayedCommand(vbar.Open(),100).alongWith(new DelayedCommand(vbar.Vbar_Idle(), 100)),
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
+
+                )
+        );
     }
     @Override
     public void run() {
