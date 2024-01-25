@@ -145,8 +145,8 @@ public class RedBackdrop extends CommandOpMode {
                                 new WaitCommand(400),
                                 cuva.open(),
                                 new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
-                                        .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),
-                                new DelayedCommand(vbar.Open(),1400).alongWith(vbar.Vbar_Idle()),
+                                        .alongWith(vbar.VJos(), new DelayedCommand( lift.goLift(0), 300)),
+                                new DelayedCommand(vbar.Open(),100).alongWith(vbar.Vbar_Idle()),
                                 new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                         )
         );

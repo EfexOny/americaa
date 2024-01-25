@@ -92,7 +92,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(53.3,40,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.3,38,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .lineToLinearHeading(new Pose2d(37, 19,Math.toRadians(195)))
@@ -115,7 +115,7 @@ public class BlueBackdrop extends CommandOpMode {
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .strafeTo(new Vector2d(37,57))
                 .setReversed(true)
-                .splineToLinearHeading(new Pose2d(59,60,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(59,59,Math.toRadians(195)),Math.toRadians(0))
                 .build();
 
 
@@ -147,8 +147,8 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(400),
                         cuva.open(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
-                                .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),
-                        new DelayedCommand(vbar.Open(),650).alongWith(vbar.Vbar_Idle()),
+                                .alongWith(vbar.VJos(), new DelayedCommand( lift.goLift(0), 300)),
+                        vbar.Open().alongWith(vbar.Vbar_Idle()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                 )
         );
