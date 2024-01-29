@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 
@@ -16,7 +17,6 @@ import java.util.function.DoubleSupplier;
 
 public class DriveCommand extends CommandBase {
 
-    RevIMU imu;
     private final DriveSubsystem driveSubsystem;
     private final DoubleSupplier forward;
     private final DoubleSupplier strafe;
@@ -31,14 +31,16 @@ public class DriveCommand extends CommandBase {
 
     public DriveCommand(DriveSubsystem subsystem, DoubleSupplier strafe, DoubleSupplier forward, DoubleSupplier rotation) {
         driveSubsystem = subsystem;
+//        this.angle= angle;
         this.strafe = strafe;
         this.forward = forward;
         this.rotation = rotation;
+
         addRequirements(driveSubsystem);
     }
 
     @Override
     public void execute() {
-        driveSubsystem.drive(strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(),imu.getRotation2d().getDegrees());
+        driveSubsystem.drive(strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble());
     }
 }

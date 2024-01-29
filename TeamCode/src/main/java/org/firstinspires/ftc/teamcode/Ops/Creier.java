@@ -3,13 +3,22 @@ package org.firstinspires.ftc.teamcode.Ops;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
+import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Dist;
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
@@ -19,12 +28,18 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 public class Creier extends CommandOpMode {
     public Lift lift;
+
     Gamepad dr1;
+
+    IMU imu;
+
+    MecanumDrive stefan;
 
     Button nospam;
     Button avion;
     Dist dist;
     Trigger senzor,senzor2;
+
     public Cuva cuva;
     public Virtualbar virtualbar;
 
@@ -51,10 +66,23 @@ public class Creier extends CommandOpMode {
     public void initHardware(){
         b1 = hardwareMap.get(DigitalChannel.class,"b1");
         b2 = hardwareMap.get(DigitalChannel.class,"b2");
+
         lf = new Motor(hardwareMap, "lf");
         rf = new Motor(hardwareMap, "rf");
         lb = new Motor(hardwareMap, "lr");
         rb = new Motor(hardwareMap, "rr");
+
+        imu = hardwareMap.get(IMU.class,"imu");
+        IMU.Parameters parameters = new IMU.Parameters(
+                new RevHubOrientationOnRobot(
+                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
+                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
+                )
+        );
+
+        imu.initialize(parameters);
+
+
         d1 = new GamepadEx(gamepad1);
 
         d2 = new GamepadEx(gamepad2);
@@ -64,6 +92,7 @@ public class Creier extends CommandOpMode {
         virtualbar = new Virtualbar(hardwareMap);
 
         drive = new DriveSubsystem(lf,rf,lb,rb);
+        stefan = new MecanumDrive(lf, rf, lb, rb);
 
         register(drive,virtualbar,lift,cuva);
     }

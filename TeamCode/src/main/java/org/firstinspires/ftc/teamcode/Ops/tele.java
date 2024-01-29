@@ -5,12 +5,10 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;
-import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Subsystems.Dist;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 @TeleOp(name="ruble")
@@ -23,6 +21,7 @@ public class tele extends Creier {
         initHardware();
         super.initialize();
 
+
         senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
 
@@ -30,13 +29,13 @@ public class tele extends Creier {
                 new SequentialCommandGroup(
                 new WaitCommand(500),
                 virtualbar.closesep(false),
-                        new InstantCommand(() -> dr1.rumble(0,1,400))
+                        new InstantCommand(() ->gamepad1.rumble(0,1,400))
                 )
         );
         senzor2.toggleWhenActive(  new SequentialCommandGroup(
                         new WaitCommand(500),
                         virtualbar.closesep(true),
-                new InstantCommand(() -> dr1.rumble(1,0,400))
+                new InstantCommand(() -> gamepad1.rumble(1,0,400))
 
                 )
         );
@@ -93,20 +92,25 @@ public class tele extends Creier {
         mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
 
 
-        register(drive);
-        drive.setDefaultCommand(mergi);
+//        register(drive);
+//        drive.setDefaultCommand(mergi);
     }
 
     @Override
     public void run() {
         telemetry.addData("target pos",lift.getLiftPosition());
         telemetry.addData("left tficks",lift.getTciks());
-        telemetry.addData("dreapta ticks",lift.rightticks());
         telemetry.addData("d1",virtualbar.dow1());
         telemetry.addData("d2",virtualbar.dow2());
         telemetry.addData("state",virtualbar.VbarState());
-        telemetry.addData("pula",senzor.get());
+        telemetry.addData("?",senzor.get());
         telemetry.update();
+
+        stefan.driveFieldCentric(d1.getLeftX(),d1.getLeftY(),d1.getRightX()
+                ,imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),true);
+
+
+//        imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)
         super.run();
     }
 }

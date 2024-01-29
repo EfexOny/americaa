@@ -4,13 +4,14 @@ import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
+import com.arcrobotics.ftclib.hardware.RevIMU;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 
 
 public class DriveSubsystem extends SubsystemBase {
 
-    private final MecanumDrive m_drive;
+      final MecanumDrive m_drive;
     double limit=1;
 
     /**
@@ -29,8 +30,8 @@ public class DriveSubsystem extends SubsystemBase {
      */
 
 
-    public void drive(double str, double fwd, double rot,double angle) {
-        m_drive.driveFieldCentric(-str * limit, -fwd * limit, -rot * limit,angle,true);
+    public void drive(double str, double fwd, double rot) {
+        m_drive.driveRobotCentric(-str * limit, -fwd * limit, -rot * limit,true);
     }
 
 
@@ -54,7 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
        return new InstantCommand(()-> limit = val);
     }
 
-        public void ver(boolean sus,boolean jos){
+    public void ver(boolean sus,boolean jos) {
 
         double valoare=0;
         if(jos)
