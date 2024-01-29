@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import static com.arcrobotics.ftclib.util.MathUtils.clamp;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -9,15 +11,16 @@ import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
 @Config
 public class Lift extends SubsystemBase {
 
     DcMotor left,right;
-    public static double kP = 0.005;
+    public static double kP = 0.006;
     public static double kI = 0;
     Timing.Timer timp;
     public static double kD = 0;
-    public static double kF = 0.0003;
+    public static double kF = 0;
     public static int liftTargetPos = 0;
     public static PIDController pid;
     public static double tele = 0;
@@ -76,14 +79,20 @@ public class Lift extends SubsystemBase {
         double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
         double ff = kF * left.getCurrentPosition();
 
-        left.setPower(power + ff);
-        right.setPower(power + ff);
+        double output = clamp(power + ff,-0.3,0.8);
+
+        left.setPower(output);
+        right.setPower(output);
 
         super.periodic();
     }
 
-    public Command goLift(int pula){
-        return new InstantCommand(() -> liftTargetPos = pula);
+    public Command manual(int s){
+        return new InstantCommand( () -> liftTargetPos = liftTargetPos-s);
+    }
+
+    public Command goLift(int p){
+        return new InstantCommand(() -> liftTargetPos = p);
     }
 
     public Command ridicare(int joystick){

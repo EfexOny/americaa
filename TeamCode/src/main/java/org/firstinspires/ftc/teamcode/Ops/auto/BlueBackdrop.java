@@ -78,7 +78,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52,43,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(55,43,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
                 .lineToLinearHeading(new Pose2d(44.5, 27,Math.toRadians(195)))
@@ -92,7 +92,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(53.3,40,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(55.3,40,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .lineToLinearHeading(new Pose2d(37, 19,Math.toRadians(195)))
@@ -106,7 +106,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(54,32,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(57,32,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
                 .lineToLinearHeading(new Pose2d(21,26,Math.toRadians(195)))
@@ -140,11 +140,11 @@ public class BlueBackdrop extends CommandOpMode {
                         new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
                                 .alongWith(cuva.close(), new DelayedCommand(lift.goLift(500), 400),cuva.cuva_inapoi()),
                         cuva.open(),
-                        new WaitCommand(1000),
+                        new WaitCommand(500),
                         cuva.close(),
                         new WaitCommand(500),
                         cuva.cuva_arunca(),
-                        new WaitCommand(400),
+                        new WaitCommand(1000),
                         cuva.open(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                 .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300)),

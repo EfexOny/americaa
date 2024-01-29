@@ -29,9 +29,14 @@ public class DriveSubsystem extends SubsystemBase {
      */
 
 
-    public void drive(double str, double fwd, double rot) {
-        m_drive.driveRobotCentric(-str * limit, -fwd * limit, -rot * limit);
+    public void drive(double str, double fwd, double rot,double angle) {
+        m_drive.driveFieldCentric(-str * limit, -fwd * limit, -rot * limit,angle,true);
     }
+
+
+//    public void drive(double str, double fwd, double rot) {
+//        m_drive.driveRobotCentric(-str * limit, -fwd * limit, -rot * limit);
+//    }
 
 
     public void lat(boolean stg,boolean dr){

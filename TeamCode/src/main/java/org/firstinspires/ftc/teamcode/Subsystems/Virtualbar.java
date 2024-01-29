@@ -175,7 +175,7 @@ public class Virtualbar extends SubsystemBase{
     public ParallelCommandGroup vbarjos(){
         return new ParallelCommandGroup(
                 VJos(),
-                new WaitCommand(500),
+                new WaitCommand(1000),
                 new InstantCommand(() -> stanga_principala.setPosition(jos1)),
                 new InstantCommand(() -> dreapta_principala.setPosition(jos2))
         );

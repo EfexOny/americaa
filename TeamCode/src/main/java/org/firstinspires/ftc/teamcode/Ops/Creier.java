@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Dist;
@@ -18,7 +19,9 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
 public class Creier extends CommandOpMode {
     public Lift lift;
+    Gamepad dr1;
 
+    Button nospam;
     Button avion;
     Dist dist;
     Trigger senzor,senzor2;

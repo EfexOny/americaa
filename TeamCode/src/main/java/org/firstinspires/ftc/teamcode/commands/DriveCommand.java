@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
+import com.arcrobotics.ftclib.hardware.RevIMU;
 
 import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 
 import java.util.function.DoubleSupplier;
+
 
     /*
     This is our drive command. This works hand in hand with the DriveSubsystem class.
@@ -14,6 +16,7 @@ import java.util.function.DoubleSupplier;
 
 public class DriveCommand extends CommandBase {
 
+    RevIMU imu;
     private final DriveSubsystem driveSubsystem;
     private final DoubleSupplier forward;
     private final DoubleSupplier strafe;
@@ -36,6 +39,6 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        driveSubsystem.drive(strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble());
+        driveSubsystem.drive(strafe.getAsDouble(), forward.getAsDouble(), rotation.getAsDouble(),imu.getRotation2d().getDegrees());
     }
 }

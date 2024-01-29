@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
@@ -12,7 +13,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Subsystems.Dist;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 
-//@Photon
 @TeleOp(name="ruble")
 public class tele extends Creier {
 
@@ -28,19 +28,25 @@ public class tele extends Creier {
 
         senzor.toggleWhenActive(
                 new SequentialCommandGroup(
-                new WaitCommand(1500),
-                virtualbar.closesep(false)
+                new WaitCommand(500),
+                virtualbar.closesep(false),
+                        new InstantCommand(() -> dr1.rumble(0,1,400))
                 )
         );
         senzor2.toggleWhenActive(  new SequentialCommandGroup(
-                        new WaitCommand(1500),
-                        virtualbar.closesep(true)
+                        new WaitCommand(500),
+                        virtualbar.closesep(true),
+                new InstantCommand(() -> dr1.rumble(1,0,400))
+
                 )
         );
 
         senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
                 new WaitCommand(100),virtualbar.cekkt()
         ));
+
+        nospam = new GamepadButton(d2,GamepadKeys.Button.BACK).toggleWhenPressed(lift.manual(50));
+
 
         avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
 
