@@ -15,26 +15,16 @@ import static org.firstinspires.ftc.teamcode.Constants.vbarsus_stanga;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
-import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
-import com.arcrobotics.ftclib.command.ScheduleCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.arcrobotics.ftclib.command.WaitUntilCommand;
-import com.arcrobotics.ftclib.util.Timing;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.commands.AutoCloseGheara;
-
-import java.util.function.BooleanSupplier;
 
 
 @Config
@@ -43,6 +33,7 @@ public class Virtualbar extends SubsystemBase{
     boolean jos;
     DistanceSensor s1,s2;
     public static double distgheara = 7;
+    public static double distgheara2 = 7;
     public static double jos1=0.45,jos2=0.45;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
@@ -68,15 +59,7 @@ public class Virtualbar extends SubsystemBase{
     }
 
     public boolean dow2(){
-        return  s2.getDistance(DistanceUnit.CM) < distgheara;
-    }
-
-    public BooleanSupplier down1(){
-        return () -> s1.getDistance(DistanceUnit.CM) < distgheara;
-    }
-
-    public BooleanSupplier down2(){
-        return () -> s2.getDistance(DistanceUnit.CM) < distgheara;
+        return  s2.getDistance(DistanceUnit.CM) < distgheara2;
     }
     public Command VSus(){
         return new InstantCommand(

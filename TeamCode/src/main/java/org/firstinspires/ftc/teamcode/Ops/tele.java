@@ -6,7 +6,9 @@ import com.arcrobotics.ftclib.command.WaitCommand;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
@@ -29,14 +31,15 @@ public class tele extends Creier {
                 new SequentialCommandGroup(
                 new WaitCommand(500),
                 virtualbar.closesep(false),
-                        new InstantCommand(() ->gamepad1.rumble(0,1,400))
+                        new InstantCommand(() ->gamepad1.rumble(0,1,400)),
+                        new InstantCommand(() -> gamepad2.rumble(0,1,400))
                 )
         );
         senzor2.toggleWhenActive(  new SequentialCommandGroup(
                         new WaitCommand(500),
                         virtualbar.closesep(true),
-                new InstantCommand(() -> gamepad1.rumble(1,0,400))
-
+                new InstantCommand(() -> gamepad1.rumble(1,0,400)),
+                new InstantCommand(() -> gamepad2.rumble(1,0,400))
                 )
         );
 
@@ -59,9 +62,9 @@ public class tele extends Creier {
 //
 
         auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(500),cuva.afterparty());
-        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(700),cuva.afterparty());
+        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(600),cuva.afterparty());
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
-                .toggleWhenActive(cuva.mereuta(900), cuva.afterparty());
+                .toggleWhenActive(cuva.mereuta(800), cuva.afterparty());
 
         cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
                 .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
@@ -91,9 +94,8 @@ public class tele extends Creier {
 
         mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
 
-
-//        register(drive);
-//        drive.setDefaultCommand(mergi);
+        register(drive);
+        drive.setDefaultCommand(mergi);
     }
 
     @Override
@@ -106,11 +108,6 @@ public class tele extends Creier {
         telemetry.addData("?",senzor.get());
         telemetry.update();
 
-        stefan.driveFieldCentric(d1.getLeftX(),d1.getLeftY(),d1.getRightX()
-                ,imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES),true);
-
-
-//        imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES)
         super.run();
     }
 }

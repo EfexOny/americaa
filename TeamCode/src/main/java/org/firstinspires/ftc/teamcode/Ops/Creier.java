@@ -73,14 +73,6 @@ public class Creier extends CommandOpMode {
         rb = new Motor(hardwareMap, "rr");
 
         imu = hardwareMap.get(IMU.class,"imu");
-        IMU.Parameters parameters = new IMU.Parameters(
-                new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.DOWN
-                )
-        );
-
-        imu.initialize(parameters);
 
 
         d1 = new GamepadEx(gamepad1);
@@ -91,7 +83,7 @@ public class Creier extends CommandOpMode {
         lift = new Lift(hardwareMap);
         virtualbar = new Virtualbar(hardwareMap);
 
-        drive = new DriveSubsystem(lf,rf,lb,rb);
+        drive  = new DriveSubsystem(lf,rf,lb,rb);
         stefan = new MecanumDrive(lf, rf, lb, rb);
 
         register(drive,virtualbar,lift,cuva);

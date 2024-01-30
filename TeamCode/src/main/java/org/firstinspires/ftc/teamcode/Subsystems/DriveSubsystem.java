@@ -10,7 +10,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 
 public class DriveSubsystem extends SubsystemBase {
-
+    double valoare=0;
       final MecanumDrive m_drive;
     double limit=1;
 
@@ -34,6 +34,11 @@ public class DriveSubsystem extends SubsystemBase {
         m_drive.driveRobotCentric(-str * limit, -fwd * limit, -rot * limit,true);
     }
 
+    //Field Centric
+    public void drive(double str, double fwd, double rot, double angle) {
+        m_drive.driveFieldCentric(-str * limit, -fwd * limit, -rot * limit, angle, true);
+    }
+
 
 //    public void drive(double str, double fwd, double rot) {
 //        m_drive.driveRobotCentric(-str * limit, -fwd * limit, -rot * limit);
@@ -41,13 +46,12 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     public void lat(boolean stg,boolean dr){
-        double valoare=0;
         if(dr)
             valoare = -0.6;
         if(stg)
             valoare = 0.6;
 
-        m_drive.driveRobotCentric(valoare,0,0);
+        m_drive.driveRobotCentric(valoare,0,0,true);
 
     }
 
@@ -57,24 +61,22 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void ver(boolean sus,boolean jos) {
 
-        double valoare=0;
         if(jos)
             valoare = 0.6;
         if(sus)
             valoare = -0.6;
 
-        m_drive.driveRobotCentric(0,valoare,0);
+        m_drive.driveRobotCentric(0,valoare,0,true);
 
     }
 
     public void rot(boolean stg,boolean dr){
-        double valoare=0;
         if(dr)
             valoare = -0.4;
         if(stg)
             valoare = 0.4;
 
-        m_drive.driveRobotCentric(0,0,valoare);
+        m_drive.driveRobotCentric(0,0,valoare,true);
     }
 
     public Command dpad_vertical(boolean sus,boolean jos){
