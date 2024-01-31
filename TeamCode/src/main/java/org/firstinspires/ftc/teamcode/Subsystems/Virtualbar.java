@@ -32,8 +32,9 @@ public class Virtualbar extends SubsystemBase{
 
     boolean jos;
     DistanceSensor s1,s2;
+    Cuva cuva;
     public static double distgheara = 7;
-    public static double distgheara2 = 7;
+    public static double distgheara2 = 5;
     public static double jos1=0.45,jos2=0.45;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
@@ -47,6 +48,8 @@ public class Virtualbar extends SubsystemBase{
 
         s1 = hardwareMap.get(DistanceSensor.class,"s1");
         s2 = hardwareMap.get(DistanceSensor.class,"s2");
+
+        cuva = new Cuva(hardwareMap);
     }
 
     @Override
@@ -93,9 +96,8 @@ public class Virtualbar extends SubsystemBase{
                 Open(),
                 new WaitCommand(800),
                 Close(),
-                Vbar_Idle()
-
-
+                Vbar_Idle(),
+                cuva.close()
         );
     }
 

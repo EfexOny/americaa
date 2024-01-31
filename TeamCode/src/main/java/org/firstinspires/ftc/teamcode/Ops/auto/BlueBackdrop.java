@@ -147,14 +147,11 @@ public class BlueBackdrop extends CommandOpMode {
 //                        new WaitCommand(1000),
 //                        cuva.open(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
-                                .alongWith(vbar.vbarjos(), new DelayedCommand( lift.goLift(0), 300))
-                                .alongWith(new SequentialCommandGroup(cuva.close(),
-                                        new WaitCommand(500),
-                                        cuva.cuva_arunca(),
-                                        new WaitCommand(1000),
-                                        cuva.open())),
-                        new DelayedCommand(vbar.Open(),650).alongWith(vbar.Vbar_Idle()),
-                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
+                                .alongWith(vbar.vbarjos())
+                                .alongWith(cuva.close(),
+                                        cuva.cuva_arunca()),
+                        new DelayedCommand(vbar.Open(),650).alongWith(vbar.Vbar_Idle()).alongWith(cuva.open()),
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith(lift.goLift(0))
                 )
         );
     }
