@@ -35,7 +35,7 @@ public class Virtualbar extends SubsystemBase{
     Cuva cuva;
     public static double distgheara = 7;
     public static double distgheara2 = 5;
-    public static double jos1=0.45,jos2=0.45;
+    public static double jos1=0.45,jos2=0.4;
     Servo barstanga,bardreapta;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
