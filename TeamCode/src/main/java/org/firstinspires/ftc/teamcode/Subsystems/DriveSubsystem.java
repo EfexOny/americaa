@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.hardware.RevIMU;
@@ -80,15 +81,15 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public Command dpad_vertical(boolean sus,boolean jos){
-        return new InstantCommand(() -> ver(sus,jos));
+        return new RunCommand(() -> ver(sus,jos));
     }
 
     public Command dpad_orizontal(boolean stg,boolean dr){
-        return new InstantCommand(() -> lat(stg,dr));
+        return new RunCommand(() -> lat(stg,dr));
     }
 
     public Command bumper_rotire(boolean stg,boolean dr){
-        return new InstantCommand(() -> rot(stg,dr));
+        return new RunCommand(() -> rot(stg,dr));
     }
 
 
