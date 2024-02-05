@@ -26,8 +26,8 @@ public class testLock extends CommandOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         lf = hardwareMap.get(DcMotorEx.class,"lf");
         rf = hardwareMap.get(DcMotorEx.class,"rf");
-        lb = hardwareMap.get(DcMotorEx.class,"lb");
-        rb = hardwareMap.get(DcMotorEx.class,"rb");
+        lb = hardwareMap.get(DcMotorEx.class,"lr");
+        rb = hardwareMap.get(DcMotorEx.class,"rr");
 
 
         drive.setPoseEstimate(new Pose2d(0,0));

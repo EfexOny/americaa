@@ -28,7 +28,6 @@ public class Creier extends CommandOpMode {
 
     Button nospam;
     Button avion;
-    Dist dist;
     Trigger senzor,senzor2;
 
     public Cuva cuva;
@@ -62,6 +61,11 @@ public class Creier extends CommandOpMode {
         rf = new Motor(hardwareMap, "rf");
         lb = new Motor(hardwareMap, "lr");
         rb = new Motor(hardwareMap, "rr");
+
+        lf.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        rf.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        lb.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+        rb.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
 
         imu = hardwareMap.get(IMU.class,"imu");
 

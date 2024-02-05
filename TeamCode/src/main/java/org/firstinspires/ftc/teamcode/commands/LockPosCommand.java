@@ -12,6 +12,9 @@ public class LockPosCommand extends CommandBase {
 
     Pose2d target;
     SampleMecanumDrive drive;
+    boolean gata=false;
+
+
 
     @Override
     public void execute() {
@@ -38,11 +41,12 @@ public class LockPosCommand extends CommandBase {
         double heading = Angle.normDelta(targetPos.getHeading()
                 - Angle.normDelta(currPos.getHeading()));
         drive.setWeightedDrivePower(new Pose2d(xy,heading));
+        gata = true;
 
     }
 
     @Override
     public boolean isFinished() {
-        return  false;
+        return gata;
     }
 }

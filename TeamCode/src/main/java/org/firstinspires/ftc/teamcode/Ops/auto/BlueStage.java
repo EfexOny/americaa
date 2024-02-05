@@ -111,22 +111,22 @@ public class BlueStage extends CommandOpMode {
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .lineToLinearHeading(new Pose2d(-35, 59, Math.toRadians(270)))
                 .build();
+
+
         spikemark3 = drive.trajectorySequenceBuilder(startBlue)
                 .lineToLinearHeading(new Pose2d(-35,42, Math.toRadians(235)))
                 .build();
 
         stack3 = drive.trajectorySequenceBuilder(spikemark3.end())
-                .lineToLinearHeading(new Pose2d(-30, 34, Math.toRadians(180)))
-                .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(-44.8, 5.5, Math.toRadians(195)), Math.toRadians(180))
-                .build();
-        pixel3 = drive.trajectorySequenceBuilder(stack3.end())
-                .lineToLinearHeading(new Pose2d(-30, 6.5, Math.toRadians(195)))
+//                .lineToLinearHeading(new Pose2d(-30, 34, Math.toRadians(180)))
+//                .setTangent(Math.toRadians(270))
+//                .splineToLinearHeading(new Pose2d(-44.8, 5.5, Math.toRadians(195)), Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(-44.8,12,Math.toRadians(195)))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(stack3.end())
-                .lineToConstantHeading(new Vector2d(24, 12))
-                .splineToConstantHeading(new Vector2d(57, 32), Math.toRadians(0))
+                .lineToConstantHeading(new Vector2d(7,12))
+                .lineToConstantHeading(new Vector2d(53,48))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
@@ -156,10 +156,11 @@ public class BlueStage extends CommandOpMode {
                             new SpikeMarkCommand(drive,stack1,stack2,stack3,detect,true),
                             new WaitCommand(500),
                             new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true)
-                                    .alongWith(cuva.close(), new DelayedCommand(lift.goLift(500), 6500),cuva.cuva_inapoi()),
+                                    .alongWith(cuva.close(), new DelayedCommand(lift.goLift(500), 6000),cuva.cuva_inapoi()),
                             cuva.open(),
-                            new WaitCommand(500)
-
+                            new WaitCommand(500),
+                            cuva.close(),
+                         new DelayedCommand(   lift.goLift(0), 500)
 
 
 

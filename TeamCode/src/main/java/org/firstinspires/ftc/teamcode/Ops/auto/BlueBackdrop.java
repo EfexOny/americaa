@@ -78,6 +78,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
+                .setTangent(180)
                 .splineToLinearHeading(new Pose2d(55,43,Math.toRadians(195)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
@@ -85,9 +86,9 @@ public class BlueBackdrop extends CommandOpMode {
                 .build();
 
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
-                .strafeTo(new Vector2d(37,50))
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(57.5,62,Math.toRadians(180)),Math.toRadians(0))
+                .setTangent(Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
+                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
                 .build();
 
 
@@ -99,8 +100,8 @@ public class BlueBackdrop extends CommandOpMode {
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
-                .strafeTo(new Vector2d(37,50))
-                .setReversed(true)
+                .setTangent(Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
                 .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
                 .build();
 
@@ -113,9 +114,9 @@ public class BlueBackdrop extends CommandOpMode {
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
-                .strafeTo(new Vector2d(37,57))
-                .setReversed(true)
-                .splineToLinearHeading(new Pose2d(59,60,Math.toRadians(195)),Math.toRadians(0))
+                .setTangent(Math.toRadians(90))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
+                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
                 .build();
 
 
@@ -150,7 +151,7 @@ public class BlueBackdrop extends CommandOpMode {
                                 .alongWith(vbar.vbarjos())
                                 .alongWith(cuva.close(),
                                         cuva.cuva_arunca()),
-                        new DelayedCommand(vbar.Open(),650).alongWith(vbar.Vbar_Idle()).alongWith(cuva.open()),
+                        new DelayedCommand(vbar.Open(),650).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith(lift.goLift(0))
                 )
         );

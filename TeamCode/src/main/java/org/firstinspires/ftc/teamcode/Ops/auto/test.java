@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryAsync;
 import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -25,8 +26,8 @@ public class test extends CommandOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         lf = hardwareMap.get(DcMotorEx.class,"lf");
         rf = hardwareMap.get(DcMotorEx.class,"rf");
-        lb = hardwareMap.get(DcMotorEx.class,"lb");
-        rb = hardwareMap.get(DcMotorEx.class,"rb");
+        lb = hardwareMap.get(DcMotorEx.class,"lr");
+        rb = hardwareMap.get(DcMotorEx.class,"rr");
 
 
 
@@ -38,7 +39,7 @@ public class test extends CommandOpMode {
         waitForStart();
 
         schedule(
-                new FollowTrajectoryCommand(start,drive)
+                new FollowTrajectoryAsync(start,drive)
         );
     }
 
@@ -49,7 +50,5 @@ public class test extends CommandOpMode {
         telemetry.addData("lb",lb.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("rb",rb.getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.update();
-
-        super.run();
     }
 }
