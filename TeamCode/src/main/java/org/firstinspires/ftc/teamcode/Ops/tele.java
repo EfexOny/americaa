@@ -93,16 +93,16 @@ public class tele extends Creier {
         Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
                 .whileActiveContinuous(drive.bumper_rotire(false,true));
 
-//        mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
-//
-//        register(drive);
-//        drive.setDefaultCommand(mergi);
+        mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
+
+        register(drive);
+        drive.setDefaultCommand(mergi);
     }
 
     @Override
     public void run() {
 
-        stefan.driveFieldCentric(d1.getLeftX(),d1.getLeftY(),d1.getRightX(),imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
+//        stefan.driveFieldCentric(d1.getLeftX(),d1.getLeftY(),d1.getRightX(),imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
         telemetry.addData("angle",imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
         telemetry.addData("target pos",lift.getLiftPosition());
