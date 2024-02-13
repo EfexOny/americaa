@@ -7,6 +7,12 @@ import static org.firstinspires.ftc.teamcode.Constants.deschis_st;
 import static org.firstinspires.ftc.teamcode.Constants.inapoi;
 import static org.firstinspires.ftc.teamcode.Constants.inchis_dr;
 import static org.firstinspires.ftc.teamcode.Constants.inchis_st;
+import static org.firstinspires.ftc.teamcode.Constants.indr;
+import static org.firstinspires.ftc.teamcode.Constants.ingheara;
+import static org.firstinspires.ftc.teamcode.Constants.inst;
+import static org.firstinspires.ftc.teamcode.Constants.outdr;
+import static org.firstinspires.ftc.teamcode.Constants.outgheara;
+import static org.firstinspires.ftc.teamcode.Constants.outst;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
@@ -26,6 +32,8 @@ public class Cuva extends SubsystemBase {
     Servo out_stanga,out_dreapta;
     public static double av1=1;
     Lift lift;
+    Servo s1,s2,s3;
+
 
 
 // st = 0.15, dr = 0.75
@@ -49,9 +57,14 @@ public class Cuva extends SubsystemBase {
         out_stanga = hardwareMap.get(Servo.class,"sec_stanga");
         out_dreapta = hardwareMap.get(Servo.class,"sec_dreapta");
 
+//        s2 sus jos
+//        s1 si s3 e rotatia centrifuga
+//        s1 stanga(reversed) s3 dr
 
 
-        drop = hardwareMap.get(Servo.class,"cuva");
+        s1 = hardwareMap.get(Servo.class,"cuva");
+        s2 = hardwareMap.get(Servo.class,"rotcuva1");
+        s3 = hardwareMap.get(Servo.class,"rotcuva2");
 
         avion = hardwareMap.get(Servo.class,"avion");
 
@@ -91,7 +104,7 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(300),
                 lift.goLift(l1),
                 new WaitCommand(300),
-                cuva_inapoi()
+                cuva_arunca()
             );
     }
 
@@ -101,7 +114,7 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(450),
                 close(),
                 new WaitCommand(550),
-                cuva_arunca(),
+                cuva_inapoi(),
                 new WaitCommand(400),
                 open(),
                 new WaitCommand(400),
@@ -112,7 +125,10 @@ public class Cuva extends SubsystemBase {
     public Command cuva_arunca(){
         return new InstantCommand(
                 () -> {
-                    drop.setPosition(arunca);
+                    s2.setPosition(outgheara);
+
+                    s1.setPosition(outst);
+                    s3.setPosition(outdr);
                 }
         );
     }
@@ -120,7 +136,10 @@ public class Cuva extends SubsystemBase {
     public Command cuva_inapoi(){
         return new InstantCommand(
                 () -> {
-                    drop.setPosition(inapoi);
+                    s2.setPosition(ingheara);
+
+                    s1.setPosition(inst);
+                    s3.setPosition(indr);
                 }
         );
     }

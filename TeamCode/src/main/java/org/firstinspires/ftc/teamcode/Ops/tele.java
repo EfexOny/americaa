@@ -26,6 +26,9 @@ public class tele extends Creier {
 
         senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
+        magnet = new Trigger(() -> lift.check());
+
+        magnet.toggleWhenActive( new InstantCommand( () -> lift.resetTicks()));
 
         senzor.toggleWhenActive(
                 new SequentialCommandGroup(
@@ -61,8 +64,8 @@ public class tele extends Creier {
 
 //
 
-        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(500),cuva.afterparty());
-        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(600),cuva.afterparty());
+        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(650),cuva.afterparty());
+        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(700),cuva.afterparty());
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
                 .toggleWhenActive(cuva.mereuta(800), cuva.afterparty());
 
@@ -111,6 +114,7 @@ public class tele extends Creier {
         telemetry.addData("d2",virtualbar.dow2());
         telemetry.addData("state",virtualbar.VbarState());
         telemetry.addData("?",senzor.get());
+        telemetry.addData("magnet",lift.check());
         telemetry.update();
 
         super.run();

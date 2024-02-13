@@ -28,7 +28,7 @@ public class Creier extends CommandOpMode {
 
     Button nospam;
     Button avion;
-    Trigger senzor,senzor2;
+    Trigger senzor,senzor2,magnet;
 
     public Cuva cuva;
     public Virtualbar virtualbar;

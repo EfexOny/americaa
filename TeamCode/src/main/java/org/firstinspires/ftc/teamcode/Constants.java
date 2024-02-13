@@ -26,4 +26,17 @@ public class Constants {
     public static double arunca = 1;
     public static double inapoi = 0;
 
+//    OUTTAKE
+
+    public static double ingheara = 0.28;
+    public static double outgheara = 0.4;
+
+    public static double indr = 1;
+    public static double inst = -1;
+
+    public static double outdr = -0.9;
+    public static double outst = 0.9;
+
+
+
 }

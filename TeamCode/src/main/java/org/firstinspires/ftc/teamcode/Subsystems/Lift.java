@@ -11,12 +11,14 @@ import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Config
 public class Lift extends SubsystemBase {
 
     DcMotor left,right;
     public static double kP = 0.006;
+    TouchSensor magnetic;
     public static double kI = 0;
     Timing.Timer timp;
     public static double kD = 0;
@@ -30,6 +32,8 @@ public class Lift extends SubsystemBase {
 
         left = hardwareMap.get(DcMotor.class,"stanga_lift");
         right = hardwareMap.get(DcMotor.class,"dreapta_lift");
+
+        magnetic = hardwareMap.get(TouchSensor.class,"magnet");
 
 //        left.setDirection(DcMotorSimple.Direction.REVERSE);
 //        right.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -51,6 +55,10 @@ public class Lift extends SubsystemBase {
         pid.setPID(kP, kI, kD);
     }
 
+    public void resetTicks(){
+        left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
     public int getTciks(){
         return left.getCurrentPosition();
     }
@@ -69,6 +77,10 @@ public class Lift extends SubsystemBase {
     }
 
 
+    public boolean check(){
+        return magnetic.isPressed();
+    }
+
     public void setLiftLevel(int level) {
         liftTargetPos = level;
 //        liftTargetPos = levelPositions[level];
@@ -79,7 +91,7 @@ public class Lift extends SubsystemBase {
         double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
         double ff = kF * left.getCurrentPosition();
 
-        double output = clamp(power + ff,-0.3,0.8);
+        double output = clamp(power + ff,-0.6,1);
 
         left.setPower(output);
         right.setPower(output);
