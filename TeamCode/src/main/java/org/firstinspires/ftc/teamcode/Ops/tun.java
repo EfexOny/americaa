@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Config
 @TeleOp(name = "pos tune")
@@ -17,6 +18,7 @@ public class tun extends LinearOpMode {
     public static double inst = 0;
     public static double indr = 0;
 
+    TouchSensor magnet;
     Servo s1,s2,s3;
     @Override
     public void runOpMode() throws InterruptedException {
@@ -25,6 +27,9 @@ public class tun extends LinearOpMode {
         s1 = hardwareMap.get(Servo.class,"cuva");
         s2 = hardwareMap.get(Servo.class,"rotcuva1");
         s3 = hardwareMap.get(Servo.class,"rotcuva2");
+
+        magnet = hardwareMap.get(TouchSensor.class,"magnet");
+
 
 //        s2 sus jos
 
@@ -53,6 +58,9 @@ public class tun extends LinearOpMode {
                 s1.setPosition(inst);
                 s3.setPosition(indr);
             }
+
+            telemetry.addData("mag",magnet.isPressed());
+            telemetry.update();
         }
     }
 }

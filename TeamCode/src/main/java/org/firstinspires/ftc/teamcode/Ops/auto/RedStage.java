@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Ops.Creier;
+import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
@@ -124,7 +125,9 @@ public class RedStage extends Creier {
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                 .alongWith(vbar.VJos()),
                         new DelayedCommand(vbar.Open(),100).alongWith(new DelayedCommand(vbar.Vbar_Idle(), 100)),
-                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true),
+                        new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
+
 
                 )
         );

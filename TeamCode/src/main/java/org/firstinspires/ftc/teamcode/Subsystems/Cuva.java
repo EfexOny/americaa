@@ -34,8 +34,6 @@ public class Cuva extends SubsystemBase {
     Lift lift;
     Servo s1,s2,s3;
 
-
-
 // st = 0.15, dr = 0.75
     Servo drop,avion;
 
@@ -61,7 +59,6 @@ public class Cuva extends SubsystemBase {
 //        s1 si s3 e rotatia centrifuga
 //        s1 stanga(reversed) s3 dr
 
-
         s1 = hardwareMap.get(Servo.class,"cuva");
         s2 = hardwareMap.get(Servo.class,"rotcuva1");
         s3 = hardwareMap.get(Servo.class,"rotcuva2");
@@ -80,8 +77,8 @@ public class Cuva extends SubsystemBase {
     public Command ridicare(double put){
         return new InstantCommand(
                 () -> {
-                        r1.setPower(put);
-                        r2.setPower(put);
+                        r1.setPower(-put);
+                        r2.setPower(-put);
                 }
         );
     }
@@ -98,13 +95,16 @@ public class Cuva extends SubsystemBase {
 
 
 
-    public SequentialCommandGroup mereuta(int l1){
+    public Command mereuta(int l1){
         return new SequentialCommandGroup(
                 close(),
                 new WaitCommand(300),
+                new ParallelCommandGroup(
                 lift.goLift(l1),
-                new WaitCommand(300),
                 cuva_arunca()
+                        ),
+                new WaitCommand(300)
+//                lift.change(false)
             );
     }
 
@@ -114,35 +114,38 @@ public class Cuva extends SubsystemBase {
                 new WaitCommand(450),
                 close(),
                 new WaitCommand(550),
-                cuva_inapoi(),
-                new WaitCommand(400),
                 open(),
                 new WaitCommand(400),
+                cuva_inapoi(),
+                new WaitCommand(400),
                 lift.goLift(0)
+//                lift.change(true)
         );
     }
 
     public Command cuva_arunca(){
-        return new InstantCommand(
-                () -> {
-                    s2.setPosition(outgheara);
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> s2.setPosition(outgheara)),
+                    new WaitCommand(200),
 
-                    s1.setPosition(outst);
-                    s3.setPosition(outdr);
-                }
+                    new InstantCommand(() -> {
+                        s1.setPosition(outst);
+                        s3.setPosition(outdr);}
+                    )
         );
     }
 
     public Command cuva_inapoi(){
-        return new InstantCommand(
-                () -> {
-                    s2.setPosition(ingheara);
+        return new SequentialCommandGroup(
+                new InstantCommand(() -> s2.setPosition(ingheara)),
+                new WaitCommand(200),
 
+                new InstantCommand(() -> {
                     s1.setPosition(inst);
-                    s3.setPosition(indr);
-                }
+                    s3.setPosition(indr);}
+                )
         );
-    }
+}
 
     public Command open(){
         return new InstantCommand(

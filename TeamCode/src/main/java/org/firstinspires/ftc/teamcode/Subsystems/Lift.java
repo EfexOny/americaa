@@ -24,6 +24,8 @@ public class Lift extends SubsystemBase {
     public static double kD = 0;
     public static double kF = 0;
     public static int liftTargetPos = 0;
+    boolean usePid;
+    boolean down;
     public static PIDController pid;
     public static double tele = 0;
 //    public int[] levelPositions = {0, 1000, 900};
@@ -58,6 +60,7 @@ public class Lift extends SubsystemBase {
     public void resetTicks(){
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftTargetPos = 0;
     }
     public int getTciks(){
         return left.getCurrentPosition();
@@ -88,10 +91,9 @@ public class Lift extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double power = pid.calculate(left.getCurrentPosition(),liftTargetPos);
-        double ff = kF * left.getCurrentPosition();
 
-        double output = clamp(power + ff,-0.6,1);
+        double power = pid.calculate(left.getCurrentPosition(), liftTargetPos);
+        double output = clamp(power , -0.6, 1);
 
         left.setPower(output);
         right.setPower(output);
@@ -99,8 +101,36 @@ public class Lift extends SubsystemBase {
         super.periodic();
     }
 
+    public Command norma(){
+      return new InstantCommand(
+              () ->   liftTargetPos = liftTargetPos - 100
+      );
+    }
+
+    public Command change(boolean s){
+        return new InstantCommand(() -> down = s);
+    }
+
+    public boolean isDown(){
+        return down;
+    }
+
     public Command manual(int s){
-        return new InstantCommand( () -> liftTargetPos = liftTargetPos-s);
+        return new InstantCommand( () -> {
+
+            if(s==0)
+            {
+                left.setPower(s);right.setPower(s);
+                liftTargetPos=left.getCurrentPosition();
+                usePid = true;
+            }
+            else
+            {
+                left.setPower(s);right.setPower(s);
+               usePid=false;
+            }
+
+        });
     }
 
     public Command goLift(int p){

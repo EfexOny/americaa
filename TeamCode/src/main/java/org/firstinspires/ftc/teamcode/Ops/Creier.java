@@ -16,13 +16,17 @@ import org.firstinspires.ftc.teamcode.Subsystems.DriveSubsystem;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Creier extends CommandOpMode {
     public Lift lift;
 
+    ButtonReader spame;
     Gamepad dr1;
 
     IMU imu;
+
+    Button reset;
 
     MecanumDrive stefan;
 
@@ -35,12 +39,14 @@ public class Creier extends CommandOpMode {
 
     Motor lf,rf,rb,lb;
     DigitalChannel b1,b2;
+    public static SampleMecanumDrive drift;
     public GamepadEx d1,d2;
-    public DriveSubsystem drive;
 
+    public DriveSubsystem drive;
     DriveCommand mergi;
     Button turbo;
     ButtonReader nivel;
+
     Button vbar_idle,auto_deposit,auto_grab;
 
     Button gheara_principala,gheara_secundara,vbarsus,vbarjos;
@@ -54,6 +60,8 @@ public class Creier extends CommandOpMode {
 
 
     public void initHardware(){
+
+
         b1 = hardwareMap.get(DigitalChannel.class,"b1");
         b2 = hardwareMap.get(DigitalChannel.class,"b2");
 
@@ -66,6 +74,8 @@ public class Creier extends CommandOpMode {
         rf.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         lb.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
         rb.setZeroPowerBehavior(Motor.ZeroPowerBehavior.FLOAT);
+
+        drift = new SampleMecanumDrive(hardwareMap);
 
         imu = hardwareMap.get(IMU.class,"imu");
 
