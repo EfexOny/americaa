@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Ops;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.arcrobotics.ftclib.command.CommandGroupBase;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -19,18 +20,14 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 @TeleOp(name="ruble")
 public class tele extends Creier {
 
-    Pose2d poseEstimate;
     @Override
     public void initialize() {
 
         initHardware();
         super.initialize();
 
-        drift.setPoseEstimate(Pose.currentPose);
-
         nospam = new GamepadButton(d2,GamepadKeys.Button.BACK).whenPressed(lift.norma());
         spame = new ButtonReader(d2,GamepadKeys.Button.BACK);
-
 
         avion = new GamepadButton(d1, GamepadKeys.Button.Y).toggleWhenPressed(cuva.stefan());
 
@@ -42,10 +39,10 @@ public class tele extends Creier {
 
         reset = new GamepadButton(d1,GamepadKeys.Button.B).whenPressed(new InstantCommand(()-> drift.setPoseEstimate(new Pose2d(0,0))));
 
-        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(400),cuva.afterparty());
-        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(500),cuva.afterparty());
+        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(450),cuva.afterparty());
+        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(750),cuva.afterparty());
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
-                .toggleWhenActive(cuva.mereuta(650), cuva.afterparty());
+                .toggleWhenActive(cuva.mereuta(750), cuva.afterparty());
 
         cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
                 .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
@@ -59,26 +56,28 @@ public class tele extends Creier {
 
         turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(1));
 
-        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(drive.dpad_vertical(true,false))
-                .whenReleased(drive.dpad_vertical(false,false));
+        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(
+                drive.Valer(0,0.5,0,true));
+//                .whenInactive(drive.dpad_vertical(false,false));
 
-        dpad2 = new GamepadButton(d1,GamepadKeys.Button.DPAD_DOWN).whileHeld(drive.dpad_vertical(false,true))
-                .whenReleased(drive.dpad_vertical(false,false));
-        dpad3 = new GamepadButton(d1,GamepadKeys.Button.DPAD_LEFT).whileHeld(drive.dpad_orizontal(true,false))
-                .whenReleased(drive.dpad_orizontal(false,false));
-        dpad4 = new GamepadButton(d1,GamepadKeys.Button.DPAD_RIGHT).whileHeld(drive.dpad_orizontal(false,true))
-                .whenReleased(drive.dpad_vertical(false,false));
+        dpad2 = new GamepadButton(d1,GamepadKeys.Button.DPAD_DOWN).whileHeld( drive.Valer(0,-0.5,0,true));
+//                .whenInactive(drive.dpad_vertical(false,false));
+        dpad3 = new GamepadButton(d1,GamepadKeys.Button.DPAD_LEFT).whileHeld( drive.Valer(-0.5,0,0,true));
+//                .whenInactive(drive.dpad_orizontal(false,false));
+        dpad4 = new GamepadButton(d1,GamepadKeys.Button.DPAD_RIGHT).whileHeld( drive.Valer(0.5,0,0,true));
+//                .whenInactive(drive.dpad_vertical(false,false));
 
         Left = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) != 0))
-                .whileActiveContinuous(drive.bumper_rotire(true,false));
+                .whileActiveContinuous( drive.Valer(0,0,-0.5,true));
         Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
-                .whileActiveContinuous(drive.bumper_rotire(false,true));
+                .whileActiveContinuous( drive.Valer(0,0,0.5,true));
 
         senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
-        magnet = new Trigger(() -> lift.check() && spame.wasJustPressed());
+        magnet = new Trigger(() -> lift.check() && lift.isDown());
 
-        magnet.toggleWhenActive( new InstantCommand( () -> lift.resetTicks()));
+        magnet.toggleWhenActive( new InstantCommand( () -> {lift.resetTicks();
+        lift.aFost();}));
 
         senzor.toggleWhenActive(
                 new SequentialCommandGroup(
@@ -101,18 +100,20 @@ public class tele extends Creier {
         ));
 
 
-//        mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
-//
-//        register(drive);
-//        drive.setDefaultCommand(mergi);
+        mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
+
+
+
+        register(drive);
+        drive.setDefaultCommand(mergi);
+
+
     }
 
     @Override
     public void run() {
 
-        stefan.driveFieldCentric(d1.getLeftX(),d1.getLeftY(),d1.getRightX(),drift.getPoseEstimate().getHeading());
-
-        telemetry.addData("Odom angle: ",poseEstimate.getHeading());
+        telemetry.addData("Odom angle: ",drift.getPoseEstimate().getHeading());
         telemetry.addData("Target pos: ",lift.getLiftPosition());
         telemetry.addData("Motor lift ticks: ",lift.getTciks());
         telemetry.addData("Sensor dr: ",virtualbar.dow1());
@@ -121,9 +122,9 @@ public class tele extends Creier {
         telemetry.addData("Vbar down: ",senzor.get());
         telemetry.addData("touch sensor: `",lift.check());
         telemetry.addData("Lift isDown: ",lift.isDown());
-        telemetry.addData("Just Pressed: ",spame.wasJustPressed());
+        telemetry.addData("Dist1 : ",virtualbar.down1());
+        telemetry.addData("Dist2 : ",virtualbar.down2());
         telemetry.update();
-        drift.update();
 
         super.run();
     }

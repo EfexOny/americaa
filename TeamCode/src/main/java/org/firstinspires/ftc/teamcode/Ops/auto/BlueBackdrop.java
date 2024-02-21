@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+//import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
@@ -96,16 +97,17 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(55.3,40,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.3,35,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(37, 19,Math.toRadians(195)))
+
+                .lineToLinearHeading(new Pose2d(33.5, 18,Math.toRadians(180)))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .setTangent(Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
-                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
+                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(185)),Math.toRadians(0))
                 .build();
 
 
@@ -137,13 +139,14 @@ public class BlueBackdrop extends CommandOpMode {
 
         schedule(
                 new SequentialCommandGroup(
+                        vbar.Close(),
                         vbar.Vbar_Idle(),
                         new WaitCommand(1000),
                         cuva.close(),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith(
-                                cuva.cuva_arunca()
-                        ),
+                                cuva.mereuta(200)
+                                ),
                         cuva.open(),
                         new WaitCommand(500),
 //                        cuva.close(),
@@ -152,10 +155,9 @@ public class BlueBackdrop extends CommandOpMode {
 //                        new WaitCommand(1000),
 //                        cuva.open(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
-                                .alongWith(vbar.vbarjos())
-                                .alongWith(cuva.close(),
-                                        cuva.cuva_inapoi()),
-                        new DelayedCommand(vbar.Open(),650).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
+                                .alongWith(vbar.VJos(),cuva.close(),
+                                       cuva.afterparty()),
+                        new DelayedCommand(vbar.Open(),600 ).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true),
                         new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
                 )

@@ -59,7 +59,14 @@ public class PropDetectionBlueFar implements VisionProcessor {
         Imgproc.rectangle(frame, middleRect, new Scalar(0,255,0), 5);
 
 
-//        if (rightSum > MERGE || middleSum > MERGE) {
+
+        if(rightSum > rightThresh)
+            detection = 3;
+        else if (middleSum > middleThresh)
+            detection = 2;
+        else detection = 1;
+
+        //        if (rightSum > MERGE || middleSum > MERGE) {
 //            if (rightSum > middleSum) {
 //                detection = 1;
 //            } else if (middleSum > rightSum) {
@@ -70,11 +77,6 @@ public class PropDetectionBlueFar implements VisionProcessor {
 //            detection = 3;
 //        }
 
-        if(rightSum > rightThresh)
-            detection = 3;
-        else if (middleSum > middleThresh)
-            detection = 2;
-        else detection = 1;
 
 //        workingMat.copyTo(frame);
 

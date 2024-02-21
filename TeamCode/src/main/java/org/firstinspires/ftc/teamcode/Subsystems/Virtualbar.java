@@ -13,6 +13,7 @@ import static org.firstinspires.ftc.teamcode.Constants.vbarstack1_stanga;
 import static org.firstinspires.ftc.teamcode.Constants.vbarsus_dreapta;
 import static org.firstinspires.ftc.teamcode.Constants.vbarsus_stanga;
 
+import com.ThermalEquilibrium.homeostasis.Filters.FilterAlgorithms.LowPassFilter;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
 import com.arcrobotics.ftclib.command.InstantCommand;
@@ -30,6 +31,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 @Config
 public class Virtualbar extends SubsystemBase{
 
+    LowPassFilter filter;
     boolean jos;
     DistanceSensor s1,s2;
     Cuva cuva;
@@ -37,9 +39,11 @@ public class Virtualbar extends SubsystemBase{
     public static double distgheara2 = 5;
     public static double jos1=0.45,jos2=0.4;
     Servo barstanga,bardreapta;
+    public static double filtru=0.9;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
     public Virtualbar(HardwareMap hardwareMap){
+        filter = new LowPassFilter(filtru);
         barstanga = hardwareMap.get(Servo.class,"vbar_stanga");
         bardreapta = hardwareMap.get(Servo.class,"vbar_dreapta");
 
@@ -52,17 +56,19 @@ public class Virtualbar extends SubsystemBase{
         cuva = new Cuva(hardwareMap);
     }
 
-    @Override
-    public void periodic() {
-        super.periodic();
+    public boolean dow1(){
+        return  filter.estimate(s1.getDistance(DistanceUnit.CM)) < distgheara;
     }
 
-    public boolean dow1(){
-        return  s1.getDistance(DistanceUnit.CM) < distgheara;
+    public double down1(){
+        return  filter.estimate(s1.getDistance(DistanceUnit.CM));
+    }
+    public double down2(){
+        return  filter.estimate(s1.getDistance(DistanceUnit.CM));
     }
 
     public boolean dow2(){
-        return  s2.getDistance(DistanceUnit.CM) < distgheara2;
+        return  filter.estimate(s2.getDistance(DistanceUnit.CM)) < distgheara2;
     }
     public Command VSus(){
         return new InstantCommand(
@@ -125,7 +131,7 @@ public class Virtualbar extends SubsystemBase{
 
 
 
-    public Command Open(){
+    public Command  Open(){
         return new InstantCommand(
                 () -> {
                     stanga_principala.setPosition(deschis_stanga);
@@ -148,12 +154,14 @@ public class Virtualbar extends SubsystemBase{
     }
 
     public Command VJos(){
-        return new InstantCommand(
-                ()->  {
-                    jos = true;
+        return new SequentialCommandGroup(
+                new InstantCommand(()->  {
                     barstanga.setPosition(vbarjos_stanga);
                     bardreapta.setPosition(vbarjos_dreapta);
-                }
+                }),
+                new WaitCommand(500),
+                new InstantCommand(()-> jos = true)
+
         );
     }
 

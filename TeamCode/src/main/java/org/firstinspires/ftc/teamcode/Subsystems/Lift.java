@@ -12,10 +12,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.qualcomm.robotcore.util.Range;
 
 @Config
 public class Lift extends SubsystemBase {
 
+    public static double low=-0.4;
     DcMotor left,right;
     public static double kP = 0.006;
     TouchSensor magnetic;
@@ -25,7 +27,7 @@ public class Lift extends SubsystemBase {
     public static double kF = 0;
     public static int liftTargetPos = 0;
     boolean usePid;
-    boolean down;
+    boolean down=false;
     public static PIDController pid;
     public static double tele = 0;
 //    public int[] levelPositions = {0, 1000, 900};
@@ -60,6 +62,8 @@ public class Lift extends SubsystemBase {
     public void resetTicks(){
         left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         liftTargetPos = 0;
     }
     public int getTciks(){
@@ -93,7 +97,7 @@ public class Lift extends SubsystemBase {
     public void periodic() {
 
         double power = pid.calculate(left.getCurrentPosition(), liftTargetPos);
-        double output = clamp(power , -0.6, 1);
+        double output = clamp(power , low, 1);
 
         left.setPower(output);
         right.setPower(output);
@@ -101,9 +105,13 @@ public class Lift extends SubsystemBase {
         super.periodic();
     }
 
+
+
     public Command norma(){
       return new InstantCommand(
-              () ->   liftTargetPos = liftTargetPos - 100
+              () ->   {liftTargetPos = liftTargetPos - 100;
+              down =true;}
+
       );
     }
 
@@ -113,6 +121,10 @@ public class Lift extends SubsystemBase {
 
     public boolean isDown(){
         return down;
+    }
+
+    public void aFost(){
+        down = false;
     }
 
     public Command manual(int s){

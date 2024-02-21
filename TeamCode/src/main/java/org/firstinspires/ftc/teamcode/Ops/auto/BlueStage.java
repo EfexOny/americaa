@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.Ops.Pose;
+//import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
@@ -168,8 +168,8 @@ public class BlueStage extends CommandOpMode {
                         cuva.close(),
                         cuva.cuva_arunca().alongWith(new DelayedCommand(cuva.open(), 700)),
 
-                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith(lift.goLift(0)),
-                        new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith(lift.goLift(0))
+//                        new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
 
                 )
         );

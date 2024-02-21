@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.Ops;
 
+import android.hardware.TriggerEvent;
+
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.ButtonReader;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.hardware.SensorDistance;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -18,13 +22,12 @@ import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+import java.util.List;
+
 public class Creier extends CommandOpMode {
     public Lift lift;
 
     ButtonReader spame;
-    Gamepad dr1;
-
-    IMU imu;
 
     Button reset;
 
@@ -52,7 +55,7 @@ public class Creier extends CommandOpMode {
     Button gheara_principala,gheara_secundara,vbarsus,vbarjos;
     Trigger cova1,cova2;
     Button lift_stanga,lift_dreapta;
-    Button dpad1,dpad2,dpad3,dpad4;
+    Trigger dpad1,dpad2,dpad3,dpad4;
     Button gheara_mereuta;
     Trigger Left,Right;
 
@@ -60,6 +63,7 @@ public class Creier extends CommandOpMode {
 
 
     public void initHardware(){
+
 
 
         b1 = hardwareMap.get(DigitalChannel.class,"b1");
@@ -77,11 +81,7 @@ public class Creier extends CommandOpMode {
 
         drift = new SampleMecanumDrive(hardwareMap);
 
-        imu = hardwareMap.get(IMU.class,"imu");
-
-
         d1 = new GamepadEx(gamepad1);
-
         d2 = new GamepadEx(gamepad2);
 
         cuva = new Cuva(hardwareMap);
@@ -90,6 +90,12 @@ public class Creier extends CommandOpMode {
 
         drive  = new DriveSubsystem(lf,rf,lb,rb);
         stefan = new MecanumDrive(lf, rf, lb, rb);
+
+        List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
+
+        for (LynxModule hub : allHubs) {
+            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
 
         register(drive,virtualbar,lift,cuva);
     }

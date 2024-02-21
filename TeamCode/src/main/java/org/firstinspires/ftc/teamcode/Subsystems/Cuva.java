@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import static org.firstinspires.ftc.teamcode.Constants.arunca;
+import static org.firstinspires.ftc.teamcode.Constants.auto_out;
+import static org.firstinspires.ftc.teamcode.Constants.auto_outdr;
+import static org.firstinspires.ftc.teamcode.Constants.auto_outst;
 import static org.firstinspires.ftc.teamcode.Constants.avion_arunca;
 import static org.firstinspires.ftc.teamcode.Constants.deschis_dr;
 import static org.firstinspires.ftc.teamcode.Constants.deschis_st;
@@ -115,10 +118,10 @@ public class Cuva extends SubsystemBase {
                 close(),
                 new WaitCommand(550),
                 open(),
-                new WaitCommand(400),
                 cuva_inapoi(),
-                new WaitCommand(400),
-                lift.goLift(0)
+                new WaitCommand(200),
+                lift.goLift(0),
+                new InstantCommand(() -> s2.setPosition(ingheara))
 //                lift.change(true)
         );
     }
@@ -135,15 +138,26 @@ public class Cuva extends SubsystemBase {
         );
     }
 
-    public Command cuva_inapoi(){
+    public Command auto_cuva_arunca(){
         return new SequentialCommandGroup(
-                new InstantCommand(() -> s2.setPosition(ingheara)),
+                new InstantCommand(() -> s2.setPosition(auto_out)),
                 new WaitCommand(200),
 
                 new InstantCommand(() -> {
-                    s1.setPosition(inst);
-                    s3.setPosition(indr);}
+                    s1.setPosition(auto_outst);
+                    s3.setPosition(auto_outdr);}
                 )
+        );
+    }
+
+
+    public Command cuva_inapoi(){
+        return new SequentialCommandGroup(
+                new ParallelCommandGroup(
+                    new InstantCommand(() -> s1.setPosition(inst)),
+                    new InstantCommand(() -> s3.setPosition(indr))
+                )
+
         );
 }
 

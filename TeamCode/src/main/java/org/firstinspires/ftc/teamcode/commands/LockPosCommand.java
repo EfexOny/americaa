@@ -15,10 +15,14 @@ public class LockPosCommand extends CommandBase {
     boolean gata=false;
 
 
+    @Override
+    public void initialize() {
+        LockTo(target);
+        super.initialize();
+    }
 
     @Override
     public void execute() {
-        LockTo(target);
         drive.update();
     }
 
