@@ -4,9 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -17,8 +15,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
-import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
-import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
@@ -152,7 +148,6 @@ public class RedBackdrop extends CommandOpMode {
                                         .alongWith(vbar.vbarjos(),cuva.close(),cuva.cuva_inapoi()),
                                 new DelayedCommand(vbar.Open(),1600).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                                 new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith(lift.goLift(0)
-//                                new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
                                 )
                         )
         );

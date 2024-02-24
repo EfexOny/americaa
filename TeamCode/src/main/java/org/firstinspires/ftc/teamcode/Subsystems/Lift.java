@@ -17,9 +17,11 @@ import com.qualcomm.robotcore.util.Range;
 @Config
 public class Lift extends SubsystemBase {
 
-    public static double low=-0.4;
+    public static double high=0.7;
+
+    public static double low=-0.2;
     DcMotor left,right;
-    public static double kP = 0.006;
+    public static double kP = 0.0035;
     TouchSensor magnetic;
     public static double kI = 0;
     Timing.Timer timp;
@@ -53,8 +55,6 @@ public class Lift extends SubsystemBase {
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-//        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         pid.setPID(kP, kI, kD);
     }
@@ -97,7 +97,7 @@ public class Lift extends SubsystemBase {
     public void periodic() {
 
         double power = pid.calculate(left.getCurrentPosition(), liftTargetPos);
-        double output = clamp(power , low, 1);
+        double output = clamp(power , low, high);
 
         left.setPower(output);
         right.setPower(output);

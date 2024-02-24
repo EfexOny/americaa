@@ -153,11 +153,8 @@ public class Cuva extends SubsystemBase {
 
     public Command cuva_inapoi(){
         return new SequentialCommandGroup(
-                new ParallelCommandGroup(
                     new InstantCommand(() -> s1.setPosition(inst)),
                     new InstantCommand(() -> s3.setPosition(indr))
-                )
-
         );
 }
 
@@ -166,15 +163,6 @@ public class Cuva extends SubsystemBase {
                 () -> {
                     out_dreapta.setPosition(deschis_dr);
                     out_stanga.setPosition(deschis_st);
-                }
-        );
-    }
-
-    public Command open_insprejos(){
-        return new InstantCommand(
-                () -> {
-                    out_dreapta.setPosition(0.75);
-                    out_stanga.setPosition(0.15);
                 }
         );
     }

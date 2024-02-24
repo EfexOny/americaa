@@ -4,10 +4,8 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -20,8 +18,6 @@ import org.firstinspires.ftc.teamcode.Ops.Pose;
 import org.firstinspires.ftc.teamcode.Subsystems.Cuva;
 import org.firstinspires.ftc.teamcode.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.Subsystems.Virtualbar;
-import org.firstinspires.ftc.teamcode.commands.BackDropCommand;
-import org.firstinspires.ftc.teamcode.commands.FollowTrajectoryCommand;
 import org.firstinspires.ftc.teamcode.commands.DelayedCommand;
 import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -82,26 +78,26 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
-                .setTangent(180)
-                .splineToLinearHeading(new Pose2d(55,43,Math.toRadians(195)),Math.toRadians(0))
+
+                .splineToLinearHeading(new Pose2d(52,38,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .lineToLinearHeading(new Pose2d(44.5, 27,Math.toRadians(195)))
+                .lineToLinearHeading(new Pose2d(39, 27,Math.toRadians(180)))
                 .build();
 
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .setTangent(Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
-                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
+                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(185)),Math.toRadians(0))
                 .build();
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(53.3,35,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52,32,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
 
-                .lineToLinearHeading(new Pose2d(33.5, 18,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(31, 19,Math.toRadians(180)))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
@@ -112,16 +108,16 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(57,32,Math.toRadians(195)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52,30.23,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(21,26,Math.toRadians(195)))
+                .lineToLinearHeading(new Pose2d(16.5,26,Math.toRadians(180)))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .setTangent(Math.toRadians(90))
-                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(195)))
-                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(195)),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
+                .splineToLinearHeading(new Pose2d(59,63,Math.toRadians(185)),Math.toRadians(0))
                 .build();
 
 
@@ -145,21 +141,15 @@ public class BlueBackdrop extends CommandOpMode {
                         cuva.close(),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith(
-                                cuva.mereuta(200)
+                                cuva.mereuta(320)
                                 ),
                         cuva.open(),
                         new WaitCommand(500),
-//                        cuva.close(),
-//                        new WaitCommand(500),
-//                        cuva.cuva_arunca(),
-//                        new WaitCommand(1000),
-//                        cuva.open(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                 .alongWith(vbar.VJos(),cuva.close(),
                                        cuva.afterparty()),
                         new DelayedCommand(vbar.Open(),600 ).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
-                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true),
-                        new InstantCommand(()-> Pose.currentPose = drive.getPoseEstimate())
+                        new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                 )
         );
     }
