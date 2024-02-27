@@ -167,4 +167,23 @@ public class Cuva extends SubsystemBase {
         );
     }
 
+
+
+    //sa ma bata Sf Petru pentru asta
+    public Command openCustom(int ccase){
+        if (ccase == 3)
+            return new InstantCommand(
+                    () -> {
+                        out_dreapta.setPosition(deschis_dr);
+                        out_stanga.setPosition(inchis_st);
+                    }
+            );
+        return new InstantCommand(
+                () -> {
+                    out_dreapta.setPosition(deschis_dr);
+                    out_stanga.setPosition(deschis_st);
+                }
+        );
+    }
+
 }

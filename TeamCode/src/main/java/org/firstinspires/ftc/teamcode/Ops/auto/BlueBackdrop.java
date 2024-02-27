@@ -46,8 +46,6 @@ public class BlueBackdrop extends CommandOpMode {
     public Cuva cuva;
     ElapsedTime timer = new ElapsedTime();
 
-    boolean started=false;
-
     int  detect=2;
 
     @Override
@@ -78,13 +76,11 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
-
                 .splineToLinearHeading(new Pose2d(52,38,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
                 .lineToLinearHeading(new Pose2d(39, 27,Math.toRadians(180)))
                 .build();
-
         parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
                 .setTangent(Math.toRadians(90))
                 .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
@@ -96,10 +92,8 @@ public class BlueBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(52,32,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-
                 .lineToLinearHeading(new Pose2d(31, 19,Math.toRadians(180)))
                 .build();
-
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .setTangent(Math.toRadians(90))
                 .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
@@ -108,12 +102,11 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52,30.23,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52,28,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
                 .lineToLinearHeading(new Pose2d(16.5,26,Math.toRadians(180)))
                 .build();
-
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .setTangent(Math.toRadians(90))
                 .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
@@ -122,9 +115,9 @@ public class BlueBackdrop extends CommandOpMode {
 
 
 
-        boolean trajectoriesCreated = false;
         while (opModeInInit() && !isStopRequested()) {
             detect = blue.detection;
+//            detect = 3;
             telemetry.addData("Detection", detect);
             telemetry.addData("Right value", blue.rightSum);
             telemetry.addData("Middle value", blue.middleSum);
@@ -140,14 +133,12 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
                         new WaitCommand(500),
-                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith(
-                                cuva.mereuta(320)
-                                ),
-                        cuva.open(),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(320) ),
+                        cuva.openCustom(detect),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                 .alongWith(vbar.VJos(),cuva.close(),
-                                       cuva.afterparty()),
+                                   cuva.afterparty()),
                         new DelayedCommand(vbar.Open(),600 ).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                 )
