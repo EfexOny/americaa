@@ -68,11 +68,15 @@ public class fasterTele extends CommandOpMode {
     Button gheara_mereuta;
     Trigger Left,Right;
 
-    private List<LynxModule> allHubs;
+    private List<LynxModule> hubs;
     private ElapsedTime elapsedtime;
 
     @Override
     public void initialize() {
+
+        hubs = hardwareMap.getAll(LynxModule.class);
+        hubs.forEach(hub -> hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL));
+
         b1 = hardwareMap.get(DigitalChannel.class,"b1");
         b2 = hardwareMap.get(DigitalChannel.class,"b2");
 
@@ -95,12 +99,6 @@ public class fasterTele extends CommandOpMode {
         virtualbar = new Virtualbar(hardwareMap);
 
         drive  = new DriveSubsystem(lf,rf,lb,rb);
-
-        allHubs = hardwareMap.getAll(LynxModule.class);
-
-        for (LynxModule hub : allHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
-        }
 
         register(drive,virtualbar,lift,cuva);
 
@@ -132,16 +130,10 @@ public class fasterTele extends CommandOpMode {
 
         turbo = new GamepadButton(d1,GamepadKeys.Button.X).toggleWhenPressed(drive.turbo(1),drive.turbo(1));
 
-        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(
-                drive.Valer(0,0.5,0,true));
-//                .whenInactive(drive.dpad_vertical(false,false));
-
+        dpad1 = new GamepadButton(d1,GamepadKeys.Button.DPAD_UP).whileHeld(drive.Valer(0,0.5,0,true));
         dpad2 = new GamepadButton(d1,GamepadKeys.Button.DPAD_DOWN).whileHeld( drive.Valer(0,-0.5,0,true));
-//                .whenInactive(drive.dpad_vertical(false,false));
         dpad3 = new GamepadButton(d1,GamepadKeys.Button.DPAD_LEFT).whileHeld( drive.Valer(-0.5,0,0,true));
-//                .whenInactive(drive.dpad_orizontal(false,false));
         dpad4 = new GamepadButton(d1,GamepadKeys.Button.DPAD_RIGHT).whileHeld( drive.Valer(0.5,0,0,true));
-//                .whenInactive(drive.dpad_vertical(false,false));
 
         Left = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) != 0))
                 .whileActiveContinuous( drive.Valer(0,0,-0.5,true));
@@ -189,20 +181,7 @@ public class fasterTele extends CommandOpMode {
 
     @Override
     public void run() {
-
-
-
-        telemetry.addData("Target pos: ",lift.getLiftPosition());
-        telemetry.addData("Motor lift ticks: ",lift.getTciks());
-        telemetry.addData("Loop Times", elapsedtime.milliseconds());
-        elapsedtime.reset();
-        telemetry.update();
-
-
-        for (LynxModule hub : allHubs) {
-            hub.clearBulkCache();
-        }
-
         super.run();
+        hubs.forEach(LynxModule::clearBulkCache);
     }
 }
