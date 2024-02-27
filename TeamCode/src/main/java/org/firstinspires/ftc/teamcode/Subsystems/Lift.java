@@ -41,7 +41,7 @@ public class Lift extends SubsystemBase {
 
         magnetic = hardwareMap.get(TouchSensor.class,"magnet");
 
-//        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        left.setDirection(DcMotorSimple.Direction.REVERSE);
 //        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

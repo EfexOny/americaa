@@ -23,7 +23,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public DriveSubsystem(Motor lf, Motor rf, Motor lb, Motor rb) {
         m_drive = new MecanumDrive(lf, rf, lb, rb);
-        m_drive.setRightSideInverted(false);
+        m_drive.setRightSideInverted(true);
 
 
     }
@@ -38,7 +38,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     public void drive(double str, double fwd, double rot) {
-        m_drive.driveRobotCentric(str * strafe, fwd * limit, rot * limit,true);
+        m_drive.driveRobotCentric(-str * strafe, -fwd * limit, -rot * limit,true);
     }
 
     //Field Centric
