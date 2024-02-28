@@ -27,11 +27,11 @@ public class Constants {
 
 //    OUTTAKE
 
-    public static double ingheara = 0.31;
-    public static double outgheara = 1 ;
+    public static double ingheara = 0.3;
+    public static double outgheara = 0.95 ;
 
-    public static double indr = 0.62;
-    public static double inst = -0.62;
+    public static double indr = 0.65;
+    public static double inst = -0.65;
 
     public static double outdr = -0.88;
     public static double outst = 0.88;

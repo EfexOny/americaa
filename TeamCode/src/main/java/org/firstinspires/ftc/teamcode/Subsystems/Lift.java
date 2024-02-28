@@ -41,8 +41,8 @@ public class Lift extends SubsystemBase {
 
         magnetic = hardwareMap.get(TouchSensor.class,"magnet");
 
-        left.setDirection(DcMotorSimple.Direction.REVERSE);
-//        right.setDirection(DcMotorSimple.Direction.REVERSE);
+//        left.setDirection(DcMotorSimple.Direction.REVERSE);
+        right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -96,7 +96,7 @@ public class Lift extends SubsystemBase {
     @Override
     public void periodic() {
 
-        double power = pid.calculate(left.getCurrentPosition(), liftTargetPos);
+        double power = pid.calculate(-left.getCurrentPosition(), liftTargetPos);
         double output = clamp(power , low, high);
 
         left.setPower(output);

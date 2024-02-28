@@ -174,14 +174,16 @@ public class fasterTele extends CommandOpMode {
 
         register(drive);
         drive.setDefaultCommand(mergi);
-
-
-
     }
 
     @Override
     public void run() {
         super.run();
+
+        telemetry.addData("Ticks", lift.getTciks());
+        telemetry.addData("TickR", lift.rightticks());
+        telemetry.addData("Target pose", Lift.liftTargetPos);
+        telemetry.update();
         hubs.forEach(LynxModule::clearBulkCache);
     }
 }
