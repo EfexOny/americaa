@@ -35,11 +35,11 @@ public class Virtualbar extends SubsystemBase{
     boolean jos;
     DistanceSensor s1,s2;
     Cuva cuva;
-    public static double distgheara = 7;
-    public static double distgheara2 = 13;
+    public static double distgheara = 8;
+    public static double distgheara2 = 7;
     public static double jos1=0.45,jos2=0.4;
     Servo barstanga,bardreapta;
-    public static double filtru=0.5;
+    public static double filtru=0.01;
     Servo stanga_principala,dreapta_principala;
     double v1,v2;
     public Virtualbar(HardwareMap hardwareMap){
@@ -159,18 +159,19 @@ public class Virtualbar extends SubsystemBase{
                     barstanga.setPosition(vbarjos_stanga);
                     bardreapta.setPosition(vbarjos_dreapta);
                 }),
-                new WaitCommand(500),
-                new InstantCommand(()-> jos = true)
+                new WaitCommand(500)
 
         );
     }
 
-    public ParallelCommandGroup vbarjos(){
-        return new ParallelCommandGroup(
+    public Command vbarjos(){
+        return new SequentialCommandGroup(
                 VJos(),
-                new WaitCommand(1000),
+                new WaitCommand(500),
                 new InstantCommand(() -> stanga_principala.setPosition(jos1)),
-                new InstantCommand(() -> dreapta_principala.setPosition(jos2))
+                new InstantCommand(() -> dreapta_principala.setPosition(jos2)),
+                new WaitCommand(1000),
+                new InstantCommand(()-> jos = true)
         );
     }
 }

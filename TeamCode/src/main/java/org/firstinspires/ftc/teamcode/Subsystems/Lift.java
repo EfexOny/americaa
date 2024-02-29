@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.util.Range;
 @Config
 public class Lift extends SubsystemBase {
 
+
     public static double high=0.7;
 
     public static double low=-0.2;
@@ -28,12 +29,8 @@ public class Lift extends SubsystemBase {
     public static double kD = 0;
     public static double kF = 0;
     public static int liftTargetPos = 0;
-    boolean usePid;
     boolean down=false;
     public static PIDController pid;
-    public static double tele = 0;
-//    public int[] levelPositions = {0, 1000, 900};
-
     public Lift(HardwareMap hardwareMap){
 
         left = hardwareMap.get(DcMotor.class,"stanga_lift");
@@ -41,7 +38,7 @@ public class Lift extends SubsystemBase {
 
         magnetic = hardwareMap.get(TouchSensor.class,"magnet");
 
-//        left.setDirection(DcMotorSimple.Direction.REVERSE);
+
         right.setDirection(DcMotorSimple.Direction.REVERSE);
 
         left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -75,22 +72,13 @@ public class Lift extends SubsystemBase {
     public int getLiftPosition() {
         return liftTargetPos;
     }
-    public void controlLift(double power){
-        if(power == 0)
-            liftTargetPos = getLiftPosition();
-
-        left.setPower(power);
-        right.setPower(power);
-    }
-
-
     public boolean check(){
         return magnetic.isPressed();
     }
 
+
     public void setLiftLevel(int level) {
         liftTargetPos = level;
-//        liftTargetPos = levelPositions[level];
     }
 
     @Override
@@ -127,35 +115,8 @@ public class Lift extends SubsystemBase {
         down = false;
     }
 
-    public Command manual(int s){
-        return new InstantCommand( () -> {
-
-            if(s==0)
-            {
-                left.setPower(s);right.setPower(s);
-                liftTargetPos=left.getCurrentPosition();
-                usePid = true;
-            }
-            else
-            {
-                left.setPower(s);right.setPower(s);
-               usePid=false;
-            }
-
-        });
-    }
-
     public Command goLift(int p){
         return new InstantCommand(() -> liftTargetPos = p);
     }
 
-    public Command ridicare(int joystick){
-        return new InstantCommand(() -> {
-            if(liftTargetPos>900)
-                liftTargetPos=900;
-            if(liftTargetPos<0)
-                liftTargetPos=0;
-            liftTargetPos = liftTargetPos + joystick;
-        });
-    }
 }

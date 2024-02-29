@@ -19,6 +19,7 @@ import static org.firstinspires.ftc.teamcode.Constants.outst;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.command.Command;
+import com.arcrobotics.ftclib.command.ConditionalCommand;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -28,6 +29,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import java.util.function.BooleanSupplier;
 
 @Config
 public class Cuva extends SubsystemBase {
@@ -38,8 +42,8 @@ public class Cuva extends SubsystemBase {
     Servo s1,s2,s3;
 
 // st = 0.15, dr = 0.75
+    TouchSensor aliniere;
     Servo drop,avion;
-
     DcMotor r1,r2;
     public Cuva(HardwareMap hardwareMap){
 
@@ -69,7 +73,6 @@ public class Cuva extends SubsystemBase {
         avion = hardwareMap.get(Servo.class,"avion");
 
     }
-
 
     public Command stefan(){
         return new InstantCommand(
