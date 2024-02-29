@@ -74,11 +74,15 @@ public class Cuva extends SubsystemBase {
 
     }
 
+
+
     public Command stefan(){
         return new InstantCommand(
                 () -> avion.setPosition(av1)
         );
     }
+
+
 
     public Command ridicare(double put){
         return new InstantCommand(
@@ -88,6 +92,7 @@ public class Cuva extends SubsystemBase {
                 }
         );
     }
+
 
 
     public Command close(){
@@ -106,8 +111,8 @@ public class Cuva extends SubsystemBase {
                 close(),
                 new WaitCommand(300),
                 new ParallelCommandGroup(
-                lift.goLift(l1),
-                cuva_arunca()
+                cuva_arunca(),
+                lift.goLift(l1)
                         ),
                 new WaitCommand(300)
 //                lift.change(false)

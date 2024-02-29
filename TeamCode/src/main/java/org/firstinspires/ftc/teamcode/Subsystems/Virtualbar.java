@@ -32,7 +32,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Virtualbar extends SubsystemBase{
 
     LowPassFilter filter;
-    boolean jos;
+    boolean jos = false;
     DistanceSensor s1,s2;
     Cuva cuva;
     public static double distgheara = 8;
@@ -103,6 +103,7 @@ public class Virtualbar extends SubsystemBase{
                 new WaitCommand(800),
                 Close(),
                 Vbar_Idle(),
+                new WaitCommand(500),
                 cuva.close()
         );
     }

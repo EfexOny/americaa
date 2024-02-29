@@ -36,7 +36,7 @@ public class fasterTele extends CommandOpMode {
     Trigger AutoAlign;
     Button nospam;
     Button avion;
-    Trigger senzor,senzor2,magnet;
+    Trigger senzor,senzor2,magnet, bvion;
 
     public Cuva cuva;
     public Virtualbar virtualbar;
@@ -118,7 +118,7 @@ public class fasterTele extends CommandOpMode {
                 .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
         lift_stanga = new GamepadButton(d2,GamepadKeys.Button.LEFT_BUMPER).whileHeld(cuva.ridicare(-1)).whenReleased(cuva.ridicare(0));
         AutoAlign = new GamepadButton(d1,GamepadKeys.Button.X).whenPressed(
-                new ConditionalCommand(cuva.ridicare(0),cuva.ridicare(-0.3),() -> aliniere.isPressed())
+                cuva.ridicare(-0.6)
         );
 
 
@@ -140,6 +140,7 @@ public class fasterTele extends CommandOpMode {
         senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
         magnet = new Trigger(() -> lift.check() && lift.isDown());
+        bvion = new Trigger(() -> aliniere.isPressed());
 
         magnet.toggleWhenActive( new InstantCommand( () -> {lift.resetTicks();
             lift.aFost();}));
@@ -152,6 +153,10 @@ public class fasterTele extends CommandOpMode {
                         new InstantCommand(() -> gamepad2.rumble(0,1,400))
                 )
         );
+        bvion.toggleWhenActive(
+                cuva.ridicare(0)
+        );
+
         senzor2.toggleWhenActive(  new SequentialCommandGroup(
                         new WaitCommand(500),
                         virtualbar.closesep(true),

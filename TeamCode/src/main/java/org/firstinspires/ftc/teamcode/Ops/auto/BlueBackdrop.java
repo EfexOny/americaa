@@ -8,6 +8,7 @@ import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -26,6 +27,7 @@ import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
+@Photon
 @Autonomous(name = "blue backdrop")
 @SuppressWarnings("unused")
 public class BlueBackdrop extends CommandOpMode {
@@ -133,7 +135,7 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
                         new WaitCommand(500),
-                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(320) ),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(0) ),
                         cuva.openCustom(detect),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
