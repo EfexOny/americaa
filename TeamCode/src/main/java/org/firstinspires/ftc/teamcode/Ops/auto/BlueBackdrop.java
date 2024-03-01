@@ -91,13 +91,14 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52.5,35,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(52,35,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(31, 19,Math.toRadians(185)))
+                .lineToLinearHeading(new Pose2d(31, 17.5,Math.toRadians(185)))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
                 .setTangent(Math.toRadians(90))
+
                 .lineToLinearHeading(new Pose2d(38,45,Math.toRadians(185)))
                 .splineToLinearHeading(new Pose2d(57,63,Math.toRadians(185)),Math.toRadians(0))
                 .build();
@@ -107,7 +108,7 @@ public class BlueBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(52.5,28.5,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(18.5,26,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(17,25,Math.toRadians(180)))
                 .build();
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .setTangent(Math.toRadians(90))
@@ -118,8 +119,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         while (opModeInInit() && !isStopRequested()) {
-//            detect = blue.detection;
-            detect = 3;
+            detect = blue.detection;
             telemetry.addData("Detection", detect);
             telemetry.addData("Right value", blue.rightSum);
             telemetry.addData("Middle value", blue.middleSum);
@@ -135,12 +135,12 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
                         new WaitCommand(500),
-                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(200) ),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(420) ),
                         cuva.openCustom(detect),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                 .alongWith(vbar.VJos(),cuva.close(),
-                                   cuva.afterparty()),
+                        cuva.afterparty()),
                         new DelayedCommand(vbar.Open(),600 ).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                 )

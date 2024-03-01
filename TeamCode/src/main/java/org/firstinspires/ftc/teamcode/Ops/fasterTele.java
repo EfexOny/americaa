@@ -184,7 +184,6 @@ public class fasterTele extends CommandOpMode {
         telemetry.addData("Ticks", lift.getTciks());
         telemetry.addData("TickR", lift.rightticks());
         telemetry.addData("Target pose", Lift.liftTargetPos);
-        telemetry.addData("touch", aliniere.isPressed());
         telemetry.update();
         hubs.forEach(LynxModule::clearBulkCache);
     }

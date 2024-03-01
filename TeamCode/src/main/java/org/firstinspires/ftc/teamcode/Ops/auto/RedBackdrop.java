@@ -4,6 +4,7 @@ import android.util.Size;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
@@ -73,17 +74,19 @@ public class RedBackdrop extends CommandOpMode {
 
 
 
-        backboard3 = drive.trajectorySequenceBuilder(startRed)
-                .splineToLinearHeading(new Pose2d(51,-40,Math.toRadians(180)),Math.toRadians(0))
+        backboard1 = drive.trajectorySequenceBuilder(startRed)
+                .splineToLinearHeading(new Pose2d(51,-42,Math.toRadians(180)),Math.toRadians(0))
                 .build();
-        spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(39, -27,Math.toRadians(180)))
+        spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
+                .lineToConstantHeading(new Vector2d(39, -26))
+
                 .build();
-        parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
+        parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
+                .lineToLinearHeading(new Pose2d(38,-46,Math.toRadians(180)))
                 .setTangent(Math.toRadians(270))
-                .lineToLinearHeading(new Pose2d(38,-44,Math.toRadians(180)))
                 .splineToLinearHeading(new Pose2d(57,-59,Math.toRadians(180)),Math.toRadians(0))
                 .build();
+
         backboard2 = drive.trajectorySequenceBuilder(startRed)
                 .splineToLinearHeading(new Pose2d(51,-35,Math.toRadians(180)),Math.toRadians(0))
                 .build();
@@ -91,29 +94,26 @@ public class RedBackdrop extends CommandOpMode {
                 .lineToLinearHeading(new Pose2d(31, -19,Math.toRadians(180)))
                 .build();
         parkare2 = drive.trajectorySequenceBuilder(spikemark2.end())
+                .lineToLinearHeading(new Pose2d(38,-48,Math.toRadians(180)))
                 .setTangent(Math.toRadians(270))
-                .lineToLinearHeading(new Pose2d(38,-46,Math.toRadians(180)))
-                .splineToLinearHeading(new Pose2d(57,-62d,Math.toRadians(180)),Math.toRadians(0))
-                .build();
-
-
-        backboard1 = drive.trajectorySequenceBuilder(startRed)
-                .splineToLinearHeading(new Pose2d(52.5,-28.5,Math.toRadians(180)),Math.toRadians(0))
-                .build();
-        spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
-                .lineToLinearHeading(new Pose2d(18,-26,Math.toRadians(180)))
-                .build();
-        parkare1 = drive.trajectorySequenceBuilder(spikemark1.end())
-                .setTangent(Math.toRadians(270))
-                .lineToLinearHeading(new Pose2d(38,-45,Math.toRadians(180)))
                 .splineToLinearHeading(new Pose2d(57,-62,Math.toRadians(180)),Math.toRadians(0))
                 .build();
 
-        boolean trajectoriesCreated = false;
+
+        backboard3 = drive.trajectorySequenceBuilder(startRed)
+                .splineToLinearHeading(new Pose2d(52.5,-28.5,Math.toRadians(180)),Math.toRadians(0))
+                .build();
+        spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
+                .lineToLinearHeading(new Pose2d(19,-26,Math.toRadians(180)))
+                .build();
+        parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
+                .lineToLinearHeading(new Pose2d(38,-45,Math.toRadians(180)))
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(57,-62,Math.toRadians(180)),Math.toRadians(0))
+                .build();
 
         while (opModeInInit() && !isStopRequested()) {
-//            detect = red.detection;
-            detect = 2;
+            detect = red.detection;
             telemetry.addData("Detection", detect);
             telemetry.addData("Right value", red.leftSum);
             telemetry.addData("Middle value", red.middleSum);
@@ -136,7 +136,7 @@ public class RedBackdrop extends CommandOpMode {
                             new WaitCommand(500),
                             new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)
                                     .alongWith(cuva.close(),
-                                       cuva.afterparty(), new DelayedCommand(vbar.VJos(), 1000)),
+                                            new DelayedCommand(cuva.afterparty(),400), new DelayedCommand(vbar.VJos(), 500)),
                             new DelayedCommand(vbar.Open(),600 ).andThen(vbar.Vbar_Idle()).alongWith(cuva.open()),
                             new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true)
                         )
