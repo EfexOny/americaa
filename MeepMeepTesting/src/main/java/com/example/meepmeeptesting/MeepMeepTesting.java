@@ -14,16 +14,19 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(47, 47, Math.toRadians(206.4298901690336), Math.toRadians(206.4298901690336), 13.32)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder( new Pose2d(-35, 60, Math.toRadians(270)))
-                                .lineToLinearHeading(new Pose2d(-42,42, Math.toRadians(260)))
-                                .lineToLinearHeading(new Pose2d(-33, 37, Math.toRadians(180)))
-                                .lineToLinearHeading(new Pose2d(-33, 11.5, Math.toRadians(180)))
-                                .lineToLinearHeading(new Pose2d(13,12, Math.toRadians(180)))
+                        drive.trajectorySequenceBuilder(  new Pose2d(-37, -60, Math.toRadians(90)))
+                                .lineToConstantHeading(new Vector2d(-35,-37))
+                                .lineToLinearHeading(new Pose2d(-47, -36, Math.toRadians(180)))
+                                .setTangent(Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(-51, -12, Math.toRadians(180)), Math.toRadians(0))
+
+                                .lineToLinearHeading(new Pose2d(13,-12, Math.toRadians(180)))
                                 .setTangent(0)
-                                .splineToConstantHeading(new Vector2d(52.5, 33), Math.toRadians(0))
-                                .lineToLinearHeading(new Pose2d(50,25,Math.toRadians(185)))
-                                .setTangent(Math.toRadians(270))
-                                .splineToLinearHeading(new Pose2d(61,17,Math.toRadians(185)),Math.toRadians(0))
+                                .splineToConstantHeading(new Vector2d(52.5, -45), Math.toRadians(0))
+//                                .lineToLinearHeading(new Pose2d(50,-25,Math.toRadians(185)))
+                                .setTangent(Math.toRadians(180))
+                                .splineToLinearHeading(new Pose2d(57,-17,Math.toRadians(185)),Math.toRadians(0))
+                                .lineToConstantHeading(new Vector2d(61, -17))
                                 .build()
                 );
 
