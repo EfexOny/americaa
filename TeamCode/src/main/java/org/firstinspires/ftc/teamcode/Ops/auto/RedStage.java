@@ -113,14 +113,19 @@ public class RedStage extends CommandOpMode {
         backboard2 = drive.trajectorySequenceBuilder(gate2.end())
 
                 .setTangent(0)
-                .splineToConstantHeading(new Vector2d(52.5, -32), Math.toRadians(0))
+                .splineToConstantHeading(new Vector2d(51.5, -35), Math.toRadians(0))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
-//                .lineToLinearHeading(new Pose2d(50,-25,Math.toRadians(185)))
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(57,-8,Math.toRadians(185)),Math.toRadians(0))
-                .lineToConstantHeading(new Vector2d(61, -8))
+////                .lineToLinearHeading(new Pose2d(50,-25,Math.toRadians(185)))
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(57,-8,Math.toRadians(180)),Math.toRadians(0))
+//
+//
+//                .lineToLinearHeading(new Pose2d(61, -18,Math.toRadians(180)))
+//                .lineToLinearHeading(new Pose2d(61, -18,Math.toRadians(180)))
+                .lineToConstantHeading(new Vector2d(41, -12))
+                .lineToConstantHeading(new Vector2d(61, -12))
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(startRed)
@@ -168,7 +173,7 @@ public class RedStage extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true).alongWith(vbar.VJos()),
-                        vbar.Open().alongWith(new DelayedCommand(vbar.Vbar_Idle(), 300)),
+                        vbar.Open().alongWith(new DelayedCommand(vbar.Vbar_Idle(), 395)),
                         new WaitCommand(100),
                         new SpikeMarkCommand(drive,stack1,stack2,stack3,detect,true),
                         new SpikeMarkCommand(drive,gate1,gate2,gate3,detect,true),
