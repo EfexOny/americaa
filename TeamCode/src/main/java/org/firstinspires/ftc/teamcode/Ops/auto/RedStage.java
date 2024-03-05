@@ -125,7 +125,7 @@ public class RedStage extends CommandOpMode {
 //                .lineToLinearHeading(new Pose2d(61, -18,Math.toRadians(180)))
 //                .lineToLinearHeading(new Pose2d(61, -18,Math.toRadians(180)))
                 .lineToConstantHeading(new Vector2d(41, -12))
-                .lineToConstantHeading(new Vector2d(61, -12))
+                .strafeTo(new Vector2d(61, -12))
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(startRed)
@@ -134,24 +134,26 @@ public class RedStage extends CommandOpMode {
 
         stack3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .lineToLinearHeading(new Pose2d(-33, -37, Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(-33, -12, Math.toRadians(180)))
+                .lineToConstantHeading(new Vector2d(-33, -11))
                 .build();
 
         gate3 = drive.trajectorySequenceBuilder(stack3.end())
 
-                .lineToLinearHeading(new Pose2d(15,-12, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(15,-11, Math.toRadians(180)))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(gate3.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53, -35, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, -30, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(backboard3.end())
 
-                .setTangent(Math.toRadians(180))
-                .splineToLinearHeading(new Pose2d(57,-8,Math.toRadians(185)),Math.toRadians(0))
-                .lineToConstantHeading(new Vector2d(61, -8))
+//                .setTangent(Math.toRadians(180))
+//                .splineToLinearHeading(new Pose2d(57,-8,Math.toRadians(185)),Math.toRadians(0))
+//                .lineToConstantHeading(new Vector2d(61, -8))
+                .lineToConstantHeading(new Vector2d(41, -12))
+                .lineToConstantHeading(new Vector2d(61, -12))
                 .build();
 
         while (opModeInInit() && !isStopRequested()) {
@@ -177,7 +179,7 @@ public class RedStage extends CommandOpMode {
                         new WaitCommand(100),
                         new SpikeMarkCommand(drive,stack1,stack2,stack3,detect,true),
                         new SpikeMarkCommand(drive,gate1,gate2,gate3,detect,true),
-                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(360) ),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(400) ),
                         cuva.open(),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,parkare1,parkare2,parkare3,detect,true).alongWith( new DelayedCommand(cuva.afterparty(),200))

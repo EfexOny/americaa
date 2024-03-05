@@ -137,8 +137,8 @@ public class fasterTele extends CommandOpMode {
         Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
                 .whileActiveContinuous( drive.Valer(0,0,0.5,true));
 
-        senzor = new Trigger(() -> virtualbar.dow1() && virtualbar.VbarState());
-        senzor2 = new Trigger(() -> virtualbar.dow2() && virtualbar.VbarState());
+        senzor = new Trigger(() -> virtualbar.normal() && virtualbar.VbarState());
+        senzor2 = new Trigger(() -> virtualbar.normal2() && virtualbar.VbarState());
         magnet = new Trigger(() -> lift.check() && lift.isDown());
         bvion = new Trigger(() -> aliniere.isPressed());
 
@@ -183,6 +183,8 @@ public class fasterTele extends CommandOpMode {
 
         telemetry.addData("Ticks", lift.getTciks());
         telemetry.addData("Target pose", Lift.liftTargetPos);
+        telemetry.addData("Sensor dr: ",virtualbar.normal());
+        telemetry.addData("Sensor stg: ",virtualbar.normal2());
         telemetry.update();
         hubs.forEach(LynxModule::clearBulkCache);
     }

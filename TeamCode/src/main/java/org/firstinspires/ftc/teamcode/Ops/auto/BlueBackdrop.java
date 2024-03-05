@@ -108,7 +108,7 @@ public class BlueBackdrop extends CommandOpMode {
                 .splineToLinearHeading(new Pose2d(52.5,28.5,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
-                .lineToLinearHeading(new Pose2d(17,25,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(18,25,Math.toRadians(180)))
                 .build();
         parkare3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .setTangent(Math.toRadians(90))
@@ -135,7 +135,7 @@ public class BlueBackdrop extends CommandOpMode {
                         new WaitCommand(1000),
                         cuva.close(),
                         new WaitCommand(500),
-                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(420) ),
+                        new SpikeMarkCommand(drive,backboard1,backboard2,backboard3,detect,true).alongWith( cuva.mereuta(360) ),
                         cuva.openCustom(detect),
                         new WaitCommand(500),
                         new SpikeMarkCommand(drive,spikemark1,spikemark2,spikemark3,detect,true)

@@ -60,6 +60,14 @@ public class Virtualbar extends SubsystemBase{
         return  filter.estimate(s1.getDistance(DistanceUnit.CM)) < distgheara;
     }
 
+    public boolean normal(){
+        return  s1.getDistance(DistanceUnit.CM) < distgheara;
+    }
+
+    public boolean normal2(){
+        return  s2.getDistance(DistanceUnit.CM) < distgheara;
+    }
+
     public double down1(){
         return  filter.estimate(s1.getDistance(DistanceUnit.CM));
     }
