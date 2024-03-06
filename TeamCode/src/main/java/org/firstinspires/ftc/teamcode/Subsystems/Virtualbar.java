@@ -36,12 +36,12 @@ public class Virtualbar extends SubsystemBase{
     DistanceSensor s1,s2;
     Cuva cuva;
     public static double distgheara = 7;
-    public static double distgheara2 = 13;
+    public static double distgheara2 = 7;
     public static double jos1=0.45,jos2=0.35;
     Servo barstanga,bardreapta;
     public static double filtru=0.5;
     Servo stanga_principala,dreapta_principala;
-    double v1,v2;
+//    double v1,v2;
     public Virtualbar(HardwareMap hardwareMap){
         filter = new LowPassFilter(filtru);
         barstanga = hardwareMap.get(Servo.class,"vbar_stanga");
