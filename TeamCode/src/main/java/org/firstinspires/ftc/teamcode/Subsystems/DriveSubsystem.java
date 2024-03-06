@@ -91,7 +91,7 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public Command Valer(double l1,double l2,double l3,boolean sq){
-        return new RunCommand(() -> m_drive.driveRobotCentric(l1,l2,l3,sq));
+        return new RunCommand(() -> m_drive.driveRobotCentric(-l1,-l2,-l3,sq));
     }
 
     public Command dpad_orizontal(boolean stg,boolean dr){

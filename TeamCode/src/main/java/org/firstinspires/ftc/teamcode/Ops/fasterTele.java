@@ -133,9 +133,9 @@ public class fasterTele extends CommandOpMode {
         dpad4 = new GamepadButton(d1,GamepadKeys.Button.DPAD_RIGHT).whileHeld( drive.Valer(0.5,0,0,true));
 
         Left = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) != 0))
-                .whileActiveContinuous( drive.Valer(0,0,-0.5,true));
-        Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
                 .whileActiveContinuous( drive.Valer(0,0,0.5,true));
+        Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
+                .whileActiveContinuous( drive.Valer(0,0,-0.5,true));
 
         senzor = new Trigger(() -> virtualbar.normal() && virtualbar.VbarState());
         senzor2 = new Trigger(() -> virtualbar.normal2() && virtualbar.VbarState());
@@ -155,6 +155,7 @@ public class fasterTele extends CommandOpMode {
         );
         bvion.toggleWhenActive(
                 cuva.ridicare(0)
+
         );
 
         senzor2.toggleWhenActive(  new SequentialCommandGroup(

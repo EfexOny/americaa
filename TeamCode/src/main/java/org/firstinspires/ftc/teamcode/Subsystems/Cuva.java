@@ -41,6 +41,8 @@ public class Cuva extends SubsystemBase {
     Lift lift;
     Servo s1,s2,s3;
 
+    boolean canBeLaunched = false;
+
 // st = 0.15, dr = 0.75
     TouchSensor aliniere;
     Servo drop,avion;
@@ -77,6 +79,7 @@ public class Cuva extends SubsystemBase {
 
 
     public Command stefan(){
+        if (!canBeLaunched) return new InstantCommand(() -> {});
         return new InstantCommand(
                 () -> avion.setPosition(av1)
         );
@@ -85,6 +88,7 @@ public class Cuva extends SubsystemBase {
 
 
     public Command ridicare(double put){
+        canBeLaunched = true;
         return new InstantCommand(
                 () -> {
                         r1.setPower(-put);
