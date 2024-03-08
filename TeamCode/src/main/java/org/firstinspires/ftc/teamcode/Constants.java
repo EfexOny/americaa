@@ -10,7 +10,7 @@ public class Constants {
     public static double vbarjos_dreapta	= 0.42;
     public static double vbarjos_stanga = 0.07;
     public static double vbarsus_dreapta	= 0;
-    public static double vbarsus_stanga= 0.6;
+    public static double vbarsus_stanga= 0.5;
     public static double inchis_dreapta= 0.53;
     public static double deschis_dreapta	= 0.45;
     public static double deschis_stanga= 0.4;

@@ -79,7 +79,6 @@ public class Cuva extends SubsystemBase {
 
 
     public Command stefan(){
-        if (!canBeLaunched) return new InstantCommand(() -> {});
         return new InstantCommand(
                 () -> avion.setPosition(av1)
         );

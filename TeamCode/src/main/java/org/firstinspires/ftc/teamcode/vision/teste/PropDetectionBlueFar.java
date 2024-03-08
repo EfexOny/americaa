@@ -31,7 +31,7 @@ public class PropDetectionBlueFar implements VisionProcessor {
     public static double MERGE = 100000;
     public double middleSum = 0;
 
-    public static int blueLowH = 90, blueLowS = 200, blueLowV = 0;
+    public static int blueLowH = 90, blueLowS = 120, blueLowV = 0;
     public static int blueHighH = 190, blueHighS = 250, blueHighV = 255;
 
     Mat workingMat = new Mat();

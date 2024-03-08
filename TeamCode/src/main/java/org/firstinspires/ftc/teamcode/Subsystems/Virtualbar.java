@@ -65,7 +65,7 @@ public class Virtualbar extends SubsystemBase{
     }
 
     public boolean normal2(){
-        return  s2.getDistance(DistanceUnit.CM) < distgheara;
+        return  s2.getDistance(DistanceUnit.CM) < distgheara2;
     }
 
     public double down1(){

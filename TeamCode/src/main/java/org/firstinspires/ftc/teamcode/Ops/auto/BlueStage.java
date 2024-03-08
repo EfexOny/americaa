@@ -88,7 +88,7 @@ public class BlueStage extends CommandOpMode {
 
         backboard1 = drive.trajectorySequenceBuilder(gate1.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(51, 31, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.5, 47, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare1 = drive.trajectorySequenceBuilder(backboard1.end())
@@ -115,12 +115,12 @@ public class BlueStage extends CommandOpMode {
 
         backboard2 = drive.trajectorySequenceBuilder(gate2.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53, 39, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53, 41, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .lineToLinearHeading(new Pose2d(46,39,Math.toRadians(185)))
-                .splineToLinearHeading(new Pose2d(60,17,Math.toRadians(185)), Math.toRadians(180))
+                .splineToLinearHeading(new Pose2d(57,17,Math.toRadians(185)), Math.toRadians(180))
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(startBlue)
@@ -139,7 +139,7 @@ public class BlueStage extends CommandOpMode {
 
         backboard3 = drive.trajectorySequenceBuilder(gate3.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53, 39 , Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(53.5, 32.5 , Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(backboard3.end())

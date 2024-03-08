@@ -61,7 +61,6 @@ public class fasterTele extends CommandOpMode {
     Trigger Left,Right;
 
     private List<LynxModule> hubs;
-    private ElapsedTime elapsedtime;
     TouchSensor aliniere;
 
     @Override
@@ -71,8 +70,8 @@ public class fasterTele extends CommandOpMode {
         hubs.forEach(hub -> hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL));
 
 
-        b1 = hardwareMap.get(DigitalChannel.class,"b1");
-        b2 = hardwareMap.get(DigitalChannel.class,"b2");
+//        b1 = hardwareMap.get(DigitalChannel.class,"b1");
+//        b2 = hardwareMap.get(DigitalChannel.class,"b2");
 
         aliniere = hardwareMap.get(TouchSensor.class,"aliniere");
 
@@ -109,10 +108,10 @@ public class fasterTele extends CommandOpMode {
         vbarjos = new GamepadButton(d2,GamepadKeys.Button.DPAD_DOWN).whenPressed(virtualbar.vbarjos());
         vbarsus = new GamepadButton(d2,GamepadKeys.Button.DPAD_UP).whenPressed(virtualbar.VSus());
 
-        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(450),cuva.afterparty());
-        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(600),cuva.afterparty());
+        auto_deposit = new GamepadButton(d2,GamepadKeys.Button.Y).toggleWhenPressed(cuva.mereuta(600),cuva.afterparty());
+        lift_dreapta = new GamepadButton(d2,GamepadKeys.Button.RIGHT_BUMPER).toggleWhenPressed(cuva.mereuta(750),cuva.afterparty());
         cova1 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER)!=0))
-                .toggleWhenActive(cuva.mereuta(700), cuva.afterparty());
+                .toggleWhenActive(cuva.mereuta(900), cuva.afterparty());
 
         cova2 = new Trigger(() -> (d2.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER)!=0))
                 .whileActiveContinuous(cuva.ridicare(1)).whenInactive(cuva.ridicare(0));
@@ -137,38 +136,40 @@ public class fasterTele extends CommandOpMode {
         Right = new Trigger(() -> (d1.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) != 0))
                 .whileActiveContinuous( drive.Valer(0,0,-0.5,true));
 
-        senzor = new Trigger(() -> virtualbar.normal() && virtualbar.VbarState());
-        senzor2 = new Trigger(() -> virtualbar.normal2() && virtualbar.VbarState());
+//        senzor = new Trigger(() -> virtualbar.normal() && virtualbar.VbarState());
+//        senzor2 = new Trigger(() -> virtualbar.normal2() && virtualbar.VbarState());
         magnet = new Trigger(() -> lift.check() && lift.isDown());
         bvion = new Trigger(() -> aliniere.isPressed());
 
         magnet.toggleWhenActive( new InstantCommand( () -> {lift.resetTicks();
             lift.aFost();}));
+//
+//        senzor.toggleWhenActive(
+//                new SequentialCommandGroup(
+//                        new WaitCommand(500),
+//                        virtualbar.closesep(false),
+//                        new InstantCommand(() ->gamepad1.rumble(0,1,400)),
+//                        new InstantCommand(() -> gamepad2.rumble(0,1,400))
+//                )
+//        );
 
-        senzor.toggleWhenActive(
-                new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        virtualbar.closesep(false),
-                        new InstantCommand(() ->gamepad1.rumble(0,1,400)),
-                        new InstantCommand(() -> gamepad2.rumble(0,1,400))
-                )
-        );
+
         bvion.toggleWhenActive(
                 cuva.ridicare(0)
 
         );
 
-        senzor2.toggleWhenActive(  new SequentialCommandGroup(
-                        new WaitCommand(500),
-                        virtualbar.closesep(true),
-                        new InstantCommand(() -> gamepad1.rumble(1,0,400)),
-                        new InstantCommand(() -> gamepad2.rumble(1,0,400))
-                )
-        );
-
-        senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
-                new WaitCommand(100),virtualbar.cekkt()
-        ));
+//        senzor2.toggleWhenActive(  new SequentialCommandGroup(
+//                        new WaitCommand(500),
+//                        virtualbar.closesep(true),
+//                        new InstantCommand(() -> gamepad1.rumble(1,0,400)),
+//                        new InstantCommand(() -> gamepad2.rumble(1,0,400))
+//                )
+//        );
+//
+//        senzor.and(senzor2).toggleWhenActive(new SequentialCommandGroup(
+//                new WaitCommand(100),virtualbar.cekkt()
+//        ));
 
         mergi = new DriveCommand(drive,d1::getLeftX,d1::getLeftY,d1::getRightX);
 
@@ -184,8 +185,8 @@ public class fasterTele extends CommandOpMode {
 
         telemetry.addData("Ticks", lift.getTciks());
         telemetry.addData("Target pose", Lift.liftTargetPos);
-        telemetry.addData("Sensor dr: ",virtualbar.normal());
-        telemetry.addData("Sensor stg: ",virtualbar.normal2());
+//        telemetry.addData("Sensor dr: ",virtualbar.normal());
+//        telemetry.addData("Sensor stg: ",virtualbar.normal2());
         telemetry.update();
         hubs.forEach(LynxModule::clearBulkCache);
     }

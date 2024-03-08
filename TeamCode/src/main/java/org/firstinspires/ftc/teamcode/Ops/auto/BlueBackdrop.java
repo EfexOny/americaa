@@ -78,7 +78,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard1 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52.5,40,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54,42,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark1 = drive.trajectorySequenceBuilder(backboard1.end())
                 .lineToLinearHeading(new Pose2d(41, 27,Math.toRadians(185)))
@@ -91,7 +91,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard2 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52,35,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54,35,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark2 = drive.trajectorySequenceBuilder(backboard2.end())
                 .lineToLinearHeading(new Pose2d(31, 17.5,Math.toRadians(185)))
@@ -105,7 +105,7 @@ public class BlueBackdrop extends CommandOpMode {
 
 
         backboard3 = drive.trajectorySequenceBuilder(startBlue)
-                .splineToLinearHeading(new Pose2d(52.5,28.5,Math.toRadians(185)),Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54,28.5,Math.toRadians(185)),Math.toRadians(0))
                 .build();
         spikemark3 = drive.trajectorySequenceBuilder(backboard3.end())
                 .lineToLinearHeading(new Pose2d(18,25,Math.toRadians(180)))
