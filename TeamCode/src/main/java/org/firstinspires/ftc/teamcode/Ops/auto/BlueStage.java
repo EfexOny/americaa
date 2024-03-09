@@ -25,6 +25,7 @@ import org.firstinspires.ftc.teamcode.commands.SpikeMarkCommand;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueFar;
+import org.firstinspires.ftc.teamcode.vision.teste.PropDetectionBlueStage;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Config
@@ -41,7 +42,7 @@ public class BlueStage extends CommandOpMode {
     TrajectorySequence backboard1,backboard2,backboard3,spikemark1,spikemark2,spikemark3,parkare1,parkare2,parkare3, stack1, stack2, stack3, gate1, gate2, gate3;
 
     Pose2d startBlue = new Pose2d(-35, 60, Math.toRadians(270));
-    PropDetectionBlueFar blue;
+    PropDetectionBlueStage blue;
     VisionPortal portal;
     public Lift lift;
     public Cuva cuva;
@@ -52,7 +53,7 @@ public class BlueStage extends CommandOpMode {
     @Override
     public void initialize() {
 
-        blue = new PropDetectionBlueFar();
+        blue = new PropDetectionBlueStage();
 
         portal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
@@ -88,15 +89,15 @@ public class BlueStage extends CommandOpMode {
 
         backboard1 = drive.trajectorySequenceBuilder(gate1.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53.5, 47, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(55, 42.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare1 = drive.trajectorySequenceBuilder(backboard1.end())
 //                .lineToLinearHeading(new Pose2d(47,25,Math.toRadians(185)))
 //                .setTangent(Math.toRadians(270))
 
-                .lineToLinearHeading(new Pose2d(47,12,Math.toRadians(180)))
-                .lineToLinearHeading(new Pose2d(60,12,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(42,12,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(56,12,Math.toRadians(180)))
                 .build();
 
         spikemark2 = drive.trajectorySequenceBuilder(startBlue)
@@ -110,17 +111,17 @@ public class BlueStage extends CommandOpMode {
 
         gate2 = drive.trajectorySequenceBuilder(stack2.end())
 
-                .lineToLinearHeading(new Pose2d(15,11, Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(13,11, Math.toRadians(180)))
                 .build();
 
         backboard2 = drive.trajectorySequenceBuilder(gate2.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53, 41, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54.5, 41.5, Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare2 = drive.trajectorySequenceBuilder(backboard2.end())
-                .lineToLinearHeading(new Pose2d(46,39,Math.toRadians(185)))
-                .splineToLinearHeading(new Pose2d(57,17,Math.toRadians(185)), Math.toRadians(180))
+                .lineToLinearHeading(new Pose2d(39,12,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(56,12,Math.toRadians(180)))
                 .build();
 
         spikemark3 = drive.trajectorySequenceBuilder(startBlue)
@@ -129,7 +130,7 @@ public class BlueStage extends CommandOpMode {
 
         stack3 = drive.trajectorySequenceBuilder(spikemark3.end())
                 .lineToLinearHeading(new Pose2d(-33, 37, Math.toRadians(185)))
-                .lineToLinearHeading(new Pose2d(-33, 12, Math.toRadians(185)))
+                .lineToLinearHeading(new Pose2d(-33, 11, Math.toRadians(185)))
                 .build();
 
         gate3 = drive.trajectorySequenceBuilder(stack3.end())
@@ -139,14 +140,12 @@ public class BlueStage extends CommandOpMode {
 
         backboard3 = drive.trajectorySequenceBuilder(gate3.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(53.5, 32.5 , Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(54.5, 41 , Math.toRadians(180)), Math.toRadians(0))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(backboard3.end())
-
-                .lineToLinearHeading(new Pose2d(50,25,Math.toRadians(180)))
-                .setTangent(Math.toRadians(270))
-                .splineToLinearHeading(new Pose2d(61,25,Math.toRadians(180)),Math.toRadians(0))
+                .lineToLinearHeading(new Pose2d(47,22,Math.toRadians(180)))
+                .lineToLinearHeading(new Pose2d(59,22,Math.toRadians(185)))
                 .build();
 
         while (opModeInInit() && !isStopRequested()) {

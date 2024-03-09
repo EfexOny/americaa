@@ -18,20 +18,21 @@ public class PropDetectionBlueStage implements VisionProcessor {
 
     public int detection = 2;
 
-    public static int rightRectX1 = 530, rightRectY1 = 150;
-    public static int rightRectX2 = 630, rightRectY2 = 260;
+    public static int rightRectX1 = 530, rightRectY1 = 200;
+    public static int rightRectX2 = 630, rightRectY2 = 290;
 
-    public static double rightThresh = 60000;
+    public static double rightThresh = 450000;
     public double rightSum = 0;
 
-    public static int middleRectX1 = 220, middleRectY1 = 150;
-    public static int middleRectX2 = 290, middleRectY2 = 260;
+    public static int middleRectX1 = 260, middleRectY1 = 200;
+    public static int middleRectX2 = 360, middleRectY2 = 290;
 
-    public static double middleThresh = 100000;
+    public static double middleThresh = 250000;
+    public static double MERGE = 100000;
     public double middleSum = 0;
 
-    public static int blueLowH = 100, blueLowS = 70, blueLowV = 0;
-    public static int blueHighH = 120, blueHighS = 180, blueHighV = 255;
+    public static int blueLowH = 90, blueLowS = 120, blueLowV = 0;
+    public static int blueHighH = 190, blueHighS = 250, blueHighV = 255;
 
     Mat workingMat = new Mat();
 
@@ -57,11 +58,25 @@ public class PropDetectionBlueStage implements VisionProcessor {
         Imgproc.rectangle(frame, rightRect, new Scalar(0,255,0), 5);
         Imgproc.rectangle(frame, middleRect, new Scalar(0,255,0), 5);
 
+
+
         if(rightSum > rightThresh)
             detection = 3;
         else if (middleSum > middleThresh)
             detection = 2;
         else detection = 1;
+
+        //        if (rightSum > MERGE || middleSum > MERGE) {
+//            if (rightSum > middleSum) {
+//                detection = 1;
+//            } else if (middleSum > rightSum) {
+//                detection = 2;
+//            }
+//        }
+//        else {
+//            detection = 3;
+//        }
+
 
 //        workingMat.copyTo(frame);
 
