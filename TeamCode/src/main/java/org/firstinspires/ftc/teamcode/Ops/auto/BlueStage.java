@@ -135,12 +135,12 @@ public class BlueStage extends CommandOpMode {
 
         gate3 = drive.trajectorySequenceBuilder(stack3.end())
 
-                .lineToLinearHeading(new Pose2d(15,12, Math.toRadians(185)))
+                .lineToLinearHeading(new Pose2d(13,11, Math.toRadians(185)))
                 .build();
 
         backboard3 = drive.trajectorySequenceBuilder(gate3.end())
                 .setTangent(0)
-                .splineToLinearHeading(new Pose2d(54.5, 41 , Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(55.5, 40 , Math.toRadians(185)), Math.toRadians(0))
                 .build();
 
         parkare3 = drive.trajectorySequenceBuilder(backboard3.end())
